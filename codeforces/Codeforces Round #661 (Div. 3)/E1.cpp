@@ -2,9 +2,27 @@
 using namespace std;
 #define MAX 100005
 
+
+
 vector <pair<long long, long long>> g[MAX]; //w, v
 vector <pair<long long, long long>> arista; //pesoReal, cantidad hojas
-priority_queue <pair<long long, long long>, vector<pair<long long, long long>>, less<pair<long long, long long>> > edge; //peso, id
+
+class compare
+{
+  bool reverse;
+public:
+  compare(const bool& revparam=false)
+    {reverse=revparam;}
+  bool operator()(pair<long long, long long> a, pair<long long, long long> b) const{
+    long long sA = a.first - (arista[a.second].first/2)*arista[a.second].second;
+    long long sB = b.first - (arista[b.second].first/2)*arista[b.second].second;
+    if(sA!=sB)
+        return sA<sB;
+    return a<=b;
+  }
+};
+
+priority_queue <pair<long long, long long>, vector<pair<long long, long long>>, compare> edge; //peso, id
 bool visited[MAX];
 long long n, S;
 long long realS;
@@ -122,4 +140,16 @@ int main(){
 3 2 20
 4 3 1
 5 3 1
+
+1
+10 28
+8 2 8
+5 1 4
+6 1 10
+10 2 7
+7 2 1
+9 2 1
+2 1 5
+4 1 9
+3 2 5
 */
