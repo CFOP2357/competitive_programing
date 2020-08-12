@@ -12,6 +12,18 @@ ull n;
 
 bool exist[MAX];
 
+bool posible(int ans){
+    for(int i : a){
+        bool p = false;
+        for(int j : b){
+            if( ((i&j)&(~ans)) == 0)
+                p=true;
+        }
+        if(!p) return false;
+    }
+    return true;
+}
+
 void solve(){
     int n, m;
     cin>>n>>m;
@@ -27,15 +39,11 @@ void solve(){
     sort(a.begin(), a.end(), greater<int>());
 
     int o = 0;
-    for(int i : a){
-        int next = b[0];
-        for(int j : b){
-            if( ((i&j) | o) < ((i&next) | o))
-                next = j;
+    for(int ans = 0; ans<600; ans++)
+        if(posible(ans)){
+            cout<<ans<<"\n";
+            return;
         }
-        o|=next&i;
-    }
-    cout<<o<<"\n";
 
 }
 
