@@ -10,42 +10,40 @@ inline ull subMod(ull a, ull b){
     return ((a+MOD)-b)%MOD;
 }
 
-ull dp[MAX];
-
 void solve(){
     int n; cin>>n;
     string s; cin>>s;
     s+=s;
-    ull ans;
+    ull ans=0;
+    vector <ull> b;
 
-    for(int i=0; i<n; i++) dp[i] = INT_MAX;
+    b.push_back(0);
+    char last=s[0];
 
-    dp[0] = 0;
-    for(int i=0; i<n; i++){
-        if(s[i]=='R'){
-            if(s[i+1]=='L'){
-                dp[i+2] = min(dp[i+2], dp[i]);
-                dp[i+1] = min(dp[i+1], dp[i]+1);
-            }
-            else {
-                dp[i+2] = min(dp[i+2], dp[i]+1);
-                dp[i+1] = min(dp[i+1], dp[i]+1);
-            }
-        }
-        else {
-            if(s[i+1]=='R'){
-                dp[i+2] = min(dp[i+2], dp[i]+2);
-                dp[i+1] = min(dp[i+1], dp[i]+1);
-            }
-            else {
-                dp[i+2] = min(dp[i+2], dp[i]+1);
-                dp[i+1] = min(dp[i+1], dp[i]+1);
-            }
-        }
+    while(n && s[n-1]==last){
+        n--;
+        b.back()++;
+    }
+    if(!n){
+        ans++;
+        b.back()--;
+        b.push_back(1);
     }
 
-    ans = min(dp[n], dp[n+1]);
+    for(int i=0; i<n; i++){
 
+        if(s[i]==last){
+            b.back()++;
+        }
+        else {
+            b.push_back(1);
+            last =s[i];
+        }
+
+    }
+
+    for(ull i : b)
+        ans += i/3;
 
     cout<<ans<<"\n";
 }
@@ -57,3 +55,14 @@ int main(){
         solve();
     }
 }
+
+/*
+1
+129
+LLLLLRRRRRRRRRLLLLLLLLLLRRRRRRRRRLRRRRRRRRRRLLLLLLLRRLLLLLLLRRRRLLLLLLLRRRRRRRRRLLLLLLRRLLLLLLLRRLLRRRRRRLLLLRRRRRRRRRRLLRRRRLLLR
+
+LRLRLRLRLRLRLRLRLLLLLLLLRRRRRRRRRLRRRRRRRRRRLLLLLLLRRLLLLLLLRRRRLLLLLLLRRRRRRRRRLLLLLLRRLLLLLLLRRLLRRRRRRLLLLRRRRRRRRRRLLRRRRLLLR
+
+
+*/
+
