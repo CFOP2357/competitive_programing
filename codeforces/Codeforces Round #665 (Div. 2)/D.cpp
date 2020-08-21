@@ -7,7 +7,7 @@ using namespace std;
 typedef long long ull;
 
 vector<int> g[MAX];
-vector<long long> p;
+deque<long long> p;
 bool visited[MAX];
 int pendient[MAX];
 int s[MAX];
@@ -21,9 +21,7 @@ void dfs(int v){
 
     for(int u : g[v]){
         if(!visited[u]){
-            cout<<v<<" "<<u<<" #";
             edge.push_back( s[v]*(n-s[v]));
-            cout<<edge.back()<<"\n";
             if(pendient[u]){
                 s[u] += s[v];
                 pendient[u]--;
@@ -69,25 +67,24 @@ void solve(){
 
     ull ans = 0;
     sort(edge.begin(), edge.end(), greater<ull>());
+    sort(p.begin(), p.end(), greater<ull>());
+    while(p.size()>edge.size()){
+        p[1]*=p[0];
+        p[1] %= MOD;
+        p.pop_front();
+    }
     for(int i = 0; i<p.size() && i<edge.size(); i++){
+        //cout<<p[i]<<" "<<edge[i]<<" #\n";
         edge[i]%=MOD;
         ans += (edge[i]*p[i])%MOD;
         ans %= MOD;
     }
     if(edge.size()>p.size()){
-        ans+=edge.size()-p.size();
-        ans%=MOD;
-    }
-    if(edge.size()<p.size()){
-        ans = (ans+MOD) - (edge[0]*p[0])%MOD;
-        ans %= MOD;
-        ull product = (edge[0]*p[0])%MOD;
-        for(int i = edge.size(); i<p.size(); i++){
-            product *= p[i];
-            product %= MOD;
+        for(int i = p.size(); i<edge.size(); i++){
+            ans += edge[i]%MOD;
+            ans %= MOD;
         }
-        ans += product;
-        ans %= MOD;
+        ans%=MOD;
     }
 
     cout<<ans<<"\n";
