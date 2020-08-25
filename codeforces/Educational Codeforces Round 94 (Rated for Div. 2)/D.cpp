@@ -1,7 +1,5 @@
 #include <iostream>
-#include <climits>
 #include <vector>
-#include <algorithm>
 using namespace std;
 
 #define MAX 3010
@@ -16,50 +14,29 @@ inline ull subMod(ull a, ull b){
 vector <ull> a;
 vector <ull> b;
 
-ull dp[MAX][MAX];
-ull dp2[MAX][MAX];
+ull l[MAX];
+ull r[MAX];
 
 void solve(){
     int n; cin>>n;
     a.clear();
+    fill(l, l+MAX, 0);
     for(int i=0; i<n; i++){
         int z; cin>>z;
         a.push_back(z);
     }
 
-    for(int i=0; i<n; i++)
-        for(int j=0; j<n; j++){
-            dp[i][j] = 0;
-            dp2[i][j]=0;
-        }
-
-    for(int i=0; i<n; i++){
-        dp[i][i] = 0;
-        for(int j=i+1; j<n; j++){
-            dp[i][j] = dp[i][j-1];
-            dp[i][j] += a[i]==a[j];
-        }
-    }
-
-    for(int i=0; i<n; i++){
-        for(int j=i+1; j<n; j++){
-            if(a[i]!=a[j]){
-                dp2[i][j]  = dp2[i][j-1] + dp[j][n-1];
-            }
-            else  dp2[i][j]  = dp2[i][j-1];
-        }
-    }
-
     ull ans = 0;
     for(int i=0; i<n; i++){
-        for(int j=i+1; j<n; j++){
-            if(a[i]!=a[j]){
-                ans += dp2[i][j];
-            }
-            else {
-                ans += ((dp[j][n-1]-1)*(dp[j][n-1]-2)) / 2;
-            }
+        fill(r, r+MAX, 0);
+
+        for(int j=n-1; j>i; j--){
+            ans += r[a[i]]*l[a[j]];
+            r[a[j]]++;
         }
+
+        l[a[i]]++;
+
     }
 
     cout<<ans<<"\n";
