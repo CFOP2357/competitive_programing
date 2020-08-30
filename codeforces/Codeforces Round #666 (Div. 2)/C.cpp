@@ -35,23 +35,28 @@ void solve(){
         a.push_back(z);
     }
 
-    cout<<1<<" "<<n-1<<"\n";
-    for(ull i = 0; i<n-1; i++){
-        if(a[i]==0){
-            cout<<0<<" ";
-        }
-        else {
-            if(a[i]%n == 0){
-                cout<< 0 <<" ";
+    if(n>1){
+        cout<<1<<" "<<n-1<<"\n";
+        for(ull i = 0; i<n-1; i++){
+            if(a[i]==0){
+                cout<<0<<" ";
             }
             else {
-                cout<< (n-1)*(a[i]%n) << " ";
-                a[i] += (n-1)*(a[i]%n);
+                if(a[i]%n == 0){
+                    cout<< 0 <<" ";
+                }
+                else {
+                    cout<< (n-1)*(a[i]%n) << " ";
+                    a[i] += (n-1)*(a[i]%n);
+                }
             }
         }
+        cout<<"\n";
     }
-    cout<<"\n";
-
+    else {
+        cout<<1<<" "<<1<<"\n";
+        cout<<0<<"\n";
+    }
     cout<<n<<" "<<n<<"\n";
     cout<<-(a[n-1]%n);
     a[n-1] -= a[n-1]%n;
