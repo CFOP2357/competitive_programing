@@ -20,14 +20,6 @@ void solve(){
     int R, G, B;
     cin>>R>>G>>B;
 
-    r.clear();
-    g.clear();
-    b.clear();
-    for(int i=0; i<R; i++)
-        for(int j=0; j<G; j++)
-            for(int k=0; k<G; k++)
-                dp[i][j][k]=0;
-
     for(int i=0; i<R; i++){
         int z; cin>>z;
         r.push_back(z);
