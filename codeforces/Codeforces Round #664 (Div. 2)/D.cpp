@@ -6,39 +6,55 @@ using namespace std;
 
 typedef long long ull;
 
-vector<ull> a;
-vector<ull> b;
-ull n;
-
-long long dp[MAX];
+vector<ull> muzzle;
+vector<ull> notMuzzle;
 
 void solve(){
     int n, d, m;
     cin>>n>>d>>m;
-    for(int i=0; i<n; i++){
-        int z; cin>>z;
-        a.push_back(z);
-    }
-    sort(a.begin(), a.end());
-    long long ans =0;
-    int notAngry=-1;
-    for(int i=0; i<a.begin(); i++){
-        if(a[i]<=m)
-            notAngry = i;
-    }
 
     for(int i=0; i<n; i++){
-        if(a[i]>m){
-            int next = min(i+d, n);
-            dp[next] = max(dp[next], dp[i]+a[i]);
-            ans = max(dp[next], ans);
-        }
-        else {
-            int next = i+1;
-            dp[next] = max(dp[next], dp[i]+a[i]);
-            ans = max(dp[next], ans);
+        int z; cin>>z;
+        if(z>m)
+            muzzle.push_back(z);
+        else notMuzzle.push_back(z);
+    }
+
+    sort(muzzle.begin(), muzzle.end(), greater<ull>());
+    sort(notMuzzle.begin(), notMuzzle.end(), greater<ull>());
+
+    for(int i=1; i<muzzle.size(); i++)
+        muzzle[i] += muzzle[i-1];
+
+    for(int i=1; i<notMuzzle.size(); i++)
+        notMuzzle[i] += notMuzzle[i-1];
+
+    ull ans = 0;
+    if(muzzle.size() && notMuzzle.size()){
+        for(int i=0; i<=notMuzzle.size(); i++){
+            int k = n-i;
+            if(k%(d+1)){
+                k /= d+1;
+                k++;
+            }
+            else k /= d+1;
+
+            ull total = 0;
+            if(i>0)
+                total = notMuzzle[i-1];
+            if(k>0)
+                total+=muzzle[min(k-1, (int)muzzle.size()-1)];
+
+            //cout<<k<<" "<<total<<"\n";
+
+            ans = max(ans, total);
         }
     }
+    else if(notMuzzle.size()){
+        ans += notMuzzle.back();
+    }
+    else ans += muzzle[n/(d+1) + (bool)(n%(d+1)) - 1];
+
     cout<<ans<<"\n";
 }
 
