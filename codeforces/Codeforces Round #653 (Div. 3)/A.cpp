@@ -1,6 +1,7 @@
 #include <iostream>
 #include <climits>
 #include <vector>
+#include <algorithm>
 #include <map>
 #include <set>
 #include <stack>
@@ -29,7 +30,8 @@ vector <ull> a;
 vector <ull> b;
 
 void solve(){
-
+    a.clear(); b.clear();
+    ull n; cin>>n;
 }
 
 int main(){

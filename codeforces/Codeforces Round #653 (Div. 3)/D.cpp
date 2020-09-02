@@ -1,6 +1,7 @@
 #include <iostream>
 #include <climits>
 #include <vector>
+#include <algorithm>
 #include <map>
 #include <set>
 #include <stack>
