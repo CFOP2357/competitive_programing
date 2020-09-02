@@ -1,16 +1,13 @@
 #include <iostream>
 #include <climits>
 #include <vector>
-#include <map>
-#include <set>
-#include <stack>
-#include <queue>
+#include <algorithm>
 using namespace std;
 
 #define MAX 1000100
 #define MOD 1000000007
 
-typedef long long ull;
+typedef int ull;
 
 /*
 #include <ext/pb_ds/assoc_container.hpp>
@@ -27,7 +24,19 @@ vector<ull> b;
 ull n;
 
 void solve(){
+    cin>>n; a.clear();
+    ull sum = 0;
+    for(int i=0; i<n; i++){
+        int z; cin>>z;
+        a.push_back(z);
+        sum+=z;
+    }
 
+    if(*max_element(a.begin(), a.end()) > sum/2)
+        cout<<"T\n";
+    else if(sum%2)
+        cout<<"T\n";
+    else cout<<"HL\n";
 }
 
 
