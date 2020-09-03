@@ -30,24 +30,8 @@ vector <ull> a;
 vector <ull> b;
 
 void solve(){
-    int n; cin>>n;
-    string s; cin>>s;
+    a.clear(); b.clear();
 
-    int ans = 0;
-    int cont = 0;
-    for(char c : s){
-        if(c=='('){
-            if(cont < 0)
-                ans++;
-            cont++;
-        }
-        else{
-            if(cont > 0)
-                cont--;
-        }
-    }
-
-    cout<<cont<<"\n";
 }
 
 int main(){

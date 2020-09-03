@@ -31,10 +31,13 @@ vector <ull> b;
 
 void solve(){
     a.clear(); b.clear();
-    ull n; cin>>n;
+    ull x, y, n; cin>>x>>y>>n;
+    n-=y;
+    cout<<(n/x)*x + y<<"\n";
 }
 
 int main(){
+    ios_base::sync_with_stdio(0); cin.tie(0);
     int t; cin>>t;
     while(t--){
         solve();

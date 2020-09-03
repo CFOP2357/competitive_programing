@@ -2,10 +2,6 @@
 #include <climits>
 #include <vector>
 #include <algorithm>
-#include <map>
-#include <set>
-#include <stack>
-#include <queue>
 using namespace std;
 
 /*
@@ -28,13 +24,62 @@ inline ull subMod(ull a, ull b){
 
 vector <ull> a;
 vector <ull> b;
+vector <ull> c;
 
 void solve(){
+    int n, k; cin>>n>>k;
+    for(int i=0; i<n; i++){
+        int z; cin>>z;
+        bool A, B; cin>>A>>B;
 
+        if(A&&B)
+            c.push_back(z);
+        else if(A)
+            a.push_back(z);
+        else if(B)
+            b.push_back(z);
+    }
+
+    if(c.size()+a.size() < k || c.size()+b.size() < k){
+        cout<<"-1\n";
+        return;
+    }
+
+    sort(a.begin(), a.end(), greater<ull>());
+    sort(b.begin(), b.end(), greater<ull>());
+    sort(c.begin(), c.end(), greater<ull>());
+
+    ull ans = 0;
+    while(k--){
+        if(c.size() && a.size() && b.size()){
+            if(a.back() + b.back() < c.back()){
+                ans += a.back() + b.back();
+                a.pop_back();
+                b.pop_back();
+            }
+            else {
+                ans += c.back();
+                c.pop_back();
+            }
+        }
+        else if(c.size()){
+            ans += c.back();
+            c.pop_back();
+        }
+        else {
+            ans += a.back() + b.back();
+            a.pop_back();
+            b.pop_back();
+        }
+    }
+
+
+    cout<<ans<<"\n";
 }
 
 int main(){
-    int t; cin>>t;
+    ios_base::sync_with_stdio(0); cin.tie(0);
+    int t=1;
     while(t--){
         solve();
     }

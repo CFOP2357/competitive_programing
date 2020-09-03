@@ -30,10 +30,25 @@ vector <ull> a;
 vector <ull> b;
 
 void solve(){
+    int n, k; cin>>n>>k;
+    map<ull, ull> cong; // congruencia, cantidad
 
+    for(int i=0; i<n; i++){
+        ull z; cin>>z;
+        if(z%k)
+            cong[k - z%k]++;
+    }
+
+    long long ans = 0;
+    for(auto c : cong){
+        ans = max(ans, c.first + k*(c.second-1) + 1);
+    }
+
+    cout<<ans<<"\n";
 }
 
 int main(){
+    ios_base::sync_with_stdio(0); cin.tie(0);
     int t; cin>>t;
     while(t--){
         solve();

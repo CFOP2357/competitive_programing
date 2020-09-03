@@ -32,9 +32,27 @@ vector <ull> b;
 void solve(){
     a.clear(); b.clear();
     ull n; cin>>n;
+
+    int ans = 0;
+    while(n>1){
+        if(n%3 == 0){
+            if(n%2 == 0)
+                n/=6;
+            else n*=2;
+            ans++;
+        }
+        else {
+            cout<<"-1\n";
+            return;
+        }
+    }
+
+    cout<<ans<<"\n";
+
 }
 
 int main(){
+    ios_base::sync_with_stdio(0); cin.tie(0);
     int t; cin>>t;
     while(t--){
         solve();
