@@ -31,14 +31,15 @@ ull n;
 void solve(){
     a.clear(); b.clear();
     cin>>n;
-    for(int i = 0; i<2*n; i++){
+    for(int i=0; i<n; i++){
         int z; cin>>z;
         a.push_back(z);
     }
+    reverse(a.begin(), a.end());
 
-    if(*max_element(a.begin(), a.end())==a[2*n-1])
-        cout<<"YES\n";
-    else cout<<"NO\n";
+    for(int k : a)
+        cout<<k<<" ";
+    cout<<"\n";
 }
 
 
@@ -52,18 +53,3 @@ int main(){
     return 0;
 }
 
-/*
-6
-2
-2 3 1 4
-2
-3 1 2 4
-4
-3 2 6 1 5 7 8 4
-3
-1 2 3 4 5 6
-4
-6 1 3 7 4 5 8 2
-6
-4 3 2 5 1 11 9 12 8 6 10 7
-*/
