@@ -24,135 +24,65 @@ typedef tree<ull,null_type,less_equal<ull>,rb_tree_tag, tree_order_statistics_no
 #define MAX 300100
 #define MOD 1000000007
 
-int one[MAX];
-int zero[MAX];
-int change[MAX];
 ull n, k;
 string s;
 
 void solve(){
     cin>>n>>k;
     cin>>s;
-    s = ' '+s;
-    fill(one, one+n, 0);
-    fill(zero, zero+n, 0);
-    fill(change, change+n, 0);
 
-    queue<int> last;
+    int one = 0, zero = 0, change = 0;
 
-    for(int i=1; i<=k; i++){
-        one[i]=one[i-1];
-        zero[i]=zero[i-1];
-        change[i]=change[i-1];
+    for(int i = 0; i<k-1; i++)
         if(s[i]=='1')
-            one[i]++;
+            one++;
         else if(s[i]=='0')
-            zero[i]++;
-        else{
-            change[i]++;
-            last.push(i);
-        }
-    }
+            zero++;
+        else change ++;
 
+    for(int i = 0; i+k-1<n; i++){
 
-    for(int i = 1; i+k-1<=n; i++){
-
-        while(last.size() && last.front()<i) last.pop();
-
-        one[i]=one[i-1];
-        zero[i]=zero[i-1];
-        change[i]=change[i-1];
-        if(s[i]=='1')
-            one[i]++;
-        else if(s[i]=='0')
-            zero[i]++;
-        else
-            change[i]++;
-
-        one[i+k-1]=one[i+k-2];
-        zero[i+k-1]=zero[i+k-2];
-        change[i+k-1]=change[i+k-2];
         if(s[i+k-1]=='1')
-            one[i+k-1]++;
+            one++;
         else if(s[i+k-1]=='0')
-            zero[i+k-1]++;
-        else{
-            change[i+k-1]++;
-            last.push(i+k-1);
-        }
+            zero++;
+        else change ++;
 
-        int ones = one[i+k-1]-one[i-1];
-        int zeros = zero[i+k-1]-zero[i-1];
-        int changes = change[i+k-1]-change[i-1];
+        //cout<<one<<" "<<zero<<" "<<change<<"\n";
 
-        //cout<<ones<<" "<<zeros<<" "<<changes<<"\n";
-
-        if(ones == zeros){
-            if(changes%2){
+        if(i+k <n){
+            //cout<<i<<" ";
+            if(s[i+k] != '?' && s[i+k] != s[i] && s[i]!='?'){
                 cout<<"NO\n";
                 return;
             }
+            if(s[i+k] == '?')
+                s[i+k] = s[i];
+            if(s[i] == '?'){
+                //cout<<";";
+                change--;
+                s[i] = s[i+k];
+                if(s[i]=='1')one++;
+                else if(s[i]=='0')zero++;
+                else change++;
+            }
+            //cout<<"#\n";
         }
-        else {
-            if(abs(ones-zeros) > changes){
-                cout<<"NO\n";
-                return;
-            }
-            if(abs(ones-zeros) < changes && abs(abs(ones-zeros) - changes)%2){
-                cout<<"NO\n";
-                return;
-            }
-            while(abs(ones-zeros)){
-                if(!last.size() || last.front() > i+k-1){
-                    cout<<"NO\n";
-                    return;
-                }
-                int j = last.front(); last.pop();
-                if(ones>zeros){
-                    zeros++;
-                    zero[j]++;
-                    s[j] = '0';
-                    zero[i+k-1]++;
-                }
-                else {
-                    ones++;
-                    one[j]++;
-                    s[j] = '1';
-                    one[i+k-1]++;
-                }
-                change[i+k-1]--;
-                change[j]--;
-            }
 
+
+        if(abs(one-zero) > change){
+            cout<<"NO\n";
+            return;
         }
+
+        if(s[i]=='1')
+            one--;
+        else if(s[i]=='0')
+            zero--;
+        else change --;
 
     }
 
-    for(int i = 1; i+k-1<=n; i++){
-        int ones = one[i+k-1]-one[i-1];
-        int zeros = zero[i+k-1]-zero[i-1];
-        int changes = change[i+k-1]-change[i-1];
-
-        //cout<<ones<<" "<<zeros<<" "<<changes<<"\n";
-
-        if(ones == zeros){
-            if(changes%2){
-                cout<<"NO\n";
-                return;
-            }
-        }
-        else {
-            if(abs(ones-zeros) > changes){
-                cout<<"NO\n";
-                return;
-            }
-            if(abs(ones-zeros) < changes && abs(abs(ones-zeros) - changes)%2){
-                cout<<"NO\n";
-                return;
-            }
-        }
-
-    }
 
     cout<<"YES\n";
 
@@ -174,6 +104,10 @@ int main(){
 1
 7 4
 1?0??1?
+
+1
+6 2
+????00
 
 1
 4 2
