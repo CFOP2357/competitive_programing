@@ -9,9 +9,6 @@
 #include <queue>
 using namespace std;
 
-#define MAX 1000100
-#define MOD 1000000007
-
 typedef long long ull;
 
 /*
@@ -24,19 +21,44 @@ typedef tree<ull,null_type,less_equal<ull>,rb_tree_tag, tree_order_statistics_no
 #define findBK order_of_key
 */
 
+#define MAX 5010
+#define MOD 1000000007
+
 vector<ull> a;
-vector<ull> b;
 ull n;
 
+bool dp[MAX][MAX];
+
 void solve(){
-    a.clear(); b.clear();
+    a.clear();
     cin>>n;
-    for(int i = 0; i<2*n; i++){
+    int last; cin>>last;
+    a.push_back(1);
+    for(int i = 1; i<2*n; i++){
         int z; cin>>z;
-        a.push_back(z);
+        if(z<last)
+            a.back()++;
+        else{
+            a.push_back(1);
+            last = z;
+        }
     }
 
-    if(*max_element(a.begin(), a.end())==a[2*n-1])
+    for(int i = 0; i<=2*n; i++)
+        fill(dp[i], dp[i]+n+1, false);
+
+    for(int i = 0; i<a.size(); i++){
+        dp[i][0]=true;
+        for(int j=0; j<=n; j++){
+            if(dp[i][j]){
+                dp[i+1][j] = true;
+                if(j+a[i]<=n)
+                    dp[i+1][j+a[i]]=true;
+            }
+        }
+    }
+
+    if(dp[a.size()][n])
         cout<<"YES\n";
     else cout<<"NO\n";
 }
