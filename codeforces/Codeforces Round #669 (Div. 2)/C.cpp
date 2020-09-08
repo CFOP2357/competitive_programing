@@ -36,33 +36,30 @@ void solve(){
     }
 
     int x, y;
-    int actual;
-    cout<<"? 1 2"<<endl;
-    cin>>x;
-    cout<<"? 2 1"<<endl;
-    cin>>y;
+    int last = 1;
 
-    if(x>y){
-        ans[1] = x;
-        actual = 0;
-    }
-    else{
-        ans[2] = y;
-        x = y;
-        actual = 1;
-    }
-
-    for(int i=3; i<=n; i++){
-        cout<<"? "<<actual<<" "<<i<<endl;
+    for(int i=2; i<=n; i++){
+        cout<<"? "<<last<<" "<<i<<endl;
         cin>>y;
-        if(y<x){
-            cout<<"? "<<i<<" "<<actual<<endl;
-            cin>>ans[i];
+        if(y==-1) return;
+        cout<<"? "<<i<<" "<<last<<endl;
+        cin>>x;
+        if(x==-1) return;
+
+        if(y>x){
+            ans[last] = y;
+            last = i;
         }
         else {
-
+            ans[i] = x;
         }
     }
+
+    cout<<"! ";
+    ans[last] = n;
+    for(int i=1; i<=n; i++)
+        cout<<ans[i]<<" ";
+    cout<<endl;
 
 }
 
