@@ -56,8 +56,8 @@ void solve(){
         ans = max(ans, amount);
         if(i+amount < a.size())
             ans = max(ans, amount + r[i+amount]);
-        if(i-amount >= 0)
-            ans = max(ans, amount + l[i-amount]);
+        if(i-1 >= 0)
+            ans = max(ans, amount + l[i-1]);
     }
 
     cout<<ans<<"\n";
