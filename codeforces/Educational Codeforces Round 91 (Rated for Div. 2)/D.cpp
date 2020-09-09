@@ -26,13 +26,27 @@ typedef tree<ull,null_type,less_equal<ull>,rb_tree_tag, tree_order_statistics_no
 
 vector<ull> a;
 vector<ull> b;
-ull n, m;
-ull x, y, k;
 
-bool posibleFire[MAX];
-bool keep[MAX];
-ull l[MAX], r[MAX];
-ull dp[MAX];
+ull n, m;
+ull x, k, y;
+
+ull destroy(int posible, int notPosible){
+    //cout<<posible<<" "<<notPosible<<"\n";
+    if(!notPosible && !posible) return 0;
+
+    ull ans = LLONG_MAX;
+
+    for(int i = notPosible?k:0; i<=posible+notPosible; i++){
+        if(i%k) continue;
+        ull cost = (i/k)*x + (posible+notPosible-i)*y;
+        ans = min(cost, ans);
+    }
+
+    if(ans == LLONG_MAX)
+        return -ans;
+    return ans;
+
+}
 
 void solve(){
     a.clear(); b.clear();
@@ -48,86 +62,40 @@ void solve(){
         b.push_back(z);
     }
 
-    int j = m-1;
-    int sz = 0;
-    for(int i=n-1; i>=0; i--){
-        if(j>=0 && a[i]==b[j]){
-            keep[i] = true;
-            sz = k;
-            j--;
+    int posible(0), notPosible(0);
+    int j = 0;
+    ull ans = 0;
+    for(int i=0; i<n; i++){
+
+        if(j<m && a[i]==b[j]){
+            ans += destroy(posible, notPosible);
+            //cout<<ans<<"\n";
+            if(ans<0){
+                cout<<"-1\n";
+                return;
+            }
+
+            j++;
+            posible=notPosible=0;
+
+        }
+        else {
+            if(j<m && a[i]<b[j])
+                posible++;
+            else if(j>0 && a[i]<b[j-1])
+                posible++;
+            else notPosible++;
         }
 
-        if(sz){
-            sz--;
-            posibleFire[i] = false;
-        } else posibleFire[i] = true;
     }
+    ans += destroy(posible, notPosible);
 
-    stack<int> last;
-
-    l[0] = a[0];
-    last.push(0);
-    for(int i=1; i<n; i++){
-       if(keep[i]){
-            l[i] = i;
-            while(last.size())last.pop();
-       }
-       else{
-            while(last.size() && a[i]>=a[last.top()]) last.pop();
-            if(last.size())l[i] = last.top();
-            else l[i] = i;
-            last.push(i);
-       }
-    }
-
-    while(last.size())last.pop();
-    r[n-1] = a[n-1];
-    last.push(n-1);
-    for(int i=n-1; i>=0; i--){
-       if(keep[i]){
-            r[i] = i;
-            while(last.size())last.pop();
-       }
-       else{
-            while(last.size() && a[i]>=a[last.top()]) last.pop();
-            if(last.size())r[i] = last.top();
-            else r[i] = i;
-            last.push(i);
-       }
-    }
-
-    for(int i = 0; i<n; i++) cout<<a[l[i]]<<" ";
-    cout<<"\n";
-
-    if(j>=0){
+    if(j<m || ans<0){
         cout<<"-1\n";
         return;
     }
 
-    fill(dp, dp+n+1, LLONG_MAX);
-    dp[0] = 0;
-    for(int i=0; i<n; i++){
-        if(keep[i]){
-            dp[i+1] = min(dp[i], dp[i+1]);
-        }
-        else {
-            if(i>0 && a[l[i]]>a[i] && dp[l[i]]!=LLONG_MAX)
-                dp[i+1] = min(dp[l[i]]+y*(i-l[i]), dp[i+1]);
-            if(i<n-1 && a[r[i]]>a[i])
-                dp[r[i]+1] = min(dp[i]+y*(r[i]-i), dp[r[i]]+1);
-            if(i+k-1<n && posibleFire[i])
-                dp[i+k] = min(dp[i+k], dp[i]+x);
-        }
-    }
-
-    /*for(int i=0; i<=n; i++)
-        cout<<dp[i]<<" ";
-    cout<<"\n";*/
-
-    if(dp[n] == LLONG_MAX)
-        cout<<"-1\n";
-    else
-        cout<<dp[n]<<"\n";
+    cout<<ans<<"\n";
 }
 
 
@@ -146,4 +114,19 @@ int main(){
 5 3 3
 1 4 7 9 10 2 3 5 6 8
 1 10 8
+
+5 2
+5 2 3
+3 1 4 5 2
+3 5
+
+2 1
+2 1 1
+1 2
+1
+
+4 3
+5 2 1
+1 2 3 4
+1 2 3
 */
