@@ -31,6 +31,7 @@ ull n;
 void solve(){
     a.clear(); b.clear();
     cin>>n;
+
 }
 
 
