@@ -3,10 +3,6 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
-#include <map>
-#include <set>
-#include <stack>
-#include <queue>
 using namespace std;
 
 typedef long long ull;
@@ -24,47 +20,36 @@ typedef tree<ull,null_type,less_equal<ull>,rb_tree_tag, tree_order_statistics_no
 #define MAX 1000100
 #define MOD 1000000007
 
-vector<ull> a;
-vector<ull> b;
 ull n;
 ull l, r, m;
 
 void solve(){
     cin>>l>>r>>m;
 
-    for(ull i = 0; i<=r-l; i++){
-        ull k = m - i;
-        if(k<l) continue;
-        ull a = l;
-        if(k%l)
-            a += (k -(k%l));
-        if(a <= r){
-            //cout<<m<<" "<<k<<"#\n";
-            ull n = (m - i)/a;
-            if(n){
-                cout<<a<<" "<<l+i<<" "<<l<<"\n";
-                return;
-            }
-        }
-    }
+    for(ull i = l; i<=r; i++){ // m = n*i + k
+        ull k;
+        ull n = m/i;
 
-    for(ull i = 0; i<=r-l; i++){
-        ull k = m + i;
-        if(k<l) continue;
-        ull a = l;
-        if(i==1){
-            cout<<k%l<<"\n";
+
+        if(!n && i-m <= r-l){
+            k = i-m;
+            cout<<i<<" "<<l<<" "<<l+k<<"\n";
+            return;
         }
-        if(k%l)
-            a = (a+k%l)/;
-        if(a <= r){
-            //cout<<m<<" "<<k<<"#\n";
-            ull n = (m + i)/a;
-            if(n){
-                cout<<a<<" "<<l<<" "<<l+i<<"\n";
+        else if(n &&  m%i <= r-l){
+            k =  m%i;
+            cout<<i<<" "<<l + k<<" "<<l<<"\n"; // k = b - c
+            return;
+        }
+        else {
+            n = (m+i)/i;
+            k = (n*i) - m;
+            if(k<=r-l){
+                cout<<i<<" "<<l<<" "<<l+k<<"\n";
                 return;
             }
         }
+
     }
 
 }
@@ -80,3 +65,29 @@ int main(){
     return 0;
 }
 
+/*
+20
+10 12 43
+25 49 1
+5 7 39
+8 9 44
+16 17 50
+30 40 975
+601 801 1000
+100 102 909
+599 799 1000
+503 997 9
+194 383 5
+90000 100000 709999
+75000 100000 124999
+375000 499999 625001
+375000 500000 624999
+300000 400000 499999
+250000 500000 1
+70000 80000 2272770257
+70000 80000 9999953344
+90000 100000 9999955820
+
+1
+10 12 43
+*/
