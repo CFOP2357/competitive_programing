@@ -32,31 +32,25 @@ void solve(){
     a.clear(); b.clear();
     cin>>n;
 
-    ull min_lcm = LLONG_MAX;
-    ull a, b;
+    ull ans = n-1;
+    ull a = 1, b = n-1;
 
-    if(n%2 == 0){
-        min_lcm = n/2;
-        a = n/2, b = n/2;
-    }
+    for(int i=2; i*i<=n; i++){
+        if(n%i == 0){
+            ull A = n/i;
+            ull B = n - A;
 
-    for(ull i=n/2; i>=0; i--){
-        ull j = n-i;
+            ull lcm = (A*B)/__gcd(A, B);
 
-        //cout<<i<<" "<<j<<" "<<__gcd(i, j)<<"\n";
-        ull lcm = (i*j)/__gcd(i, j);
-        //cout<<i<<" "<<j<<" "<<lcm<<"\n";
-        if(lcm<min_lcm){
-            min_lcm = lcm;
-            a = i;
-            b = j;
-        }
+            if(lcm < ans){
+                ans = lcm;
+                a = A;
+                b = B;
+            }
 
-        if(j%i == 0){
-            a = i, b = j;
-            break;
         }
     }
+
 
     cout<<a<<" "<<b<<"\n";
 
