@@ -24,49 +24,33 @@ typedef tree<ull,null_type,less_equal<ull>,rb_tree_tag, tree_order_statistics_no
 #define MAX 200100
 #define MOD 1000000007
 
-vector<ull> value;
-multiset<pair<ull, int>, greater<pair<ull, int>>> element; //value, id
-set<int> deleted;
-ull n;
-bool apart[MAX];
+ull l[MAX];
+ull r[MAX];
+vector <ull> a;
 
 void solve(){
-    value.clear();
+    a.clear();
+    ull n;
     cin>>n;
-    ull ans = 0;
+
     for(int i=0; i<n; i++){
         ull z; cin>>z;
-        value.push_back(z);
+        a.push_back(z);
     }
 
-    for(int d=0; d<n; d++){
-        element.insert({value[d], d});
-    }
+    l[0] = a[0];
+    if(n>1)l[1] = a[1];
+    for(int i=2; i<n; i++)
+        l[i] = a[i] + l[i-2];
 
+    for(int i=n-1; i>=0; i--)
+        r[i] = a[i] + r[i+2];
 
-    /*if(n==3){
-        int d = element.begin()->second;
-        element.erase(element.begin());
-        ans+=value[d];
-        apart[d]=true;
-        d = element.begin()->second;
-        element.erase(element.begin());
-        ans+=value[d];
-        apart[d]=true;
-    }*/
-    while(element.size()){
-        int d = element.begin()->second;
-        element.erase(element.begin());
-        int a = (d+1)%n, b = d-1<0?n-1:d-1;
-        if(!apart[a] || !apart[b]){
-            ans+=value[d];
-            apart[d]=true;
-        }
-    }
+    ull ans = max(r[0], r[1]);
+    for(int i = 0; i <= n+2; i++)
+        ans = max (ans, l[i] + r[i+1]);
 
     cout<<ans<<"\n";
-
-
 }
 
 
