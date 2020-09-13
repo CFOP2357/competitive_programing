@@ -1,46 +1,110 @@
 #include <iostream>
 #include <climits>
 #include <vector>
-#include <algorithm>
-#include <cmath>
-#include <map>
-#include <set>
-#include <stack>
-#include <queue>
 using namespace std;
 
-#define MAX 1000100
+#define MAX 100100
 #define MOD 1000000007
 
 typedef long long ull;
 
-/*
-#include <ext/pb_ds/assoc_container.hpp>
-using namespace __gnu_pbds;
-typedef tree<ull,null_type,less<ull>,rb_tree_tag, tree_order_statistics_node_update> orderedSet;
-typedef tree<ull,null_type,less_equal<ull>,rb_tree_tag, tree_order_statistics_node_update> orderedMultiSet;
+int n, a, b, da, db;
+int P;
+vector<int> adj[MAX];
 
-#define findBO find_by_order
-#define findBK order_of_key
-*/
+bool dfs(int v, int d, int p = -1){
+    if(v==b && d>=0)
+        return true;
 
-vector<ull> a;
-vector<ull> b;
-ull n;
+    if(v==b)
+      P = p;
 
-void solve(){
-    a.clear(); b.clear();
-    cin>>n;
+    for(int u : adj[v]) if(u!=p) {
+        if(dfs(u, d-1, v))
+            return true;
+    }
+
+    return false;
 }
 
+int D(0), vD(b);
+void  dfs2(int v, int p = -1, int d = 0){
+
+    if(d>D) {
+       D = d;
+       vD = v;
+    }
+
+    for(int u : adj[v]) if(u!=p)
+        dfs2(u, v, d+1);
+
+}
+
+void solve(){
+
+    cin>>n>>a>>b>>da>>db;
+    D = 0,vD = b, P=-1;
+
+    for(int i=1; i<=n; i++) adj[i].clear();
+
+    for(int i=1; i<n; i++){
+        int u, v; cin>>u>>v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    if(da>=db || dfs(a, da)){
+        cout<<"Alice\n";
+        return;
+    }
+
+    dfs2(b);
+    D = 0;
+    dfs2(vD);
+
+    //cout<<D<<" ";
+
+    if(min(D+1, db+1) > da*2+1)
+        cout<<"Bob\n";
+    else cout<<"Alice\n";
+
+}
+
+/*
+1
+11 8 11 3 5
+1 2
+11 9
+4 9
+6 5
+2 10
+3 2
+5 9
+8 3
+7 4
+7 10
+
+1
+11 8 11 3 3
+1 2
+11 9
+4 9
+6 5
+2 10
+3 2
+5 9
+8 3
+7 4
+7 10
+*/
 
 int main(){
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
+    ios_base::sync_with_stdio(0); cin.tie(0);
+
     int t; cin>>t;
-    while(t--){
+    while(t--)
         solve();
-    }
+
     return 0;
 }
 
