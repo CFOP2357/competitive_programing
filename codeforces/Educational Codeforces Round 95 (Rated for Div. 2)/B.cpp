@@ -44,45 +44,16 @@ void solve(){
     }
 
     for(int i=0; i<n; i++){
-        if(!l[i]){
+        if(!l[i])
             b.push_back(a[i]);
-        }
     }
 
-    sort(b.begin(), b.end());
-
+    sort(b.begin(), b.end(), greater<int>());
     int s = 0;
     for(int i=0; i<n; i++){
-        if(!l[i]){
+        if(!l[i])
             a[i] = b[s++];
-        }
     }
-
-    ull sum = 0;
-    int k = 0;
-    for(int i=n-1; i>=0; i--){
-        sum+=a[i];
-        if(sum >= 0 && !l[i]) k = i;
-
-    }
-
-    queue<int> last;
-    stack<int> change;
-    for(int i=k; i<n; i++){
-        if(!l[i]){
-            if(a[i]>=0){
-                change.push(i);
-            }
-            else last.push(i);
-        }
-    }
-
-    while(last.size() && change.size()){
-        swap(a[last.front()], a[change.top()]);
-        last.pop(); change.pop();
-    }
-
-
 
     for(int k : a)
         cout<<k<<" ";
