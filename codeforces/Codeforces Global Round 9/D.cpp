@@ -37,7 +37,6 @@ void solve(){
     for(int i=0; i<n; i++){
         int z; cin>>z;
         a.push_back(z);
-        b.push_back(z);
         times[z]++;
     }
 
@@ -60,6 +59,7 @@ void solve(){
             cout<<k<<" ";
     cout<<"\n";*/
 
+    int r = n;
     for(int i=0; i<n; i++){
         if(a[i]!=i){
             int t = -1;
@@ -70,32 +70,16 @@ void solve(){
             }
 
             if(t>=0){
-                a[t] = n;
+                a[t] = r;
                 ans.push_back(t+1);
             }
 
+
+            r = a[i];
             a[i] = i;
             ans.push_back(i+1);
         }
     }
-
-    cout<<"####\n";
-    times.clear();
-    for(int k : b)
-        times[k]++;
-
-    for(int i : ans){
-        int j;
-        for(j = 0; times[j]; j++){
-
-        }
-        times[b[j]]--;
-        times[j++];
-        b[i] = j;
-    }
-
-    for(int k : b) cout<<k<<" ";
-    cout<<"\n";
 
     cout<<ans.size()<<"\n";
     for(int k : ans)
@@ -114,3 +98,8 @@ int main(){
     return 0;
 }
 
+/*
+1
+9
+2 0 1 1 2 4 4 2 0
+*/
