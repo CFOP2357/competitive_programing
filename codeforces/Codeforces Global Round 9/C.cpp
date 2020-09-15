@@ -28,27 +28,18 @@ ull n;
 
 void solve(){
 
-    set <int, greater<int>> l;
-    set <int> r;
+    vector<int> a;
 
     cin>>n;
-
-    for(int i=1; i<=n; i++)
-        r.insert(i);
 
     bool posible = true;
     for(int i=0; i<n; i++){
         int z; cin>>z;
-
-        r.erase(z); l.insert(z);
-
-        if(l.upper_bound(z)==l.end())
-            if(r.upper_bound(z)==r.end())posible = false;
-
+        a.push_back(z);
     }
 
 
-    if(posible)
+    if(a[0]<a[n-1])
         cout<<"YES\n";
     else cout<<"NO\n";
 
