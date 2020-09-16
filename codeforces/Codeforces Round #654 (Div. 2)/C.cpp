@@ -24,17 +24,31 @@ typedef tree<ull,null_type,less_equal<ull>,rb_tree_tag, tree_order_statistics_no
 #define MAX 1000100
 #define MOD 1000000007
 
-vector<ull> a;
-vector<ull> b;
-ull n;
+ull v, c;
+ull n, m;
 
 void solve(){
-    a.clear(); b.clear();
-    cin>>n;
-    for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
+    cin>>v>>c;
+    cin>>n>>m;
+
+    if(v+c < n+m){
+        cout<<"No\n";
+        return;
     }
+
+    if(v>c){
+        if(c>=m){
+            cout<<"Yes\n";
+        }
+        else cout<<"No\n";
+    }
+    else {
+        if(v>=m)
+            cout<<"Yes\n";
+        else cout<<"No\n";
+    }
+
+
 }
 
 
