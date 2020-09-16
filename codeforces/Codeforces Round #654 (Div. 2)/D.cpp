@@ -25,8 +25,7 @@ typedef tree<ull,null_type,less_equal<ull>,rb_tree_tag, tree_order_statistics_no
 #define MOD 1000000007
 
 ull n, k;
-int C[MAX];
-int R[MAX];
+bool grid[MAX][MAX];
 
 void solve(){
     cin>>n>>k;
@@ -34,28 +33,25 @@ void solve(){
         cout<<"2\n";
     else cout<<"0\n";
 
-    int sz = n - k/n; //cout<<k%n<<"\n";
-    fill(C, C+MAX, sz);
-    fill(R, R+MAX, sz);
-    if(k%n){
-        for(int i=0; i<k%n; i++){
-            //cout<<i<<" ";
-            C[i]--;
-            R[i]--;
+    //cout<<sz<<"\n";
+
+    for(int i=0; i<n; i++)
+        fill(grid[i], grid[i]+n+1, 0);
+
+
+    int j = 0, f = 0;
+    for(int i=0; k--; i = (i+1)%n){
+        grid[i][(j+f)%n] = 1;
+
+        if(++j == n){
+            j=0;
+            f++;
         }
     }
 
-
     for(int i=0; i<n; i++){
-        cout<<R[i]<<"\n";
-        for(int j=0; j<n; j++){
-            if(C[j] && R[i]){
-                C[j]--;
-                R[i]--;
-                cout<<0;
-            }
-            else cout<<1;
-        }
+        for(int j = 0; j<n; j++)
+            cout<<grid[i][j];
         cout<<"\n";
     }
 
