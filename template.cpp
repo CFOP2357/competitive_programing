@@ -9,7 +9,10 @@
 #include <queue>
 using namespace std;
 
+#define all(a) a.begin(), a.end()
+
 typedef long long ull;
+typedef pair<ull, ull> pii;
 
 /*
 #include <ext/pb_ds/assoc_container.hpp>
@@ -35,16 +38,18 @@ void solve(){
         ull z; cin>>z;
         a.push_back(z);
     }
+
 }
 
 
 int main(){
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
+    ios_base::sync_with_stdio(0); cin.tie(0);
+
     int t; cin>>t;
     while(t--){
         solve();
     }
+
     return 0;
 }
 
