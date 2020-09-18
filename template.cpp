@@ -9,11 +9,6 @@
 #include <queue>
 using namespace std;
 
-#define all(a) a.begin(), a.end()
-
-typedef long long ull;
-typedef pair<ull, ull> pii;
-
 /*
 #include <ext/pb_ds/assoc_container.hpp>
 using namespace __gnu_pbds;
@@ -23,6 +18,11 @@ typedef tree<ull,null_type,less_equal<ull>,rb_tree_tag, tree_order_statistics_no
 #define findBO find_by_order
 #define findBK order_of_key
 */
+
+#define all(a) a.begin(), a.end()
+
+typedef long long ull;
+typedef pair<ull, ull> pii;
 
 #define MAX 1000100
 #define MOD 1000000007
