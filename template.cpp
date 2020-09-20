@@ -23,6 +23,7 @@ typedef tree<ull,null_type,less_equal<ull>,rb_tree_tag, tree_order_statistics_no
 
 typedef long long ull;
 typedef pair<ull, ull> pii;
+typedef vector<ull> vi;
 
 #define MAX 1000100
 #define MOD 1000000007
