@@ -34,7 +34,11 @@ ull n;
 void solve(){
     a.clear(); b.clear();
     cin>>n;
-    cout<<n/2<<"\n";
+    for(int i=0; i<n; i++){
+        ull z; cin>>z;
+        a.push_back(z);
+    }
+
 }
 
 

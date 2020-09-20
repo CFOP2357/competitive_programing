@@ -34,7 +34,32 @@ ull n;
 void solve(){
     a.clear(); b.clear();
     cin>>n;
-    cout<<n/2<<"\n";
+
+    stack<int> odd, even;
+    for(int i=1; i<=2*n; i++){
+
+        ull z; cin>>z;
+        a.push_back(z);
+
+        if(z%2)
+            odd.push(i);
+        else even.push(i);
+
+    }
+
+    n--;
+    while(n--){
+        if(even.size() >= odd.size()){
+            cout<<even.top()<<" "; even.pop();
+            cout<<even.top()<<"\n"; even.pop();
+        }
+        else {
+            cout<<odd.top()<<" "; odd.pop();
+            cout<<odd.top()<<"\n"; odd.pop();
+        }
+    }
+
+
 }
 
 

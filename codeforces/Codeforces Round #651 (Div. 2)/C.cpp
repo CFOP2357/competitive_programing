@@ -31,10 +31,33 @@ vector<ull> a;
 vector<ull> b;
 ull n;
 
+bool primo(int n){
+    for(int i=2; i*i<=n; i++)
+        if(n%i == 0) return false;
+    return true;
+}
+
 void solve(){
-    a.clear(); b.clear();
     cin>>n;
-    cout<<n/2<<"\n";
+
+    if(n==1)
+        cout<<"FastestFinger\n";
+    else if(n%2 || n==2)
+        cout<<"Ashishgup\n";
+    else {
+        int p = 0;
+        while(n%2 == 0){
+            n/=2;
+            p++;
+        }
+        if(n==1)
+            cout<<"FastestFinger\n";
+        else if(p>1 || !primo(n))
+            cout<<"Ashishgup\n";
+        else
+            cout<<"FastestFinger\n";
+    }
+
 }
 
 
