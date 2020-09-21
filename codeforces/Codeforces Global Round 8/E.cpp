@@ -29,56 +29,57 @@ typedef vector<ull> vi;
 #define MOD 1000000007
 
 vector<int> adj[MAX];
+vector<int> p[MAX];
 ull n, m;
 
 vector<int> ans;
-vector<int> ans2;
-vector<int> ANS;
-int color[MAX];
+vector<int> order;
 
-void dfs(int v, int c = 1){
-    if(color[v])
-        return;
-    color[v] = c;
+bool visited[MAX];
+int dp[MAX];
 
-    if(c==1) ans.push_back(v);
-    else ans2.push_back(v);
+void tSort(int v){
+    if(visited[v]) return;
+    visited[v] = true;
 
     for(int u : adj[v])
-        dfs(u, c==1?2:1);
-
+        tSort(u);
+    order.push_back(v);
 }
 
-int p[MAX];
-
 void solve(){
-    ans.clear(); ans2.clear(); ANS.clear();
+    ans.clear(); order.clear();
     cin>>n>>m;
     fill(adj, adj+n+5, vector<int>());
-    fill(color, color+n+5, 0);
-    fill(p, p+n+5, 0);
+    fill(p, p+n+5, vector<int>());
+    fill(visited, visited+n+5, false);
+    fill(dp, dp+n+5, 0);
 
     for(int i=0; i<m; i++){
         int a, b; cin>>a>>b;
         adj[a].push_back(b);
-        adj[b].push_back(a);
-
-        p[b]++;
+        p[b].push_back(a);
     }
 
-    for(int i=1; i<=n; i++){
-        if(!color[i]){
-                dfs(i);
-                if(ans.size()>ans2.size()) for(int k:ans2) ANS.push_back(k);
-                else for(int k:ans) ANS.push_back(k);
-                ans.clear(); ans2.clear();
+    for(int i=1; i<=n; i++)
+        tSort(i);
+
+    reverse(all(order));
+    for(int v : order){
+        //cout<<v<<" "<<dp[v]<<"\n";
+        if(dp[v] == 2){
+            dp[v] = -1;
+            ans.push_back(v);
+            continue;
         }
+
+        for(int u : adj[v])
+            dp[u] = max(dp[v]+1, dp[u]);
+
     }
 
-
-
-    cout<<ANS.size()<<"\n";
-    for(int a : ANS)
+    cout<<ans.size()<<"\n";
+    for(int a : ans)
         cout<<a<<" ";
     cout<<"\n";
 }
@@ -95,3 +96,30 @@ int main(){
     return 0;
 }
 
+/*
+1
+5 7
+2 3
+1 4
+2 4
+3 4
+3 5
+1 3
+4 5
+
+1
+3 3
+1 2
+2 3
+1 3
+
+1
+5 7
+4 5
+2 5
+1 2
+1 3
+2 4
+3 4
+3 5
+*/
