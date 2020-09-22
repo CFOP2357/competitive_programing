@@ -36,20 +36,42 @@ void solve(){
 
     string s; cin>>s;
     cin>>m;
+    vector<int> d(300, 0);
     for(int i=0; i<m; i++){
         ull z; cin>>z;
         b.push_back(z);
     }
+    for(char c : s) d[c]++;
+
     string ans(m, ' ');
 
-    sort(all(s), greater<char>());
     int j = 0;
+    char p = 'z';
 
-    for(int i=0; i<=1300; i++){
-        for(int k =0; k<m; k++){
-            if(b[k] == i)
-                ans[k] = s[j++];
+    while(j<m){
+        vector<int> nxt;
+        for(int i =0; i<m; i++){
+            if(!b[i]){
+                nxt.push_back(i);
+                b[i] = -1;
+                j++;
+            }
         }
+
+        while(d[p]<nxt.size()) p--;
+        for(int k : nxt){
+            ans[k] = p;
+        }
+        d[p]-=nxt.size(); p--;
+
+        for(int i =0; i<m; i++){
+            if(b[i] > 0){
+                for(int k : nxt){
+                    b[i] -= abs(i-k);
+                }
+            }
+        }
+
     }
 
     cout<<ans<<"\n";
@@ -67,4 +89,16 @@ int main(){
 
     return 0;
 }
+
+/*
+1
+abac
+3
+2 1 0
+
+1
+ecoosdcefr
+10
+38 13 24 14 11 5 3 24 17 0
+*/
 
