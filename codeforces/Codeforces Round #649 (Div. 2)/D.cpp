@@ -28,63 +28,77 @@ typedef vector<ull> vi;
 #define MAX 100100
 #define MOD 1000000007
 
+vector<int> adj[MAX];
+ull n, m, k;
+
 vector<ull> a;
 vector<ull> b;
 bool visited[MAX];
-int r[MAX];
-int T[MAX];
-vector<int> adj[MAX];
-ull n, m, k;
+int pos[MAX];
+
 vector<int> ans;
 
-void dfs1(int v, bool c = true){
-    if(visited[v])
-        return;
+int dfs(int v, int p = -1, bool c = true){
+
+    //cout<<v<<"$\n";
+
     visited[v] = true;
 
     if(c)
         a.push_back(v);
     else b.push_back(v);
 
-    for(int u : adj[v])
-       dfs1(u, !c);
-}
-
-int dfs(int v, int d = 1, int anc = -1){
-
-    cout<<v<<" "<<d<<" "<<r[v]<<"\n";
-
-    if(visited[v]){
-        cout<<"#\n";
-        if(r[v] && d-r[v]+1 <= k){
-            return d-r[v]+1;
-        }
-        return 0;
-    }
-    visited[v] = true;
-
-    r[v] = d;
+    int nxt = 0;
     for(int u : adj[v]){
+        if(p==u) continue;
 
-        if(u==anc) continue;
-
-        int p = dfs(u, d+1, v);
-        if(p){
-            if(p<0) return -1;
-            ans.push_back(v);
-            p--;
-            if(p==0) p=-1;
-            return p;
+        if(visited[u]){
+            //cout<<"^"<<u<<"\n";
+            if(pos[u] > pos[nxt])
+                nxt = u;
         }
 
     }
 
-    r[v] = 0;
+    if(nxt){
+        ans.push_back(v);
+        return nxt;
+    }
+
+    for(int u : adj[v]){
+        if(p==u) continue;
+
+        pos[u] = pos[v]+1;
+
+        int r = dfs(u, v, !c);
+        if(r){
+            //cout<<v<<" "<<r<<"#\n";
+            ans.push_back(v);
+            if(r==v){
+
+                /*for(int i=0; i<=n; i++)cout<<pos[i]<<" ";
+                cout<<"\n";*/
+                if(ans.size()<=k){
+                    cout<<2<<"\n";
+                    cout<<ans.size()<<"\n";
+                    for(int a: ans) cout<<a<<" ";
+                    cout<<"\n";
+                }
+                else {
+                   if(k%2) k+=2;
+                   k/=2;
+                   cout<<"1\n";
+                   for(int i=0, j=0; j<k; i+=2, j++)
+                     cout<<ans[i]<<" ";
+                }
+                exit(0);
+            }
+            return r;
+        }
+    }
 
     return 0;
 }
-
-
 
 void solve(){
     cin>>n>>m>>k;
@@ -94,108 +108,23 @@ void solve(){
         adj[b].push_back(a);
     }
 
-    dfs1(1);
+    pos[0] = -1;
+    dfs(1);
 
-    int p = k;
-    if(p%2) p+=2;
-    p/=2;
+    if(k%2) k+=2;
+    k/=2;
 
-    /*if(a.size()>=p){
-        cout<<"1\n";
-        for(int i=0; i<p; i++)
-            cout<<a[i]<<" ";
-        return;
-    }
+    if(a.size()<b.size())swap(a, b);
 
-    if(b.size()>=p){
-        cout<<"1\n";
-        for(int i=0; i<p; i++)
-            cout<<b[i]<<" ";
-        return;
-    }*/
-
-
-    fill(visited, visited+n+5, false);
-
-    queue<pii> nxt; //time, v
-    queue<int> P; //dad
-    nxt.push({1, 1});
-    P.push(-1);
-
-    while(nxt.size()){
-        int v = nxt.front().second, t=nxt.front().first;
-        nxt.pop();
-        int p = P.front(); P.pop();
-
-        T[v] = t;
-        visited[v] = true;
-
-        for(int u : adj[u]){
-            if(u==p) continue;
-
-            if(visited[u]){
-                if(T[u] + T[v] <= k){
-
-                    if(T[u]<T[v]) swap(u, v);
-
-                    vector<int> ans2;
-                    while(T[u]>T[v]){
-                        ans.push_back(u);
-                        for(int a : adj[u]){
-                            if(T[a]==T[u]-1){
-                                u=a;
-                                break;
-                            }
-                        }
-                        return;
-                    }
-
-
-                    while(u!=v){
-                        ans.push_back(u);
-                        ans2.push_back(v);
-
-                        for(int a : adj[v]){
-                            if(T[a]==T[v]-1){
-                                v=a;
-                                break;
-                            }
-                        }
-
-                        for(int a : adj[u]){
-                            if(T[a]==T[u]-1){
-                                u=a;
-                                break;
-                            }
-                        }
-
-                    }
-
-                    cout<<"2\n";
-                    cout<<ans.size()+ans2.size()<<"\n";
-                    for(int a : ans)
-                        cout<<a<<" ";
-                    reverse(all(ans2));
-                    for(int a : ans2)
-                        cout<<a<<" ";
-                    cout<<"\n";
-
-                    return;
-                }
-            }
-            else {
-                nxt.push({t+1, u});
-                P.push(v);
-            }
-
-        }
-    }
+    cout<<"1\n";
+    for(int i=0; i<k; i++)
+        cout<<a[i]<<" ";
 
 }
 
 
 int main(){
-    ios_base::sync_with_stdio(0); cin.tie(0);
+    //ios_base::sync_with_stdio(0); cin.tie(0);
 
     int t=1;
     while(t--){
@@ -205,3 +134,19 @@ int main(){
     return 0;
 }
 
+/*
+4 5 3
+1 2
+2 3
+3 4
+4 1
+2 4
+
+4 6 3
+1 2
+2 3
+3 4
+4 1
+1 3
+2 4
+*/
