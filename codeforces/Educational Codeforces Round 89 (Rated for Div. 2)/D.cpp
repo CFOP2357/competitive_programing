@@ -47,13 +47,18 @@ void solve(){
         }
         if(z>1) d.push_back(z);
 
-        if(d.size()==1){
+        int p(0),r(0);
+
+        map<int, int> cong;
+        for(int u :
+
+        if(!p || !r){
             a.push_back(-1);
             b.push_back(-1);
         }
         else {
-            a.push_back(d[0]);
-            b.push_back(d[1]);
+            a.push_back(p);
+            b.push_back(r);
         }
 
     }

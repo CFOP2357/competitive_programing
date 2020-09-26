@@ -35,27 +35,21 @@ ull n;
 void solve(){
     int a, b; cin>>a>>b;
 
-    int ans =0;
-    while(a && b){
-        if(a<b) swap(a, b);
+    if(a<b) swap(a, b);
 
-        int d = min(a/2, b);
-        a-=2*d;
-        b-=d;
+    int ans = 0;
 
-        ans += d;
+    int d = min(a/2, b);
+    a-=2*d;
+    b-=d;
 
-        if(!d) break;
+    ans += d;
+
+    if(b){
+        ans+=(a+b)/3;
     }
 
-    if(a<b) swap(a, b);
-    ans+=b/3;
-
-
-
     cout<<ans<<"\n";
-
-
 
 }
 
