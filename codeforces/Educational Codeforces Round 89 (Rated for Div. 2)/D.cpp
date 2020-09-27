@@ -64,10 +64,8 @@ void solve(){
             b.push_back(-1);
         }
         else {
-            a.push_back(d[0]);
-            int p = 1;
-            for(int i=1; i<d.size(); i++) p*=d[i];
-            b.push_back(p);
+            a.push_back(d[d.size()-2]);
+            b.push_back(d.back());
         }
 
     }
