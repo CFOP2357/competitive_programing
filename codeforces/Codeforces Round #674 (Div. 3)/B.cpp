@@ -28,20 +28,26 @@ typedef vector<ull> vi;
 #define MAX 1000100
 #define MOD 1000000007
 
-vector<ull> a;
-vector<ull> b;
-ull n;
+ull n, m;
 
 void solve(){
-    a.clear(); b.clear();
-    cin>>n;
+    cin>>n>>m;
+
+    bool pos = false;
+
     for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
+        int a, b, c, d;
+        cin>>a>>b;
+        cin>>c>>d;
+        if(c==b) pos = true;
     }
 
-    vector<int> I, J, X;
-
+    if(m%2 || !pos){
+        cout<<"NO\n";
+    }
+    else {
+        cout<<"YES\n";
+    }
 
 }
 

@@ -30,19 +30,23 @@ typedef vector<ull> vi;
 
 vector<ull> a;
 vector<ull> b;
-ull n;
+ull n, x;
 
 void solve(){
     a.clear(); b.clear();
-    cin>>n;
-    for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
+    cin>>n>>x;
+
+    if(n<=2){
+        cout<<1<<"\n";
+        return;
     }
 
-    vector<int> I, J, X;
+    n-=2;
 
+    int f = n/x + 1;
+    if(n%x) f++;
 
+    cout<<f<<"\n";
 }
 
 

@@ -32,16 +32,43 @@ vector<ull> a;
 vector<ull> b;
 ull n;
 
+//
+
+int f(int i){
+    int ans = i + n/(1+i);
+    if(n%(n+i)) ans++;
+    return ans;
+}
+
+int ts(int l, int r){
+    if(l+1>=r)
+        return l;
+    int m1 = (r-l)/3 + l;
+    int m2 = r - (r-l)/3;
+
+    if(f(m1)<f(l) && f(m2)<f(r))
+        return ts(m1, m2);
+    if(f(m1)>f(l) && f(m2)<f(r))
+        return ts(m1, m2);
+
+}
+
 void solve(){
     a.clear(); b.clear();
     cin>>n;
+
+    int last = INT_MAX;
+
     for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
+        int ans = i -1 + n/(1+i);
+        if(n%(1+i)) ans++;
+
+        if(ans>last) break;
+        last = ans;
+        //cout<<i<<" " <<n/(1+i) <<"\n";
+        //cout<<ans<<"\n";
     }
-
-    vector<int> I, J, X;
-
+    cout<<last<<"\n";
 
 }
 

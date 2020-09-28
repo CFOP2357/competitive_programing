@@ -32,16 +32,19 @@ vector<ull> a;
 vector<ull> b;
 ull n;
 
+int ans1 = 0, ans2 = 0;
+
 void solve(){
-    a.clear(); b.clear();
-    cin>>n;
-    for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
-    }
 
-    vector<int> I, J, X;
 
+    int a1, a2, a3; cin>>a1>>a2>>a3;
+    int b1, b2, b3; cin>>b1>>b2>>b3;
+
+    int sum = a1-b2 + a2-b3 + a3-b1;
+    if(sum) ans2++;
+
+    sum = b1-a2 + b2-a3 + b3-a1;
+    if(sum<=0) ans1++;
 
 }
 
@@ -53,6 +56,8 @@ int main(){
     while(t--){
         solve();
     }
+
+    cout<<ans1<<" "<<ans2<<"\n";
 
     return 0;
 }
