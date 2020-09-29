@@ -36,43 +36,23 @@ ull seg[MAX];
 void solve(){
 
     cin>>n;
+
+    set<ull> last;
     ull s = 0;
-    map<ull, ull> pos; //sum, pos
-    int finded = 0;
-    int zero = 0;
-    ull ans = 0;
-    for(int i=1; i<=n; i++){
+    int ans = 0;
+    last.insert(0);
+
+    for(int i=0; i<n; i++){
         ull z; cin>>z;
-        s += z;
-        if(s==0 && !zero)
-            zero = i;
-        if(pos[s]){
-            if(!finded) finded = pos[s]+1;
-            seg[pos[s]+1] = i;
+        s+=z;
+        if(last.find(s) != last.end()){
+            ans++;
+            last.clear();
+            last.insert(0);
+            s = z;
         }
-        pos[s] = i;
-        //cout<<s<<" ";
-    }//cout<<"\n";
-
-    /*for(int i=1; i<=n; i++)
-        cout<<seg[i]<<" ";
-    cout<<"\n";*/
-
-    ull last = 0;
-    for(int i=1; i<=n; i++){
-        if(seg[i]){
-            if(last > i)
-                last = min(last, seg[i]);
-            else {
-                ans++;
-                last = seg[i];
-            }
-
-        }
+        last.insert(s);
     }
-
-    //cout<<finded<<" "<<zero<<"\n";
-    if(zero && (finded>=zero || !finded)) ans++;
 
     cout<<ans<<"\n";
 }
