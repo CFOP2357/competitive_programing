@@ -25,12 +25,14 @@ typedef long long ull;
 typedef pair<ull, ull> pii;
 typedef vector<ull> vi;
 
-#define MAX 1000100
+#define MAX 1001000
 #define MOD 1000000007
 
 vector<pii> r;
 vector<pii> sl;
 ull n, m;
+
+int d[MAX];
 
 void solve(){
     cin>>n>>m;
@@ -46,18 +48,29 @@ void solve(){
         sl.push_back({a, b});
     }
 
-    ull x=0, y=0;
-    for(int i=0; i<n; i++){
-        //int ny = r[i].first, nx = r[j].second;
-        for(int j=0; j<m; j++){
-            if(sl[j].first >= r[i].first)
-                y = max(y, sl[j].first-r[i].first+1);
-            if(sl[j].second >= r[i].second)
-                x = max(x, sl[j].second-r[i].second+1);
-        }
+    fill(d, d+MAX, -1); //cout<<"\n";
+    for(int i=0; i<m; i++){
+        for(int j=0; j<n; j++){
+            if(r[j].first>sl[i].first || r[j].second>sl[i].second) continue;
+
+            int x = sl[i].first - r[j].first;
+            int y = sl[i].second - r[j].second;
+
+            //cout<<x<<" "<<y<<"\n";
+
+            d[x] = max(d[x], y);
+        } //cout<<"#\n";
     }
 
-    cout<<min(x,y)<<"\n";
+    int ans = INT_MAX;
+    int y = 0;
+    for(int i = MAX-1; i>=0; i--){
+        y = max(y, d[i]+1);
+        //cout<<i<<" "<<d[i]<<"\n";
+        ans = min(ans, y+i);
+    }
+
+    cout<<ans<<"\n";
 
 }
 
