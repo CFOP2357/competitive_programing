@@ -35,12 +35,63 @@ ull n;
 void solve(){
     a.clear(); b.clear();
     cin>>n;
+    ull sum = 0;
     for(int i=0; i<n; i++){
         ull z; cin>>z;
         a.push_back(z);
+        sum += z;
     }
 
-    vector<int> I, J, X;
+    if(sum%n){
+        cout<<"-1\n";
+        return;
+    }
+
+    vector<ull> I, J, X;
+
+    for(int i=1; i<n; i++){
+        int r = (i+1) - a[i]%(i+1);
+
+        if(a[i]%(i+1) == 0) r =0;
+
+        I.push_back(1);
+        J.push_back(i+1);
+        X.push_back(r);
+
+        a[i] += r;
+        a[0] -= r;
+
+        I.push_back(i+1);
+        J.push_back(1);
+        X.push_back(a[i]/(i+1));
+
+        a[0] += a[i];
+        a[i] -= a[i];
+    }
+
+    /*for(int i=0; i<n; i++)
+        cout<<a[i]<<" ";
+    cout<<"\n";*/
+
+    int x = sum/n;
+    for(int i=1; i<n; i++){
+
+        I.push_back(1);
+        J.push_back(i+1);
+        X.push_back(x);
+
+        a[0] -= x;
+        a[i] += x;
+
+    }
+
+    /*for(int i=0; i<n; i++)
+        cout<<a[i]<<" ";
+    cout<<"\n";*/
+
+    cout<<I.size()<<"\n";
+    for(int i=0; i<I.size(); i++)
+        cout<<I[i]<<" "<<J[i]<<" "<<X[i]<<"\n";
 
 
 }
@@ -57,3 +108,12 @@ int main(){
     return 0;
 }
 
+/*
+3
+4
+2 16 4 18
+6
+1 2 3 4 5 6
+5
+11 19 1 1 3
+*/
