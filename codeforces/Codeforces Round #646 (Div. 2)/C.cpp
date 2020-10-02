@@ -33,16 +33,6 @@ ull n, x;
 
 vector<int> adj[MAX];
 
-int dfs(int v, int p){
-
-    int ans = 1;
-    for(int u : adj[v]){
-        if(u==p) continue;
-        ans += dfs(u, v);
-    }
-
-    return ans;
-}
 
 void solve(){
     piles.clear();
@@ -55,19 +45,12 @@ void solve(){
         adj[u].push_back(v);
     }
 
-    for(int u : adj[x])
-        piles.push_back(dfs(u, x));
-
-    if(piles.size() <= 1){
+    if(adj[x].size() <= 1){
         cout<<"Ayush\n";
         return;
     }
 
-    int sum = 0;
-    for(int k : piles) sum+=k;
-    sum--;
-
-    if(sum%2)
+    if(n%2)
         cout<<"Ashish\n";
     else cout<<"Ayush\n";
 }
