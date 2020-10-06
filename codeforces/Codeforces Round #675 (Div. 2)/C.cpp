@@ -31,45 +31,63 @@ typedef vector<ull> vi;
 vector<ull> a;
 vector<ull> b;
 ull n;
-
-ull dp[MAX];
-ull p[MAX];
+typedef ull ll;
+const ll mod = MOD; // change to something else
+ll euclid(ll a, ll b, ll &x, ll &y) {
+	if (b) { ll d = euclid(b, a % b, y, x);
+		return y -= a/b * x, d; }
+	return x = 1, y = 0, a;
+}
+struct Mod {
+	ll x;
+	Mod(ll xx) : x(xx) {}
+	Mod() : x(0) {}
+	Mod operator+(Mod b) { return Mod((x + b.x) % mod); }
+	Mod operator-(Mod b) { return Mod((x - b.x + mod) % mod); }
+	Mod operator*(Mod b) { return Mod((x * b.x) % mod); }
+	Mod operator/(Mod b) { return *this * invert(b); }
+	Mod invert(Mod a) {
+		ll x, y, g = euclid(a.x, mod, x, y);
+		return Mod((x + mod) % mod);
+	}
+	Mod operator^(ll e) {
+		if (!e) return Mod(1);
+		Mod r = *this ^ (e / 2); r = r * r;
+		return e&1 ? *this * r : r;
+	}
+};
 
 void solve(){
     string s; cin>>s;
 
-    dp[0] = s[0]-'0';
-    p[0] = 1; p[1] = 2;
-    for(int i=1; i<s.size(); i++){
 
-        //p[i] = p[i-1];
-        p[i+1] = p[i]*2;
-        p[i] %= MOD;
+    int mul = 0;
+    for(int i=0; i<s.size(); i++)
+        mul = mul*10 + 1;
 
-        dp[i] = dp[i-1] + (dp[i-1]*10)%MOD + ((s[i]-'0')*p[i])%MOD;
-        dp[i] %= MOD;
+    Mod ans = 0;
 
-        //p[i] += p[i];
-        p[i] %= MOD;
+    Mod act = 0;
 
-        cout<<dp[i]<<"\n";
-
-
-    }
-
-    ull total = 0;
     for(int i=0; i<s.size(); i++){
-        total *= 10;
-        total += s[i]-'0';
-        total %= MOD;
+        act = act*10 + (s[i]-'0');
+        ans = ans + act;
+
+        cout<<mul<<"\n";
+
+        mul = mul/10;
     }
 
-    ull ans = dp[s.size()-1] + MOD;
-    ans -= total;
-    ans %= MOD;
-    //cout<<total<<"\n";
 
-    cout<<ans<<"\n";
+    act = 0;
+    Mod p = 1;
+    for(int i=a.size()-1; i>=0; i--){
+        act = act + p*a[i];
+        p = p*10;
+        ans = ans + act*(i+1);
+    }
+
+    cout<<ans.x<<"\n";
 
 }
 
