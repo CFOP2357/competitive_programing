@@ -41,49 +41,32 @@ void solve(){
         return;
     }
 
-    float k = 0;
-    int cc = 0;
+    ull y = (t-h) / (h+c-2*t);
 
-    int ans = 0;
-    float kAns = 0;
-
-    k += h; cc++;
-    while(k/(float)cc > (float)t){
-
-
-        ans = cc;
-        kAns = k/(float)cc;
-
-        k += c; cc++;
-        k += h; cc++;
-
-        if(cc>=1000){
-            ull y = (t-h) / (h+c-2*t);
-
-            if((t-h) % (h+c-2*t)){
-                if( (double)((t-h) % (h+c-2*t)) /  (double)(h+c-2*t) > (double)0.5 )
-                    y++;
-            }
-
-            double k  = (double)((y+1)*h + y*c) / (double)(2*y + 1);
-            double k2 = (double)((y+2)*h + (y+1)*c) / (double)(2*(y+1) + 1);
-            double k3 = (double)((y)*h + (y-1)*c) / (double)(2*(y-1) + 1);
-
-            if(abs(k-t) < abs(k2-t) && abs(k-t) < abs(k3-t))
-                cout<<y+y+1<<"\n";
-            else if(abs(k2-t) < abs(k-t) && abs(k2-t) < abs(k3-t))
-                cout<<y+y+3<<"\n";
-            else cout<<y+y-1<<"\n";
-            return;
-        }
+    if((t-h) % (h+c-2*t)){
+        if( (double)((t-h) % (h+c-2*t)) /  (double)(h+c-2*t) > (double)0.5 )
+            y++;
     }
 
-    if(abs((float)t - k/(float)cc) < abs(kAns - t)){
-        ans = cc;
+    double k  = (double)((y+1)*h + y*c) / (double)(2*y + 1);
+    double k2 = (double)((y+2)*h + (y+1)*c) / (double)(2*(y+1) + 1);
+    double k3 = (double)((y)*h + (y-1)*c) / (double)(2*(y-1) + 1);
+
+    //cout<<k<<" "<<k2<<" "<<k3<<"#\n";
+
+    if(y==0){
+        if((double)abs(h-t) <= (double)abs((double)(h+c+h)/(double)3-(double)t))
+            cout<<1<<"\n";
+        else
+            cout<<3<<"\n";
+        return;
     }
 
-
-    cout<<ans<<"\n";
+    if(abs(k-t) <= abs(k2-t) && abs(k-t) < abs(k3-t))
+        cout<<y+y+1<<"\n";
+    else if(abs(k2-t) < abs(k-t) && abs(k2-t) < abs(k3-t))
+        cout<<y+y+3<<"\n";
+    else cout<<y+y-1<<"\n";
 }
 
 
