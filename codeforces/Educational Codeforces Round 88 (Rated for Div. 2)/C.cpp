@@ -52,8 +52,6 @@ void solve(){
     double k2 = (double)((y+2)*h + (y+1)*c) / (double)(2*(y+1) + 1);
     double k3 = (double)((y)*h + (y-1)*c) / (double)(2*(y-1) + 1);
 
-    //cout<<k<<" "<<k2<<" "<<k3<<"#\n";
-
     if(y==0){
         if((double)abs(h-t) <= (double)abs((double)(h+c+h)/(double)3-(double)t))
             cout<<1<<"\n";
