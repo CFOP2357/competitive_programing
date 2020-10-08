@@ -32,7 +32,7 @@ vector<ull> a;
 vector<ull> b;
 ull n, x;
 
-ull gauss(int n){
+ull gauss(ull n){
     return (n*(n+1))/2;
 }
 
@@ -45,14 +45,14 @@ void solve(){
     }
 
     a.push_back(0);
-    for(int k : b)
+    for(ull k : b)
         a.push_back(k);
-    for(int k : b)
+    for(ull k : b)
         a.push_back(k);
 
-    vector<int> acum;
+    vector<ull> acum;
     acum.push_back(0);
-    vector<int> sum;
+    vector<ull> sum;
     sum.push_back(0);
 
     for(int i=1; i<a.size(); i++)
@@ -67,24 +67,21 @@ void solve(){
         int nxt = lower_bound(all(acum), acum[i-1]+x) - acum.begin();
 
         ull total = sum[nxt-1] - sum[i];
-        int x = ::x - (acum[nxt-1]-acum[i]);
-
-        if(nxt == i)
-            total = 0, x = ::x;
+        ull x = ::x - (acum[nxt-1]-acum[i]);
 
         if(i==nxt)
-            total = gauss(a[i]) - gauss(a[i]-x);
-        else if(a[i] >= a[nxt])
-            total += gauss(a[i]) + gauss(x-a[i]);
-        else{
-            total += gauss(min(a[nxt], (ull)(x-1)));
-            x -= min(a[nxt], (ull)(x-1));
-            total += gauss(a[i]) - gauss(a[i]-x);
+            total = gauss(a[i]) - gauss(a[i]-::x);
+        else {
+            if(x < a[nxt])
+                continue;
+            total += gauss(a[nxt]);
+            x -= a[nxt];
+            total += gauss(a[i])-gauss(a[i]-x);
         }
 
         ans = max(total, ans);
 
-        //cout<<i<<" "<<total<<"\n";
+        //cout<<i<<" "<<nxt<<"\n";
 
     }
 
