@@ -30,15 +30,46 @@ typedef vector<ull> vi;
 
 vector<ull> a;
 vector<ull> b;
-ull n;
+ull n, k;
 
 void solve(){
     a.clear(); b.clear();
-    cin>>n;
+    cin>>n>>k;
+
+    bool exist = false;
+    bool allK =true;
     for(int i=0; i<n; i++){
         ull z; cin>>z;
         a.push_back(z);
+
+        exist = exist || z==k;
+        allK = allK && z==k;
     }
+
+    if(!exist){
+        cout<<"no\n";
+        return;
+    }
+
+    if(allK){
+        cout<<"yes\n";
+        return;
+    }
+
+    exist = false;
+
+    for(int i=0; i<n; i++){
+        if(a[i]>=k){
+
+            if( (i>0 && a[i-1]>=k) || (i>1 && a[i-2]>=k) ){
+                cout<<"yes\n";
+                return;
+            }
+
+        }
+    }
+
+    cout<<"no\n";
 
 }
 
