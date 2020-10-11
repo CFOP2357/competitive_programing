@@ -53,10 +53,10 @@ void rotation(vector<int> sz){
     for(int i=0; i<n; i++)
         a[i] = b[i];
 
-
-    /*for(int k : a)
+    //cout<<sz.size()<<"\n";
+    for(int k : a)
         cout<<k<<" ";
-    cout<<"\n";*/
+    cout<<"\n";
 }
 
 bool ordered(){
@@ -83,10 +83,6 @@ void solve(){
         return;
     }
 
-
-    if(a[0] == 1)
-        rotation(vector<int>(n,1));
-
     //cout<<"#\n";
 
     while(!ordered()){
@@ -94,13 +90,8 @@ void solve(){
         vector<int> nxt;
 
         int i;
-        for(i=1; i<n && (a[i]-1==a[i-1] || a[i] == 1); i++){
-            if(a[i-1]==1)
-                break;
-        }
+        for(i=1; i<n && a[i]-1==a[i-1]; i++);
 
-        if(i==n)
-            for(i=1; i<n && a[i]-1==a[i-1]; i++);
 
         //i--;
 
@@ -110,11 +101,11 @@ void solve(){
         for(j = i-1; a[j]!=a[0]-1 && j<n; j++);
 
         if(j==n){
-           for(j = i-1; a[j]!=n && j<n; j++);
+           for(j = i-1; a[j]!=a[i]-1 && j<n; j++);
+           nxt.push_back(j-i-1);
+           nxt.push_back(1);
         }
-
-        //cout<<i<<" "<<j<<"\n";
-        if(j>=i)
+        else if(j>=i)
             nxt.push_back(j-i+1);
 
         if(j<n-1){
@@ -131,6 +122,8 @@ void solve(){
         cout<<"\n";*/
 
         rotation(nxt); //cout<<"\n";
+
+        //cout<<nxt.size()<<"\n";
     }
 
 
@@ -160,5 +153,11 @@ int main(){
 /*
 10
 7 2 8 10 9 3 1 4 5 6
+
+49
+14 48 47 19 45 32 43 42 41 40 16 44 37 36 35 34 33 38 39 30 29 28 15 26 25 24 23 22 21 20 49 18 31 17 27 46 13 12 11 10 6 8 7 9 5 4 3 2 1
+
+10
+1 2 3 4 5 7 8 9 6 10
 
 */
