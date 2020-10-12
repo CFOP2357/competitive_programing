@@ -35,10 +35,25 @@ ull n;
 void solve(){
     a.clear(); b.clear();
     cin>>n;
-    for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
+    string s; cin>>s;
+    string r; r = s;
+    reverse(all(r));
+
+    stack<int> pos[200];
+    for(int i = n-1; i>=0; i--){
+        pos[s[i]].push(i);
     }
+
+    a.assign(n, -1);
+    for(int i = 0; i<n; i++){
+        if(s[i]==r[i])
+            a[i] = i;
+        else {
+            a[i] = pos[r[i]].top();
+            pos[r[i]].pop();
+        }
+    }
+
 
 }
 
@@ -46,7 +61,7 @@ void solve(){
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0);
 
-    int t; cin>>t;
+    int t=1;
     while(t--){
         solve();
     }
