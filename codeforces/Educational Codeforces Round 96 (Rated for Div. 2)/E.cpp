@@ -28,6 +28,56 @@ typedef vector<ull> vi;
 #define MAX 1000100
 #define MOD 1000000007
 
+template<typename T> struct ST{
+    int l, r;
+    T acum;
+
+    ST *left, *right;
+
+    T none = 0;
+
+    T operation(T a, T b){
+        return a+b;
+    }
+
+    ST(int l, int r, vector<T> &arr): l(l), r(r){
+        if(l >= arr.size())
+            acum = none;
+        else if(l==r)
+            acum = arr[r];
+        else {
+            int m = (l+r)/2;
+            left = new ST(l, m, arr);
+            right = new ST(m+1, r, arr);
+            acum = operation(left->acum,  right->acum);
+        }
+    }
+
+    T get(int l, int r){
+        if(this->l > r || this->r < l)
+            return none;
+        //cout<<this->l<<" "<<this->r<<" "<<this->acum<<"\n";
+        if(this->l >= l && this->r <= r)
+            return acum;
+        int m = (l+r)/2;
+        return operation(left->get(l, r), right->get(l, r));
+    }
+
+    T update(int i, T v){
+        if(i > r || i < l)
+            return acum;
+
+        if(i>=l && i<=r){
+            if(l==r)
+                return acum = v;
+            acum = operation(left->update(i, v), right->update(i, v));
+        }
+        return acum;
+    }
+
+};
+
+
 vector<ull> a;
 vector<ull> b;
 ull n;
@@ -43,17 +93,27 @@ void solve(){
     for(int i = n-1; i>=0; i--){
         pos[s[i]].push(i);
     }
+    //cout<<r<<"\n";
 
     a.assign(n, -1);
     for(int i = 0; i<n; i++){
-        if(s[i]==r[i])
-            a[i] = i;
-        else {
-            a[i] = pos[r[i]].top();
-            pos[r[i]].pop();
-        }
+        a[i] = pos[r[i]].top();
+        pos[r[i]].pop();
     }
 
+    vector<ull> b(n, 0);
+    ST<ull> st(0, n-1, b);
+
+    ull ans = 0;
+    st.update(a[0], 1);
+    //cout<<a[0]<<" ";
+    for(int i=1; i<n; i++){
+        //cout<<a[i]<<" ";
+        ans += st.get(a[i], n-1);
+        st.update(a[i], 1);
+    }
+
+    cout<<ans<<"\n";
 
 }
 
