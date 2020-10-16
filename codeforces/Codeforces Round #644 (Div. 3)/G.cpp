@@ -33,6 +33,29 @@ ull n, m,a, b;
 void solve(){
     cin>>n>>m>>a>>b;
 
+    if(a*n != b*m){
+        cout<<"NO\n";
+        return;
+    }
+
+    cout<<"YES\n";
+
+
+    vector<vector<bool>> grid(n, vector<bool>(m, 0));
+    for(int i=0, k = 0; i<n; i++, k+=a){
+        for(int j=0; j<a; j++){
+            grid[i][(j+k)%m] = true;
+        }
+    }
+
+
+    for(int i=0; i<n; i++){
+        for(int j=0; j<m; j++){
+            cout<<grid[i][j];
+        }
+        cout<<"\n";
+    }
+
 }
 
 
@@ -47,3 +70,7 @@ int main(){
     return 0;
 }
 
+/*
+1
+3 4 4 3
+*/
