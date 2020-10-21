@@ -21,7 +21,7 @@ typedef tree<ull,null_type,less_equal<ull>,rb_tree_tag, tree_order_statistics_no
 
 #define all(a) a.begin(), a.end()
 
-typedef unsigned long long ull;
+typedef long long ull;
 typedef pair<ull, ull> pii;
 typedef vector<ull> vi;
 
@@ -31,16 +31,14 @@ typedef vector<ull> vi;
 vector<ull> a;
 vector<ull> b;
 ull n;
-ull fact[25];
 
 void solve(){
     a.clear(); b.clear();
     cin>>n;
-
-    n-=2;
-    ull ans = fact[n+1]/(n/2 + 1);
-
-    cout<<ans<<"\n";
+    for(int i=0; i<n; i++){
+        ull z; cin>>z;
+        a.push_back(z);
+    }
 
 }
 
@@ -48,11 +46,7 @@ void solve(){
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0);
 
-    fact[0] = 1;
-    for(int i=1; i<=22; i++)
-        fact[i] = i*fact[i-1];
-
-    int t = 1;
+    int t; cin>>t;
     while(t--){
         solve();
     }
