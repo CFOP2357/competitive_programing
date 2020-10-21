@@ -28,17 +28,15 @@ typedef vector<ull> vi;
 #define MAX 1000100
 #define MOD 1000000007
 
-vector<ull> a;
-vector<ull> b;
 ull n;
 
 void solve(){
-    a.clear(); b.clear();
-    cin>>n;
-    for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
-    }
+    ull a, b;
+    cin>>a>>b;
+
+    ull x = a|b;
+
+    cout<<(a^x) + (b^x)<<"\n";
 
 }
 

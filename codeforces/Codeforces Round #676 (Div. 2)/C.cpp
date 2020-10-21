@@ -32,21 +32,32 @@ vector<ull> a;
 vector<ull> b;
 ull n;
 
-void solve(){
-    a.clear(); b.clear();
-    cin>>n;
-    for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
-    }
+/*
+abcdf
+babcdf
+ababcdf
+ababcdfdcbab
+ababcdfdcbaba
+*/
 
+void solve(){
+    string s; cin>>s;
+
+    ull n = s.size();
+
+    cout<<"4\n";
+
+    cout<<"L 2\n"; n++;
+    cout<<"L 2\n"; n++;
+    cout<<"R 2\n"; n += n-2;
+    cout<<"R "<<n-1<<"\n";
 }
 
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0);
 
-    int t; cin>>t;
+    int t=1;
     while(t--){
         solve();
     }

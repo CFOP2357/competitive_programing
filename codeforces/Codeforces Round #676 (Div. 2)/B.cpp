@@ -32,13 +32,54 @@ vector<ull> a;
 vector<ull> b;
 ull n;
 
+vector<string> grid;
+
 void solve(){
-    a.clear(); b.clear();
+    grid.clear();
     cin>>n;
     for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
+        string s; cin>>s;
+        grid.push_back(s);
     }
+
+    if(grid[0][1] == grid[1][0] && grid[0][1] != grid[n-1][n-2] && grid[n-1][n-2] == grid[n-2][n-1]){
+        cout<<"0\n";
+        return;
+    }
+    if(grid[0][1] == grid[1][0] && grid[0][1] == grid[n-1][n-2] && grid[0][1] == grid[n-2][n-1]){
+        cout<<"2\n";
+        cout<<"1 2\n";
+        cout<<"2 1\n";
+        return;
+    }
+    if(grid[n-1][n-2] == grid[n-2][n-1]){
+        cout<<"1\n";
+        if(grid[0][1] == grid[n-1][n-2])
+            cout<<"1 2\n";
+        else
+            cout<<"2 1\n";
+        return;
+    }
+    if(grid[0][1] == grid[1][0]){
+        cout<<"1\n";
+        if(grid[0][1] == grid[n-1][n-2])
+            cout<<n<<" "<<n-1<<"\n";
+        else
+            cout<<n-1<<" "<<n<<"\n";
+        return;
+    }
+
+    cout<<"2\n";
+
+    if(grid[0][1] == '1')
+        cout<<"1 2\n";
+    else
+        cout<<"2 1\n";
+
+    if(grid[n-1][n-2] == '0')
+        cout<<n<<" "<<n-1<<"\n";
+    else
+        cout<<n-1<<" "<<n<<"\n";
 
 }
 
@@ -54,3 +95,44 @@ int main(){
     return 0;
 }
 
+/*
+5
+3
+S10
+101
+11F
+3
+S00
+101
+11F
+3
+S10
+100
+11F
+3
+S00
+001
+11F
+3
+S00
+101
+10F
+
+4
+3
+S00
+101
+10F
+3
+S10
+001
+10F
+3
+S00
+100
+11F
+3
+S10
+000
+11F
+*/
