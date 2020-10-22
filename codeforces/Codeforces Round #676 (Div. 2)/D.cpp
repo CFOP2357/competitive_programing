@@ -30,15 +30,60 @@ typedef vector<ull> vi;
 
 vector<ull> a;
 vector<ull> b;
-ull n;
+ull c1,c2,c3,c4,c5,c6;
+ull x, y;
 
 void solve(){
     a.clear(); b.clear();
-    cin>>n;
-    for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
+    cin>>x>>y;
+    cin>>c1>>c2>>c3>>c4>>c5>>c6;
+
+    ull ans = 0;
+
+    if(x>0)
+        ans += c6*x;
+    else ans += c3*(-x);
+
+    if(y>0)
+        ans += c2*y;
+    else ans += c5*(-y);
+
+    //cout<<ans<<"\n";
+
+
+    {
+        ull tmp =  0;
+        if((x-y)>0)
+            tmp += c6*(x-y);
+        else tmp += c3*(y-x);
+        if(y>0)
+            tmp += c1*y;
+        else tmp += c4*(-y);
+
+        ans = min(ans, tmp);
+        //cout<<tmp<<"\n";
     }
+
+    {
+        ull tmp =  0;
+        if(x>0)
+            tmp += c1*x;
+        else tmp += c4*(-x);
+        //cout<<tmp<<"\n";
+        if((x-y)>0)
+            tmp += c5*(x-y);
+        else tmp += c2*(y-x);
+
+        //cout<<x-y<<"\n";
+
+        ans = min(ans, tmp);
+
+        //cout<<tmp<<"\n";
+
+    }
+
+    cout<<ans<<"\n";
+
 
 }
 
@@ -54,3 +99,8 @@ int main(){
     return 0;
 }
 
+/*
+1
+0 -9
+16 7 12 26 25 30
+*/
