@@ -60,20 +60,23 @@ void solve(){
     for(ull x = A; x<=B; x++){
         ull y = bS(x, B-1, C);
 
-        //cout<<x<<" "<<y<<"#\n";
+        ull tmp = 0;
 
         if(x+y<=C)
             continue;
 
         ull z = min(x+y-1, D);
-        //cout<<z<<"\n";
+        tmp += (C-y+1)*(z-C+1);
 
-        ull n = min(D-z, C-y);
-        //cout<<n<<"\n";
+        ull n = min(C-y, D-z);
+        tmp += gauss(n);
 
-        ans += gauss(n) + (z-C+1) + (z-C+1)*n;
         if(D-z < C-y)
-            ans += D * ((C-y) - (D-z));
+            tmp += (D-z)*((C-y)-(D-z));
+
+        //cout<<x<<" "<<y<<" "<<z<<" "<<tmp<<"\n";
+
+        ans +=tmp;
     }
 
     cout<<ans<<"\n";
@@ -92,3 +95,10 @@ int main(){
     return 0;
 }
 
+/*
+1 6 10 15
+
+10 10 13 14
+
+3 3 6 6
+*/
