@@ -53,14 +53,12 @@ void solve(){
     if(b>a)
         swap(a, b);
 
-    ull d = a*__gcd(a, b);
-    if(__gcd(a, b)==1)
-        d=a*b;
+    ull d = a*b/__gcd(a, b);
     //ull inc = ;
 
     while(q--){
         ull l, r; cin>>l>>r;
-        cout<<brute(l, r, a, b)<<" ";
+        //cout<<brute(l, r, a, b)<<" ";
         if(a%b == 0)
             cout<<0<<" ";
         else {
