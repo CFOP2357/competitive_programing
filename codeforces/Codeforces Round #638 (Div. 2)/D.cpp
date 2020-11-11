@@ -41,41 +41,23 @@ ull n;
 void solve(){
     cin>>n;
     vector<ull> ans;
-    stack<ull> p;
 
-    ull s = 1;
-    p.push(1);
-
-    while(s<n){
-        if(s+2*p.top()<=n){
-            ans.push_back(p.top());
-            s += 2*p.top();
-            p.push(p.top()*2);
-        }
-        else if(s+p.top() == n){
-            ans.push_back(0);
-            s += p.top();
-            p.push(p.top());
-        }
-        else if(s+p.top() < n){
-            n-=s; n-=p.top();
-            ans.push_back(n);
-            s += p.top() + n;
-            p.push(p.top());
-        }
-        else {
-            ans.pop_back();
-            s -= p.top();
-            p.pop();
-            s += p.top();
-            ans.push_back(0);
-            p.push(p.top());
-        }
+    ull p = 1;
+    while(p<n){
+        ans.push_back(p);
+        n-=p;
+        p*=2;
     }
 
-    cout<<ans.size()<<"\n";
-    for(ull r : ans)
-        cout<<r<<" ";
+    if(n){
+        ans.push_back(n);
+    }
+
+    sort(all(ans));
+
+    cout<<ans.size()-1<<"\n";
+    for(int i=0; i<ans.size()-1; i++)
+        cout<<ans[i+1]-ans[i]<<" ";
     cout<<"\n";
 
 }
