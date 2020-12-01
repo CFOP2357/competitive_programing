@@ -28,7 +28,8 @@ typedef tree<ull,null_type,less_equal<ull>,rb_tree_tag, tree_order_statistics_no
 #define all(a) a.begin(), a.end()
 
 typedef long long ull;
-typedef pair<ull, ull> pii;
+typedef long long ll;
+typedef pair<int, int> pii;
 typedef vector<ull> vi;
 
 #define MAX 1000100
@@ -37,70 +38,70 @@ typedef vector<ull> vi;
 vector<pii> a;
 ull n;
 
-ull calc(ull d, int X, int Y){
-    ull ans = 0;
+ll calc(int d, int X, int Y){
+    ll ans = 0;
 
-    ans += abs(a[0].first-X) + abs(a[0].second-Y);
+    ans += (ll)abs(a[0].first-X) + (ll)abs(a[0].second-Y);
 
-    ull x = X, y = Y - d;
-    ans += abs(a[1].first-x) + abs(a[1].second-y);
+    int x = X, y = Y - d;
+    ans += (ll)abs(a[1].first-x) + (ll)abs(a[1].second-y);
 
     x = X - d, y = Y - d;
-    ans += abs(a[2].first-x) + abs(a[2].second-y);
+    ans += (ll)abs(a[2].first-x) + (ll)abs(a[2].second-y);
 
     x = X - d, y = Y;
-    ans += abs(a[3].first-x) + abs(a[3].second-y);
+    ans += (ll)abs(a[3].first-x) + (ll)abs(a[3].second-y);
 
     return ans;
 }
 
-ull calc1(ull d, int X, int Y){
-    ull ans = 0;
+ll calc1(int d, int X, int Y){
+    ll ans = 0;
 
-    ans += abs(a[1].first-X) + abs(a[1].second-Y);
+    ans += (ll)abs(a[1].first-X) + (ll)abs(a[1].second-Y);
 
-    ull x = X, y = Y + d;
-    ans += abs(a[0].first-x) + abs(a[0].second-y);
+    int x = X, y = Y + d;
+    ans += (ll)abs(a[0].first-x) + (ll)abs(a[0].second-y);
 
     x = X + d, y = Y + d;
-    ans += abs(a[3].first-x) + abs(a[3].second-y);
+    ans += (ll)abs(a[3].first-x) + (ll)abs(a[3].second-y);
 
     x = X + d, y = Y;
-    ans += abs(a[2].first-x) + abs(a[2].second-y);
+    ans += (ll)abs(a[2].first-x) + (ll)abs(a[2].second-y);
 
     return ans;
 }
 
-ull calc2(ull d, int X, int Y){
-    ull ans = 0;
+ll calc2(int d, int X, int Y){
+    ll ans = 0;
 
-    ans += abs(a[2].first-X) + abs(a[2].second-Y);
+    ans += (ll)abs(a[2].first-X) + (ll)abs(a[2].second-Y);
 
-    ull x = X - d, y = Y + d;
-    ans += abs(a[0].first-x) + abs(a[0].second-y);
+    int x = X - d, y = Y + d;
+    ans += (ll)abs(a[0].first-x) + (ll)abs(a[0].second-y);
 
     x = X - d, y = Y;
-    ans += abs(a[1].first-x) + abs(a[1].second-y);
+    ans += (ll)abs(a[1].first-x) + (ll)abs(a[1].second-y);
 
     x = X, y = Y + d;
-    ans += abs(a[3].first-x) + abs(a[3].second-y);
+    ans += (ll)abs(a[3].first-x) + (ll)abs(a[3].second-y);
 
     return ans;
 }
 
-ull calc3(ull d, int X, int Y){
-    ull ans = 0;
+ll calc3(int d, int X, int Y){
+    ll ans = 0;
 
-    ans += abs(a[3].first-X) + abs(a[3].second-Y);
+    ans += (ll)abs(a[3].first-X) + (ll)abs(a[3].second-Y);
 
-    ull x = X - d, y = Y;
-    ans += abs(a[0].first-x) + abs(a[0].second-y);
+    int x = X - d, y = Y;
+    ans += abs(a[0].first-x) + (ll)abs(a[0].second-y);
 
     x = X - d, y = Y - d;
-    ans += abs(a[1].first-x) + abs(a[1].second-y);
+    ans += (ll)abs(a[1].first-x) + (ll)abs(a[1].second-y);
 
     x = X, y = Y - d;
-    ans += abs(a[2].first-x) + abs(a[2].second-y);
+    ans += (ll)abs(a[2].first-x) + (ll)abs(a[2].second-y);
 
     return ans;
 }
@@ -113,42 +114,25 @@ void solve(){
     }
     sort(all(a));
 
-    ull ans = LLONG_MAX;
+    ll ans = LONG_MAX;
+    unordered_set<ull> D;
+
+    for(int j=0;j<4; j++)
+        for(int k=0;k<4; k++)
+            D.insert(abs(a[j].first-a[k].first)), D.insert(abs(a[j].second-a[k].second));
+
 
     do{
-        map<ull, bool> selected;
-        for(int j=0;j<=1; j++){
-            for(int k=2;k<=3; k++){
-                ull d = abs(a[j].first-a[k].first);
-                if(selected[d])
-                    continue;
-                selected[d] = true;
+
+        for(auto d : D){
                 for(int l = 0; l<4; l++){
                     for(int m = 0; m<4; m++){
                         ans = min(calc(d, a[l].first, a[m].second), ans);
-                        /*ans = min(calc1(d, a[l].first, a[m].second), ans);
+                        ans = min(calc1(d, a[l].first, a[m].second), ans);
                         ans = min(calc2(d, a[l].first, a[m].second), ans);
-                        ans = min(calc3(d, a[l].first, a[m].second), ans);*/
+                        ans = min(calc3(d, a[l].first, a[m].second), ans);
                     }
                 }//
-            }
-        }
-
-        for(int j=1;j<=2; j++){
-            for(int k=0;k<=3; k+=3){
-                ull d = abs(a[j].second-a[k].second);
-                if(selected[d])
-                    continue;
-                selected[d] = true;
-                for(int l = 0; l<4; l++){
-                    for(int m = 0; m<4; m++){
-                        ans = min(calc(d, a[l].first, a[m].second), ans);
-                        /*ans = min(calc1(d, a[l].first, a[m].second), ans);
-                        ans = min(calc2(d, a[l].first, a[m].second), ans);
-                        ans = min(calc3(d, a[l].first, a[m].second), ans);*/
-                    }
-                }
-            }
         }
 
     }while(next_permutation(all(a)));
@@ -167,4 +151,3 @@ int main(){
 
     return 0;
 }
-
