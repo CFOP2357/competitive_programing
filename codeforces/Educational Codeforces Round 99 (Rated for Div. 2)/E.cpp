@@ -114,8 +114,8 @@ void solve(){
     }
     sort(all(a));
 
-    ll ans = LONG_MAX;
-    unordered_set<ull> D;
+    ll ans = LLONG_MAX;
+    unordered_set<int> D;
 
     for(int j=0;j<4; j++)
         for(int k=0;k<4; k++)
@@ -129,8 +129,8 @@ void solve(){
                     for(int m = 0; m<4; m++){
                         ans = min(calc(d, a[l].first, a[m].second), ans);
                         ans = min(calc1(d, a[l].first, a[m].second), ans);
-                        ans = min(calc2(d, a[l].first, a[m].second), ans);
-                        ans = min(calc3(d, a[l].first, a[m].second), ans);
+                        //ans = min(calc2(d, a[l].first, a[m].second), ans);
+                        //ans = min(calc3(d, a[l].first, a[m].second), ans);
                     }
                 }//
         }
