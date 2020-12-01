@@ -37,61 +37,69 @@ typedef vector<ull> vi;
 vector<pii> a;
 ull n;
 
-ull calc(ull d){
+ull calc(ull d, int X, int Y){
     ull ans = 0;
 
-    ull x = a[0].first, y = a[0].second - d;
+    ans += abs(a[0].first-X) + abs(a[0].second-Y);
+
+    ull x = X, y = Y - d;
     ans += abs(a[1].first-x) + abs(a[1].second-y);
 
-    x = a[0].first - d, y = a[0].second - d;
+    x = X - d, y = Y - d;
     ans += abs(a[2].first-x) + abs(a[2].second-y);
 
-    x = a[0].first - d, y = a[0].second;
+    x = X - d, y = Y;
     ans += abs(a[3].first-x) + abs(a[3].second-y);
 
     return ans;
 }
 
-ull calc1(ull d){
+ull calc1(ull d, int X, int Y){
     ull ans = 0;
 
-    ull x = a[1].first, y = a[1].second + d;
+    ans += abs(a[1].first-X) + abs(a[1].second-Y);
+
+    ull x = X, y = Y + d;
     ans += abs(a[0].first-x) + abs(a[0].second-y);
 
-    x = a[1].first + d, y = a[1].second + d;
+    x = X + d, y = Y + d;
     ans += abs(a[3].first-x) + abs(a[3].second-y);
 
-    x = a[1].first + d, y = a[1].second;
+    x = X + d, y = Y;
     ans += abs(a[2].first-x) + abs(a[2].second-y);
 
     return ans;
 }
 
-ull calc2(ull d){
+ull calc2(ull d, int X, int Y){
     ull ans = 0;
 
-    ull x = a[2].first, y = a[2].second + d;
+    ans += abs(a[2].first-X) + abs(a[2].second-Y);
+
+    ull x = X - d, y = Y + d;
     ans += abs(a[0].first-x) + abs(a[0].second-y);
 
-    x = a[2].first - d, y = a[2].second + d;
+    x = X - d, y = Y;
     ans += abs(a[1].first-x) + abs(a[1].second-y);
 
-    x = a[2].first - d, y = a[2].second;
+    x = X, y = Y + d;
     ans += abs(a[3].first-x) + abs(a[3].second-y);
 
     return ans;
 }
 
-ull calc3(ull d){
+ull calc3(ull d, int X, int Y){
     ull ans = 0;
 
-    ull x = a[3].first, y = a[3].second - d;
+    ans += abs(a[3].first-X) + abs(a[3].second-Y);
+
+    ull x = X - d, y = Y;
     ans += abs(a[0].first-x) + abs(a[0].second-y);
 
-    x = a[3].first + d, y = a[3].second - d;
+    x = X - d, y = Y - d;
     ans += abs(a[1].first-x) + abs(a[1].second-y);
 
-    x = a[3].first + d, y = a[2].second;
+    x = X, y = Y - d;
     ans += abs(a[2].first-x) + abs(a[2].second-y);
 
     return ans;
@@ -108,25 +116,38 @@ void solve(){
     ull ans = LLONG_MAX;
 
     do{
-
-
+        map<ull, bool> selected;
         for(int j=0;j<=1; j++){
             for(int k=2;k<=3; k++){
                 ull d = abs(a[j].first-a[k].first);
-                ans = min(calc(d), ans);
-                ans = min(calc2(d), ans);
-                ans = min(calc1(d), ans);
-                ans = min(calc3(d), ans);
+                if(selected[d])
+                    continue;
+                selected[d] = true;
+                for(int l = 0; l<4; l++){
+                    for(int m = 0; m<4; m++){
+                        ans = min(calc(d, a[l].first, a[m].second), ans);
+                        /*ans = min(calc1(d, a[l].first, a[m].second), ans);
+                        ans = min(calc2(d, a[l].first, a[m].second), ans);
+                        ans = min(calc3(d, a[l].first, a[m].second), ans);*/
+                    }
+                }//
             }
         }
 
         for(int j=1;j<=2; j++){
             for(int k=0;k<=3; k+=3){
                 ull d = abs(a[j].second-a[k].second);
-                ans = min(calc(d), ans);
-                ans = min(calc2(d), ans);
-                ans = min(calc1(d), ans);
-                ans = min(calc3(d), ans);
+                if(selected[d])
+                    continue;
+                selected[d] = true;
+                for(int l = 0; l<4; l++){
+                    for(int m = 0; m<4; m++){
+                        ans = min(calc(d, a[l].first, a[m].second), ans);
+                        /*ans = min(calc1(d, a[l].first, a[m].second), ans);
+                        ans = min(calc2(d, a[l].first, a[m].second), ans);
+                        ans = min(calc3(d, a[l].first, a[m].second), ans);*/
+                    }
+                }
             }
         }
 
