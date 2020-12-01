@@ -40,23 +40,22 @@ ull d, k;
 
 void solve(){
     cin>>d>>k;
-    ull moves = d/k + 1;
 
-    if(d%2){
-        if((moves%2)){
+    ull p(0), q(0);
+    while(true){
+
+        p += k;
+        if(p*p + q*q > d*d){
             cout<<"Utkarsh\n";
+            return;
         }
-        else {
+
+        q +=k;
+        if(p*p + q*q > d*d){
             cout<<"Ashish\n";
+            return;
         }
-    }
-    else {
-        if((moves%2)){
-            cout<<"Utkarsh\n";
-        }
-        else {
-            cout<<"Ashish\n";
-        }
+
     }
 }
 
