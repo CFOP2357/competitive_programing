@@ -39,6 +39,7 @@ vector<string> grid;
 
 inline void change(int y, int x){
     y--, x--;
+    //grid[y][x] = 'x';
     grid[y][x] = (grid[y][x]=='0')?'1':'0';
 }
 
@@ -120,8 +121,8 @@ void solve(){
 
             if(grid[i][j]=='1'){
 
-                cout<<"\n\n";
-                cout<<i<<" "<<j<<"\n";
+                //cout<<"\n\n";
+                //cout<<i<<" "<<j<<"\n";
 
                 if(j<m-1){
                     ans.push_back( vector<pii>( { {i+1, j+1},{i+1, j+2},{i+2, j+1}  } ) );
@@ -132,20 +133,21 @@ void solve(){
                 else{
                     ans.push_back( vector<pii>( { {i+1, j+1},{i+2, j},{i+2, j+1}  } ) );
                     change(i+1, j+1);
-                    change(i+1, j);
+                    change(i+2, j);
                     change(i+2, j+1);
                 }
-                for(int i=0; i<n; i++){
+
+                /*for(int i=0; i<n; i++){
                     for(int j = 0; j<m; j++)
                         cout<<grid[i][j];
                     cout<<"\n";
-                }
+                }*/
             }
 
         }
     }
 
-    /*for(int i=0; i<m-2; i++) {
+    for(int i=0; i<m-2; i++) {
         if(grid[n-2][i]=='1'){
             ans.push_back( vector<pii>( { {n-1, i+1},{n-1, i+2},{n, i+1}  } ) );
             change(n-1, i+1);
@@ -158,15 +160,15 @@ void solve(){
             change(n, i+2);
             change(n-1, i+2);
         }
-    }*/
+    }
 
     bsk();
-    cout<<"\n\n";
+    /*cout<<"\n\n";
     for(int i=0; i<n; i++){
         for(int j = 0; j<m; j++)
             cout<<grid[i][j];
         cout<<"\n";
-    }
+    }*/
 
 
     cout<<ans.size()<<"\n";
