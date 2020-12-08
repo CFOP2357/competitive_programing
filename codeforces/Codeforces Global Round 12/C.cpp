@@ -34,29 +34,34 @@ typedef vector<ull> vi;
 #define MAX 500
 #define MOD 1000000007
 
-vector<ull> a;
-vector<ull> b;
 ull n;
 
 char grid[MAX][MAX];
 
 void solve(){
-    a.clear(); b.clear();
+
     cin>>n;
+    int d[3] = {0, 0, 0};
     for(int i=0; i<n; i++){
         for(int j=0; j<n; j++){
             cin>>grid[i][j];
+            if(grid[i][j]=='X')
+                d[(i+j)%3]++;
         }
     }
 
-    for(int i=0; i<n; i+=3){
-        for(int j=0; j<n; j+=3){
-            for(int k=0; k<n && k<3; k++){
-                if(grid[i+k][j+k]=='X'){
-                    grid[i+k][j+k]='O';
-                }
+    int toChange = 0;
+    for(int i=0; i<3; i++)
+        if(d[i]<d[toChange])
+            toChange=i;
+
+    for(int i=0; i<n; i++){
+        for(int j=0; j<n; j++){
+            //cout<<(i+j)%3<<" ";
+            if(grid[i][j]=='X' && toChange == (i+j)%3){
+                grid[i][j]='O';
             }
-        }
+        } //cout<<"\n";
     }
 
     for(int i=0; i<n; i++){

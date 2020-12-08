@@ -33,7 +33,6 @@ typedef vector<ull> vi;
 
 #define MAX 1000100
 #define MOD 1000000007
-
 ull n, l, r;
 
 void solve(){
