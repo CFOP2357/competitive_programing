@@ -39,13 +39,37 @@ ull k, l, r, t, x, y;
 void solve(){
     cin>>k>>l>>r>>t>>x>>y;
 
-    ull a = (k-l)/x - 1;
+    r-=l; k-=l;
 
-    if(a<0){
-        cout<<"No\n";
-        return;
+    map<ull, bool> selected;
+
+    if(y<=x){
+        if(y+k <= r)
+            k+=y;
+        k-=x;
+        t--;
+        if(k>=0 && (x==y || t<=k/(x-y)))
+            cout<<"Yes\n";
+        else
+            cout<<"No\n";
     }
+    else {
+        while(t>0){
+            if(selected[k%x]){
+                cout<<"Yes\n";
+                return;
+            }
+            selected[k%x]=true;
+            t -= k/x;
+            k = k%x + y;
 
+            if(k>r && t>0){
+                cout<<"No\n";
+                return;
+            }
+        }
+        cout<<"Yes\n";
+    }
 
 
 }
