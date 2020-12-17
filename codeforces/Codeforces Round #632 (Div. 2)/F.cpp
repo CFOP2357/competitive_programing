@@ -41,10 +41,18 @@ ull n;
 void solve(){
     a.clear(); b.clear();
     cin>>n;
-    for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
-    }
+
+    vector<ull> max_div(n-1, 1);
+
+    for(int i=2; i<=n; i++)
+        for(int j=i+i; j<=n; j+=i)
+            max_div[j-2]=i;
+
+    sort(all(max_div));
+
+    for(ull ans : max_div)
+        cout<<ans<<" ";
+    cout<<"\n";
 
 }
 
@@ -52,7 +60,7 @@ void solve(){
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0);
 
-    int t; cin>>t;
+    int t=1;
     while(t--){
         solve();
     }
