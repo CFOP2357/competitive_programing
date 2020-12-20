@@ -36,7 +36,6 @@ typedef vector<ull> vi;
 
 
 ull n;
-ull ans;
 
 bool valid(ull d){
     vector<bool> selected(10, false);
@@ -57,41 +56,14 @@ bool valid(ull d){
 
 }
 
-void f(ull i=2, ull value = 1){
-    if(i==10){
-
-        ull d = n;
-        if(n%value)
-            d += value - n%value;
-
-        for(int i=0; i<100; i++){
-            if(valid(d)){
-                ans = min(d, ans);
-                return;
-            }
-            if(d>n+362880)
-                return;
-            d+=value;
-        }
-
-        return;
-
-    }
-
-    f(i+1, value*i);
-    f(i+1, value);
-
-
-}
-
 void solve(){
 
     cin>>n;
-    ans = LLONG_MAX;
 
-    f();
+    while(!valid(n))
+        n++;
 
-    cout<<ans<<"\n";
+    cout<<n<<"\n";
 
 }
 
