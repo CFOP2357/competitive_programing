@@ -38,36 +38,86 @@ vector<ull> a;
 vector<ull> b;
 ull n;
 
+struct Tree {
+	typedef bool T;
+	static constexpr T unit = true;
+	T f(T a, T b) { return a && b; } // (any associative fn)
+	vector<T> s; int n;
+	Tree(int n = 0, T def = unit) : s(2*n, def), n(n) {}
+	void update(int pos, T val) {
+		for (s[pos += n] = val; pos /= 2;)
+			s[pos] = f(s[pos * 2], s[pos * 2 + 1]);
+	}
+	T query(int b, int e) { // query [b, e)
+		T ra = unit, rb = unit;
+		for (b += n, e += n; b < e; b /= 2, e /= 2) {
+			if (b % 2) ra = f(ra, s[b++]);
+			if (e % 2) rb = f(s[--e], rb);
+		}
+		return f(ra, rb);
+	}
+};
+
 void solve(){
     a.clear(); b.clear();
+
     cin>>n;
     b.assign(n+1, 0);
+
+    Tree st(n+1);
     for(int i=0; i<n; i++){
         ull z; cin>>z;
         a.push_back(z);
-        b[z] = 0;
+        b[z]++;
     }
+
+    for(int i=1; i<=n; i++)
+        st.update(i, b[i]==1);
 
     stack<pii> last; //value, pos
-    for(int i=0; i<n; i++){
+    vector<vector<int>> kill(n+1, vector<int>());
+    vector<ull> l(n+1, -1), r(n+1, n);
+;
+
+    for(ull i=0; i<n; i++){
+
         while(last.size() && last.top().first>=a[i]){
-            if(last.top().first>a[i]){
-                b[last.top().first] = max(b[last.top().first], abs(last.top().first-i));
-            }
+            r[last.top().second] = i;
             last.pop();
         }
-        if(last.size())
-            b[a[i]] = max(b[a[i]], abs(last.top().second-i));
+
+        if(last.size()){
+            l[i] = last.top().second;
+        }
+
         last.push({a[i], i});
+
     }
 
-    for(auto &B : b)
-        B = max(n-B, 0);
+    for(int i=0; i<n; i++){
+        ull d = r[i] - l[i] - 1;
+        d = n - d;
 
-    vector<int> dead(n+1, INT_MAX);
-    for(int i=1; i<=n; i++)
-        dead[b[i]] = min(dead[b[i]], i);
+        //cout<<r[i]<<" ";
 
+        if(d<=n && d>=0)
+            kill[d].push_back(a[i]);
+
+    } //cout<<"\n";
+
+    for(int i=n; i>0; i--){
+
+        for(int z : kill[i]){
+            b[z]--;
+            st.update(z, b[z]==1);
+        }
+
+        cout<<st.query(1, i+1) && !st.query(i+1, n+1);
+
+    }
+
+
+    cout<<"\n";
 }
 
 
@@ -82,3 +132,11 @@ int main(){
     return 0;
 }
 
+/*
+4
+1 3 2 1
+
+1
+6
+6 3 4 3 2 1
+*/

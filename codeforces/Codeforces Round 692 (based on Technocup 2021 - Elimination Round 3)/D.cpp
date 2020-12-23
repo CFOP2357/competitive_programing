@@ -39,8 +39,9 @@ vector<ull> b;
 ull n;
 
 void solve(){
-    a.clear(); b.clear();
-    cin>>n;
+    string s; cin>>s; n=s.size();
+
+
     for(int i=0; i<n; i++){
         ull z; cin>>z;
         a.push_back(z);
