@@ -49,16 +49,22 @@ void solve(){
 
     for(int i=0; i<n; i++){
 
-        if(redValue[i]>blueValue[i])
+        const bool redIsHigher = redValue[i]>blueValue[i];
+        const bool blueIsHigher = redValue[i]<blueValue[i];
+
+        if(redIsHigher)
             timesRedIsHigher++;
-        else if(redValue[i]<blueValue[i])
+        else if(blueIsHigher)
             timesBlueIsHigher++;
 
     }
 
-    if(timesRedIsHigher > timesBlueIsHigher)
+    const bool isMoreProbablyRedWin = timesRedIsHigher > timesBlueIsHigher;
+    const bool isMoreProbablyBlueWin = timesRedIsHigher < timesBlueIsHigher;
+
+    if(isMoreProbablyRedWin)
         cout<<"RED\n";
-    else if(timesRedIsHigher < timesBlueIsHigher)
+    else if(isMoreProbablyBlueWin)
         cout<<"BLUE\n";
     else cout<<"EQUAL\n";
 }
