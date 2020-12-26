@@ -13,10 +13,6 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include <stdio.h>      /* printf, scanf, puts, NULL */
-#include <stdlib.h>     /* srand, rand */
-#include <time.h>       /* time */
-
 using namespace std;
 
 /*
@@ -51,20 +47,14 @@ void solve(){
         a.push_back(z);
     }
 
-    //cout<<GCD<<"#\n";
-    srand (time(NULL));
+    ull GCD = 0;
+
+    for(int i=1; i<n; i++)
+        GCD = __gcd(GCD, abs(a[i]-a[i-1]));
 
     while(m--){
         ull z; cin>>z;
-
-        ull ans = *min_element(all(a))+z;
-
-        for(int i=0; i<100; i++){
-            int j = rand()%n;
-            ans = __gcd(a[j]+z, ans);
-        }
-
-        cout<<ans<<" ";
+        cout<<__gcd(a[0]+z, GCD)<<" ";
     }
     cout<<"\n";
 
@@ -81,4 +71,3 @@ int main(){
 
     return 0;
 }
-
