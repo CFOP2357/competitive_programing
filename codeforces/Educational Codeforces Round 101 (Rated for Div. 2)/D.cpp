@@ -45,42 +45,37 @@ void solve(){
 
     vector<int> selected(n+1, false);
 
-    ull p = 10;
-    ull d = n;
+    ull p = 8;
 
-    while(d>2){
-
-        //cout<<d<<" "<<d/p<<"\n";
-
-        p = sqrt(d);
-        selected[d] = max(d/p, (ull)2);
-        if(d>2)
-            d = selected[d];
-        else d = 1;
-
-    }
     vector<pii> ans;
     for(int i = 3; i<n; i++)
-        if(!selected[d]){
+        if(i!=p){
             ans.push_back({i, n});
         }
 
-    d = n;
-    while(d>2){
-        p = max(selected[d], 2);
-        ull k = d;
-        while(k>1){
-            if(k%p) k+=p;
-            k /= p;
-            ans.push_back({d, p});
+    if(n>8){
+        ull d = n;
+        while(d>1){
+            ans.push_back({n, p});
+            if(d%p) d+=p;
+            d/=p;
         }
-        d = selected[d];
     }
 
+    ull d = min(n, (ull)8);
+    ull k = d;
+    while(d>2){
+        ans.push_back({k, 2});
+        if(d%2) d+=2;
+        d/=2;
+    }
+
+    if(d==2)
+        ans.push_back({k, 2});
 
     cout<<ans.size()<<"\n";
-    /*for(auto a : ans)
-        cout<<a.first<<" "<<a.second<<"\n";*/
+    for(auto a : ans)
+        cout<<a.first<<" "<<a.second<<"\n";
 
 }
 
