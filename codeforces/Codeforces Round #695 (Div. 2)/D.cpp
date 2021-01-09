@@ -76,15 +76,21 @@ void solve(){
     vector<Mod> contribution(n, Mod(0));
 
     for(int i=0; i<n; i++){
-        for(int d = k; d>=1; d-=2){
-            if(i+d-1<n){
-                contribution[i] = contribution[i] + Mod(d)^( (k-d)/2  );
+        for(int d = k, j=0; d>=0; d-=2, j++){
+            if(i+d<n){
+                contribution[i] = contribution[i] + (Mod(d+1)^j);
+                //contribution[i+d] = contribution[i+d] + (Mod(d+1)^( (k-d)/2  ));
             }
-            if(i-d+1<=0){
-                contribution[i] = contribution[i] + Mod(d)^( (k-d)/2  );
+            if(i-d>=0){
+                contribution[i] = contribution[i] + (Mod(d+1)^j);
+                //contribution[i-d] = contribution[i-d] + (Mod(d+1)^( (k-d)/2  ));
             }
         }
     }
+
+    for(int i=0; i<n; i++)
+        cout<<contribution[i].x<<" ";
+    cout<<"\n";
 
     Mod ans(0);
 
@@ -92,7 +98,7 @@ void solve(){
         ans = ans + contribution[i]*Mod(a[i]);
 
     while(q--){
-        ull i, x; cin>>i>>x;
+        ull i, x; cin>>i>>x; i--;
         ans = ans - contribution[i]*Mod(a[i]);
         a[i] = x;
         ans = ans + contribution[i]*Mod(a[i]);
