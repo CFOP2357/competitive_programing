@@ -39,6 +39,18 @@ ull u, v;
 void solve(){
     cin>>u>>v;
 
+    /*string s="";
+    for(ull p=1; p<=u; p*=2)
+        s += (char)((bool)(u&p) + '0');
+    reverse(all(s));
+    cout<<"   "<<s<<"\n";
+    s="";
+    for(ull p=1; p<=(v-u); p*=2)
+        s += (char)((bool)((v-u)&p) +'0');
+    reverse(all(s));
+    cout<<s<<"\n";*/
+
+
     if(u>v || u%2 != v%2){
         cout<<"-1\n";
         return;
@@ -55,7 +67,7 @@ void solve(){
     }
     for(ull p=1; p<=v || p<=u;p*=2){
 
-            if( !(!(u&p) && !(v&p)) ){
+            if( v&p ){
                 ull k = p/2;
                 if(u&k){
                     ans[1]+=k;
