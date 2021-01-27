@@ -38,13 +38,15 @@ vector<ull> a;
 vector<ull> b;
 ull n;
 
-bool ok(){
+bool ok(const vector<ull> &a){
     vector<ull> b;
-   for(int i=0; i<n; i++){
+   for(int i=0; i<a.size(); i++){
         b.push_back(a[i]);
+        if(b.back()<0)
+            return false;
    }
 
-   for(int i=1; i<n; i++){
+   for(int i=1; i<a.size(); i++){
     b[i] -= b[i-1];
     if(b[i]<0)
         return false;
@@ -55,73 +57,35 @@ bool ok(){
 }
 
 void solve(){
-    a.clear(); b.clear();
+    a.clear();
+    a.push_back(0);
     cin>>n;
     for(int i=0; i<n; i++){
         ull z; cin>>z;
         a.push_back(z);
     }
 
-    if(ok()){
+    if(ok(a)){
         cout<<"YES\n";
         return;
     }
 
-    vector<int> op;
+    vector<ull> prefix(a), sufix(a);
+    prefix.push_back(0); sufix.push_back(0);
 
-    b.clear();
-    for(int i=0; i<n; i++){
-        b.push_back(a[i]);
-   }
+    for(int i=1; i<=n+1; i++)
+        prefix[i] = max((prefix[i-1]==-1)?-1:prefix[i]-prefix[i-1], (ull)-1);
+    for(int i=n; i>=0; i--)
+        sufix[i] = max((sufix[i+1]==-1)?-1:sufix[i]-sufix[i+1], (ull)-1);
 
-   for(int i=1; i<n; i++){
-    b[i] -= b[i-1];
-    if(b[i]<0){
-        op.push_back(i);
-        op.push_back(i+1);
-        op.push_back(i-1);
-        break;
-    }
-   }
-   if(b.back())
-        op.push_back(n-1);
-
-    b.clear();
-    for(int i=0; i<n; i++){
-        b.push_back(a[i]);
-   }
-
-   for(int i=n-2; i>0; i--){
-    b[i] -= b[i+1];
-    if(b[i]<0){
-        op.push_back(i+1);
-        op.push_back(i-1);
-        op.push_back(i);
-        break;
-    }
-   }
-   if(b[0])
-        op.push_back(1);
-
-    for(int p : op){
-
-        if(p>0){
-            swap(a[p], a[p-1]);
-            if(ok()){
-                cout<<"YES\n";
-                return;
-            }
-            swap(a[p], a[p-1]);
-        }
-        if(p<n-1){
-            swap(a[p], a[p+1]);
-            if(ok()){
-                cout<<"YES\n";
-                return;
-            }
-            swap(a[p], a[p+1]);
+    for(int i=2; i<=n; i++){
+        vector<ull> try_= {prefix[i-2], a[i], a[i-1], sufix[i+1]};
+        if(ok(try_)){
+            cout<<"YES\n";
+            return;
         }
     }
+
 
     cout<<"NO\n";
 
