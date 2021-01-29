@@ -36,41 +36,54 @@ typedef vector<ull> vi;
 
 vector<ull> a;
 vector<ull> b;
+vector<ull> c;
 ull n;
 
 void solve(){
-    //cout<<"############\n";
-    a.clear();
-
+    a.clear(); b.clear(); c.clear();
     cin>>n;
-    for(int i=0; i<2*n; i++){
+    for(int i=0; i<n; i++){
+        ull z; cin>>z;
+        c.push_back(z);
+    }
+
+    for(int i=0; i<n; i++){
         ull z; cin>>z;
         a.push_back(z);
     }
 
-    sort(all(a), greater<ull>());
-
-    ull k = n;
-    ull last = 0;
-    ull lastD = -1;
-    for(int i=0; i<2*n; i+=2, k--){
-        if(a[i]!=a[i+1] || a[i]<2*last || a[i]==lastD){
-            cout<<"NO\n";
-            return;
-        }
-        //cout<<a[i]<<" "<<last<<"\n";
-        ull x = a[i] - 2*last;
-
-        if(x<=0 || x % (k*2)){
-            cout<<"NO\n";
-            return;
-        }
-
-        last += x/(k*2);
-        lastD = a[i];
+    for(int i=0; i<n; i++){
+        ull z; cin>>z;
+        b.push_back(z);
     }
 
-    cout<<"YES\n";
+    for(int i=0; i<n; i++)
+        if(b[i]<a[i])
+            swap(a[i], b[i]);
+
+    ull ans = 0;
+    ull acum = 2 + abs(b[1]-a[1]);
+
+    for(int i = 1; i<n-1; i++){
+
+        //cout<<c[i]<<" ";
+        ans = max(ans, acum+c[i]-1);
+
+        //cout<<ans<<" ";
+
+        if(b[i+1]==a[i+1]){
+            acum = 2;
+        }
+        else {
+            acum += a[i+1] - 1 + (c[i]-b[i+1]);
+            acum = max(acum, b[i+1]-a[i+1]);
+            acum += 2;
+        }
+    } //cout<<"#\n";
+
+    acum += c.back() -1;
+
+    cout<<max(acum, ans)<<"\n";
 
 }
 

@@ -36,41 +36,28 @@ typedef vector<ull> vi;
 
 vector<ull> a;
 vector<ull> b;
-ull n;
+ull n, k;
 
 void solve(){
-    //cout<<"############\n";
-    a.clear();
+    cin>>n>>k;
 
-    cin>>n;
-    for(int i=0; i<2*n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
+    ull p = n;
+
+    if(p%k){
+        p+=k;
+        p/=k;
+        p*=k;
     }
 
-    sort(all(a), greater<ull>());
-
-    ull k = n;
-    ull last = 0;
-    ull lastD = -1;
-    for(int i=0; i<2*n; i+=2, k--){
-        if(a[i]!=a[i+1] || a[i]<2*last || a[i]==lastD){
-            cout<<"NO\n";
-            return;
-        }
-        //cout<<a[i]<<" "<<last<<"\n";
-        ull x = a[i] - 2*last;
-
-        if(x<=0 || x % (k*2)){
-            cout<<"NO\n";
-            return;
-        }
-
-        last += x/(k*2);
-        lastD = a[i];
+    if(p%n){
+        p+=n;
     }
 
-    cout<<"YES\n";
+    p/=n;
+
+
+    cout<<p<<"\n";
+
 
 }
 
