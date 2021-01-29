@@ -39,6 +39,7 @@ vector<ull> b;
 ull n;
 
 void solve(){
+    //cout<<"############\n";
     a.clear();
 
     cin>>n;
@@ -47,11 +48,21 @@ void solve(){
         a.push_back(z);
     }
 
-    for(ull k : a)
-        if(k % 2){
+    sort(all(a), greater<ull>());
+
+    ull k = n;
+    ull last = 0;
+    for(int i=0; i<2*n; i+=2, k--){
+        //cout<<a[i]<<" "<<last<<"\n";
+        ull x = a[i] - 2*last;
+
+        if(x<=0 || x % (k*2)){
             cout<<"NO\n";
             return;
         }
+
+        last += x/(k*2);
+    }
 
     cout<<"YES\n";
 
