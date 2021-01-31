@@ -52,20 +52,22 @@ void solve(){
             c = c=='R'?'L':'R';
 
         if(c == 'L'){
-            fromLeftbyRight.push_back(1);
-            fromLeftbyLeft.push_back(0);
-        }
-        else {
             fromLeftbyRight.push_back(0);
             fromLeftbyLeft.push_back(1);
+        }
+        else {
+            fromLeftbyRight.push_back(1);
+            fromLeftbyLeft.push_back(0);
         }
 
 
         inverted = !inverted;
     }
+    fromLeftbyLeft.push_back(0);
+    fromLeftbyRight.push_back(0);
 
     ull last = n;
-    for(int i = n-1; i>=0; i--){
+    for(int i = n; i>=0; i--){
         if(!fromLeftbyRight[i]){
             last = i;
         }
@@ -73,23 +75,25 @@ void solve(){
     }
 
     last = n;
-    for(int i = n-1; i>=0; i--){
+    for(int i = n; i>=0; i--){
         if(!fromLeftbyLeft[i]){
             last = i;
         }
         fromLeftbyLeft[i]=last;
     }
 
-    vector<ull> ans(n, 0);
+    vector<ull> ans(n+1, 0);
 
     inverted = false;
-    for(int i=0; i<n; i++){
+    for(int i=0; i<=n; i++){
         if(inverted){
-            ans[i] = max(ans[i], fromLeftbyLeft[i]-i);
+            ans[i] += fromLeftbyLeft[i]-i;
         }
         else {
-            ans[i] = max(ans[i], fromLeftbyRight[i]-i);
+            ans[i] += fromLeftbyRight[i]-i;
         }
+
+        inverted=!inverted;
     }
 
     vector<ull> fromRightbyRight;
@@ -115,8 +119,11 @@ void solve(){
         inverted = !inverted;
     }
 
+    fromRightbyLeft.push_back(0);
+    fromRightbyRight.push_back(0);
+
     last = n;
-    for(int i = n-1; i>=0; i--){
+    for(int i = n; i>=0; i--){
         if(!fromRightbyRight[i]){
             last = i;
         }
@@ -124,7 +131,7 @@ void solve(){
     }
 
     last = n;
-    for(int i = n-1; i>=0; i--){
+    for(int i = n; i>=0; i--){
         if(!fromRightbyLeft[i]){
             last = i;
         }
@@ -133,18 +140,18 @@ void solve(){
 
 
     inverted = false;
-    for(int i=0; i<n; i++){
-        if(inverted){
-            ans[n-i-1] = max(ans[n-i-1], fromRightbyLeft[i]-i);
+    for(int i=0; i<=n; i++){
+        if(!inverted){
+            ans[n-i] += fromRightbyLeft[i]-i;
         }
         else {
-            ans[n-i-1] = max(ans[n-i-1], fromRightbyRight[i]-i);
+            ans[n-i] += fromRightbyRight[i]-i;
         }
+        inverted=!inverted;
     }
 
     for(ull k : ans)
-        cout<<k<<" ";
-    cout<<*max_element(all(ans));
+        cout<<k+1<<" ";
     cout<<"\n";
 
 }
