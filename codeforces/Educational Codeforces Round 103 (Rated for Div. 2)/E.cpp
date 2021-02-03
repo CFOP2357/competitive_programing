@@ -36,28 +36,15 @@ typedef vector<ull> vi;
 
 vector<ull> a;
 vector<ull> b;
-ull n, k;
+ull n;
 
 void solve(){
-    cin>>n>>k;
-
-    ull p = n;
-
-    if(p%k){
-        p+=k;
-        p/=k;
-        p*=k;
+    a.clear(); b.clear();
+    cin>>n;
+    for(int i=0; i<n; i++){
+        ull z; cin>>z;
+        a.push_back(z);
     }
-
-    if(p%n){
-        p+=n;
-    }
-
-    p/=n;
-
-
-    cout<<p<<"\n";
-
 
 }
 

@@ -36,16 +36,25 @@ typedef vector<ull> vi;
 
 vector<ull> a;
 vector<ull> b;
-ull n;
+ull n, k;
 
 void solve(){
     a.clear(); b.clear();
-    cin>>n;
+    cin>>n>>k;
     for(int i=0; i<n; i++){
         ull z; cin>>z;
         a.push_back(z);
     }
 
+    ull GCD = 0;
+
+    for(ull x : a)
+        GCD = __gcd(abs(a[0]-x), GCD);
+
+    if(abs(k-a[0])%GCD){
+        cout<<"NO\n";
+    }
+    else cout<<"YES\n";
 }
 
 
