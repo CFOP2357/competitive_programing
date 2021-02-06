@@ -39,19 +39,30 @@ ull n, m;
 
 char adj[MAX][MAX];
 
-void solve(){
+int T, tc;
 
-    map<pair<ull, char>, ull> toConnect; //{endsOn, edge} = from
+void solve(){
+    tc++;
 
     cin>>n>>m;
     for(int i=1; i<=n; i++){
         for(int j=1; j<=n; j++){
             cin>>adj[i][j];
-
-            if(i!=j)
-                toConnect[{j, adj[i][j]}] = i;
         }
     }
+
+    /*if(T==168 && tc == 75){
+        cout<<n<<" "<<m<<"\n";
+        for(int i=1; i<=n; i++){
+            for(int j=1; j<=n; j++){
+                cout<<adj[i][j];
+            }
+            cout<<"\n";
+        }
+        exit(0);
+    }
+    if(T==168)
+        return;*/
 
     if(m%2){
         cout<<"YES\n";
@@ -61,54 +72,68 @@ void solve(){
         return;
     }
 
-    vector<ull> ans(4, 0);
+    vector<ull> ans;
 
     for(int i=1; i<=n; i++)
         for(int j=1; j<=n; j++){
             if(i==j)
                 continue;
-            if(adj[i][j] == adj[j][i]){
-                ans[0] = i;
-                ans[1] = j;
-                ans[2] = ans[3] = 0;
-            }
-            if(m%3==0 && toConnect[{i, adj[i][j]}] &&  (!ans[0])){
-                ans[0] = i;
-                ans[1] = j;
-                ans[2] = toConnect[{i, adj[i][j]}];
-                ans[3] = 0;
-            }
-            if(m%4==0 && toConnect[{i, adj[i][j]}] &&  (!ans[0])){
-                ans[0] = i;
-                ans[1] = j;
-                ans[3] = toConnect[{i, adj[i][j]}];
-                //1->2 == 2->3
+            if(adj[i][j]==adj[j][i]){
+                ans.push_back(i);
+                ans.push_back(j);
 
-                for(int k = 1; k<=n; k++)
-                    if(ans[1]!=k && ans[3]!=k)
-                    if(adj[ans[1]][k]==adj[k][ans[3]])
-                        ans[2] = k;
+                cout<<"YES\n";
+                for(int k=0; k<=m; k++)
+                    cout<<ans[k%2]<<" ";
+                cout<<"\n";
+
+                return;
             }
         }
 
-    while(ans.back() == 0)
-        ans.pop_back();
+    for(int i=1; i<=n; i++){
+        ans.clear();
+        for(int j=1; j<=n; j++){
+            if(i==j)
+                continue;
 
-    if(!ans.size()){
-        cout<<"NO\n";
-        return;
+            if(ans.size()<2 && (!ans.size() || adj[i][ans.back()]!=adj[i][j]))
+                ans.push_back(j);
+        }
+        ans.push_back(i);
+
+        /*if(i==1){
+            cout<<ans.size()<<"#\n";
+            for(int k : ans)
+                cout<<k<<" ";
+            cout<<"\n";
+        }*/
+
+        if(ans.size()==3){
+            cout<<"YES\n";
+
+            swap(ans[0], ans[2]);
+            if((m/2)%2)
+                swap(ans[1], ans[0]);
+
+            for(int k = 0; k<=m/2; k++){
+                cout<<ans[k%2]<<" ";
+            }
+
+            if((m/2)%2)
+                swap(ans[1], ans[0]);
+            swap(ans[1], ans[2]);
+            if(m%4 == 0)
+                swap(ans[1], ans[0]);
+            for(int k = m/2; k<m; k++){
+                cout<<ans[k%2]<<" ";
+            }
+            cout<<"\n";
+            return;
+        }
     }
 
-    if(m%(ans.size()-1)){
-        cout<<"NO\n";
-        return;
-    }
-
-    cout<<"YES\n";
-    for(int i =0; i<=m; i++)
-        cout<<ans[i%ans.size()]<<" ";
-
-    cout<<"\n";
+    cout<<"NO\n";
 }
 
 
@@ -116,6 +141,7 @@ int main(){
     ios_base::sync_with_stdio(0); cin.tie(0);
 
     int t; cin>>t;
+    T=t;
     while(t--){
         solve();
     }
@@ -128,4 +154,13 @@ int main(){
 *ab
 b*b
 aa*
+
+
+1
+5 98
+*abba
+b*aab
+ab*ab
+abb*a
+baab*
 */
