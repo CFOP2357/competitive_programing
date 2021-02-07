@@ -59,7 +59,10 @@ int bS(int l, int r){
 
     ull m = (l+r)/2;
 
-    if(query(m) > query(l))
+    if(query(m-1) > query(m) && query(m+1) > query(m))
+            return m;
+
+    if(query(m-1) < query(m+1))
         return bS(l, m);
     return bS(m, r);
 }
