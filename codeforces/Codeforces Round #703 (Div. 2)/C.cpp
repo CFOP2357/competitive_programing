@@ -36,33 +36,57 @@ typedef vector<ull> vi;
 
 vector<ull> a;
 vector<ull> b;
-vector<pii> k;
-ull n, m, p;
+ull n;
+
+map<pii, int> q;
+
+int query(int l, int r){
+    if(q.find({l, r})!=q.end())
+        return q[{l, r}];
+
+    cout<<"? "<<l<<" "<<r<<"\n";
+    int ans; cin>>ans;
+    cout.flush();
+    q[{l, r}] = ans;
+    return ans;
+}
+
+int bs(int l, int r, int x){
+    if(r == l){
+        return l;
+    }
+    else if(l+1==r){
+        if(query(l, r) == l)
+            return r;
+        return l;
+    }
+
+    int m = (l+r)/2;
+
+    if(x>=m){
+        if(query(m, max(r, x))!=x)
+            return bs(l, m, x);
+        return bs(m, r, query(m, max(r, x)));
+    }
+    else {
+        if(query(min(l, x), m)!=x)
+            return bs(m, r, x);
+        return bs(l, m, query(min(l, x), r));
+    }
+}
 
 void solve(){
 
-    cin>>n>>m>>p;
+    cin>>n;
 
-    for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
-    }
-
-    for(int i=0; i<m; i++){
-        ull z; cin>>z;
-        b.push_back(z);
-    }
-
-    for(int i=0; i<k; i++){
-        ull x, y; cin>>x>>y;
-        k.push_back({x, y});
-    }
+    ull ans = bs(1, n, query(1, n));
+    cout<<"! "<<ans<<"\n";
 
 }
 
 
 int main(){
-    ios_base::sync_with_stdio(0); cin.tie(0);
+    //ios_base::sync_with_stdio(0); cin.tie(0);
 
     int t=1;
     while(t--){

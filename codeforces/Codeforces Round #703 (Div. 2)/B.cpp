@@ -36,35 +36,37 @@ typedef vector<ull> vi;
 
 vector<ull> a;
 vector<ull> b;
-vector<pii> k;
-ull n, m, p;
+ull n;
 
 void solve(){
-
-    cin>>n>>m>>p;
+    a.clear(); b.clear();
+    cin>>n;
 
     for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
-    }
-
-    for(int i=0; i<m; i++){
-        ull z; cin>>z;
-        b.push_back(z);
-    }
-
-    for(int i=0; i<k; i++){
         ull x, y; cin>>x>>y;
-        k.push_back({x, y});
+        a.push_back(x);
+        b.push_back(y);
     }
 
+    sort(all(a));
+    sort(all(b));
+
+    if(n%2){
+        cout<<"1\n";
+    }
+    else {
+        ull x = a[n/2] - a[n/2-1] + 1;
+        ull y = b[n/2] - b[n/2-1] + 1;
+
+        cout<<x*y<<"\n";
+    }
 }
 
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0);
 
-    int t=1;
+    int t; cin>>t;
     while(t--){
         solve();
     }
