@@ -34,7 +34,7 @@ typedef vector<ull> vi;
 #define MAX 1000100
 #define MOD 1000000007
 
-vector<ull> a;
+multiset<ull, greater<ull>> a;
 vector<ull> b;
 ull n, m;
 
@@ -45,7 +45,7 @@ void solve(){
     for(int i=0; i<m; i++){
         ull z; cin>>z;
         sum += z;
-        a.push_back(z);
+        a.insert(z);
     }
 
     if(sum<n){
@@ -53,14 +53,16 @@ void solve(){
         return;
     }
 
-    sort(all(a), greater<ull>());
-
     ull ans = 0;
 
-    for(ull k : a){
+    while(a.size()){
+        ull k = *a.begin();
+        a.erase(a.begin());
 
+        ull lastK = k;
         if(k<=n){
             n-=k;
+            sum -= k;
         }
         else if(sum-k < n){
             while(k>n){
@@ -68,7 +70,13 @@ void solve(){
                 ans++;
             }
             n-=k;
+            sum -= lastK;
+            if(sum<n){
+                sum += k;
+                a.insert(k);
+            }
         }
+        else sum -= lastK;
 
         if(!n)
             break;
@@ -94,3 +102,8 @@ int main(){
     return 0;
 }
 
+/*
+1
+182 6
+1 1 1 2 2 256
+*/
