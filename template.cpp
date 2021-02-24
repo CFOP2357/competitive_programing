@@ -38,7 +38,8 @@ typedef vector<ull> vi;
 
 vector<ull> a;
 vector<ull> b;
-ull n;
+ull n, m;
+string s;
 
 void pre(){
 
