@@ -13,6 +13,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include <time.h>
+
 using namespace std;
 
 /*
@@ -38,6 +40,10 @@ vector<ull> a;
 vector<ull> b;
 ull n;
 
+void pre(){
+
+}
+
 void solve(){
     a.clear(); b.clear();
     cin>>n;
@@ -51,8 +57,11 @@ void solve(){
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0);
+    //srand (time(NULL));
 
-    int t; cin>>t;
+    pre();
+
+    int t=1; cin>>t;
     while(t--){
         solve();
     }
