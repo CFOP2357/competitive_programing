@@ -40,14 +40,26 @@ typedef vector<ull> vi;
 ull n, m;
 string s;
 
+vector<ull> T, L, H;
+
 void solve(){
+
+    T.clear(); L.clear(); H.clear();
 
     cin>>n>>m;
     ull minTemp = m, maxTemp = m;
 
-    ull lastT = 0;
     for(int i=0; i<n; i++){
         ull t, l, h; cin>>t>>l>>h;
+        T.push_back(t);
+        L.push_back(l);
+        H.push_back(h);
+    }
+
+
+    ull lastT = 0;
+    for(int i=0; i<n; i++){
+        ull t, l, h; t=T[i], l=L[i], h=H[i];
 
         ull D = t-lastT;
 
@@ -83,3 +95,15 @@ int main(){
     return 0;
 }
 
+/*
+1
+2 10
+8 -8 7
+16 -10 -5
+
+1
+3 -100
+100 0 0
+100 -50 50
+200 100 100
+*/

@@ -46,11 +46,16 @@ void pre(){
 }
 
 void solve(){
-    a.clear(); b.clear();
-    cin>>n;
-    for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
+
+    cin>>n>>s;
+
+    vector<int> minLIS(n, ' ');
+    int t = 1;
+    for(int i=n-2; i>=0; i++){
+        if(s[i]=='<')
+            minLis[i+1] = t++;
+        else
+
     }
 
 }
