@@ -67,58 +67,17 @@ void solve(){
 
     b.assign(n+10, 0);
     ull ans =0;
-    while(!allOne()){
+    for(int i=0; i<n; i++){
+        ans += (a[i]-1) - min(b[i], a[i]-1);
+        b[i+1] += b[i] - min(b[i], a[i]-1);
 
-        ans++;
-        ull i=0;
-        ull j = -1;
-        while(i<n){
-
-            if( j == -1 && a[i] > 1){
-                j=i;
-                if(b[j]){
-                    ans--;
-                    b[j]--;
-                }
-            }
-
-            i += a[i]--;
-
-        }
-
-        if(a[j] > n-j){
-            ans += a[j] - (n-j);
-            a[j] = n-j;
-            ans -= min(b[j], a[j] - (n-j));
-            b[j] -= min(b[j], a[j] - (n-j));
-            if(b[j]>0 && a[j] == 1)
-                b[j+1] += b[j];
-        }
-        else if(a[j]>1){
-            ans += a[j] - 1;
-            ans -= min(b[j], a[j]-1);
-
-            for(int k = j+2; k<=j+a[j] && k<n; k++){
-                b[k]++;
-               b[j]--;
-            }
-
-            if(b[j]>0)
-                b[j+1] += b[j];
-
-
-            a[j] = 1;
-        }
-        else b[j+1] += b[j];
-
-
-
+        for(int j=i+2; j<n && j<=i+(a[i]-1)+1; j++)
+            b[j]++;
     }
-
 
     //cout<<b[n]<<" ";
 
-    cout<<ans-b[n]<<"\n";
+    cout<<ans<<"\n";
 
 }
 
@@ -141,10 +100,7 @@ int main(){
 1000000000 1000000000 1000000000 1000000000 1000000000 1000000000 1000000000 1000000000 1000000000 1000000000
 
 1 4 2 2 2 2 2
-1 3 2 2 2 1 2 = 1
-1 1 2 2 2 1 2 = 3
-1 1 1 2 1 1 1 = 4
-1 1 1 2 1 1 1 = 3
+
 
 1
 1000
