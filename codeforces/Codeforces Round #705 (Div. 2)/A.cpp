@@ -38,17 +38,25 @@ typedef vector<ull> vi;
 
 vector<ull> a;
 vector<ull> b;
-ull n, m;
+ull n, m, k;
 string s;
 
 void solve(){
-    a.clear(); b.clear();
-    cin>>n;
-    for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
-    }
 
+    cin>>n>>k;
+
+    vector<ull> ans;
+
+    for(int i=k+1; i<=n; i++)
+        ans.push_back(i);
+    for(int i=k/2 + k%2; i<k; i++)
+        ans.push_back(i);
+
+    cout<<ans.size()<<"\n";
+    for(int a : ans){
+        cout<<a<<" ";
+    }
+    cout<<"\n";
 }
 
 

@@ -38,17 +38,57 @@ typedef vector<ull> vi;
 
 vector<ull> a;
 vector<ull> b;
-ull n, m;
+ull n, m, k;
 string s;
 
+map<char, int> times_;
+
+void countTimes(){
+    times_.clear();
+    for(char c : s)
+        times_[c]++;
+}
+
+bool isCorrect(){
+    countTimes();
+
+    for(char c='a'; c<='z'; c++)
+        if(times_[c]%k)
+            return false;
+    return true;
+
+}
+
 void solve(){
-    a.clear(); b.clear();
-    cin>>n;
-    for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
+
+    cin>>n>>k;
+    cin>>s;
+
+    if(n%k){
+        cout<<"-1\n";
+        return;
     }
 
+    for(&& !isCorrect(); c--){
+
+        string last = s;
+        if(times_[c]%k){
+
+            for(int i=n-1; i>=0; i--){
+                if(times_[s[i]]%k && s[i]<c)
+                    s[i]=c;
+            }
+
+        }
+
+        s = max(s, last);
+
+    }
+
+    if(isCorrect())
+        cout<<s<<"\n";
+    else
+        cout<<"-1\n";
 }
 
 

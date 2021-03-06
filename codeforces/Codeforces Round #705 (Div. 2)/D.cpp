@@ -38,25 +38,42 @@ typedef vector<ull> vi;
 
 vector<ull> a;
 vector<ull> b;
-ull n, m;
+ull n, m, q;
 string s;
 
 void solve(){
     a.clear(); b.clear();
-    cin>>n;
+    cin>>n>>q;
     for(int i=0; i<n; i++){
         ull z; cin>>z;
         a.push_back(z);
     }
 
+
+
 }
 
+bool isPrime(int n){
+    for(int i=2; i*i<=n; i++)
+        if(n%i == 0)
+            return false;
+    return true;
+}
+
+//hay 17984 primos
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0);
     //srand (time(NULL));
 
-    int t=1; cin>>t;
+    int ans = 0;
+    for(int i=2; i<=200000; i++){
+        if(isPrime(i))
+            ans++;
+    }
+    cout<<ans<<"\n";
+
+    int t=0;
     while(t--){
         solve();
     }
