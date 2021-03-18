@@ -38,55 +38,72 @@ typedef vector<ull> vi;
 
 vector<ull> a;
 vector<ull> b;
-ull n, m, k;
+ull n, m, c, d, x;
 string s;
 
 ull D[MAX];
 
+vector<ull> dd;
+ull ans;
+
+void test_(int i=0, ull G = 1){
+
+    if(i==dd.size()){
+
+        ull L = x + d*G;
+
+        if(L%c)
+            return;
+
+        L/=c;
+
+        if(L%G)
+            return;
+
+        L/=G;
+
+        map<ull, ull> DD;
+
+        ull sz = 0;
+        while(L>1){
+            sz++;
+            DD[D[L]]++;
+            L /= D[L];
+        }
+
+        cout<<G<<" "<<sz<<"\n";
+
+        ull aa = 1;
+        for(auto v : DD){
+            aa *= v.second+1;
+        }
+
+        ans += pow(DD.size(), 2);
+
+        return;
+    }
+
+    test_(i+1, G*dd[i]);
+    test_(i+1, G);
+
+}
+
 void solve(){
-    a.clear(); b.clear();
-    cin>>n>>k;
-    for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
+
+    dd.clear();
+
+    cin>>c>>d>>x;
+
+    ull k = x;
+    while(k>1){
+        dd.push_back(D[k]);
+        k/=D[k];
     }
 
-    ull ans = 1;
-    map<ull, bool> selected;
-    map<ull,
-
-    for(ull num : a){
-
-        map<ull, ull> d;
-
-        while(num>1){
-            d[D[num]]++;
-            num /= D[num];
-        }
-
-        ull toBan = 1;
-        for(auto element : d){
-            if(element.second%2)
-                toBan*=element.first;
-        }
-
-        if(selected[toBan]){
-
-            if(!k){
-                ans++;
-                selected.clear();
-            }
-            else
-                k--;
-        }
-
-
-        selected[toBan] = true;
-
-    }
+    ans = 0;
+    test_();
 
     cout<<ans<<"\n";
-
 }
 
 
@@ -111,3 +128,10 @@ int main(){
     return 0;
 }
 
+/*
+1
+4 2 6
+
+1
+1 1 3
+*/

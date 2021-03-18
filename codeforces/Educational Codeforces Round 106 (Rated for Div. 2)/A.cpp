@@ -33,59 +33,27 @@ typedef long long ull;
 typedef pair<ull, ull> pii;
 typedef vector<ull> vi;
 
-#define MAX 20001000
+#define MAX 1000100
 #define MOD 1000000007
 
-vector<ull> a;
-vector<ull> b;
-ull n, m, k;
+
+ull n, m, k1, k2;
 string s;
 
-ull D[MAX];
+ull w, b, W, B;
 
 void solve(){
-    a.clear(); b.clear();
-    cin>>n>>k;
-    for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
-    }
 
-    ull ans = 1;
-    map<ull, bool> selected;
-    map<ull,
+    cin>>n>>k1>>k2;
+    cin>>w>>b;
 
-    for(ull num : a){
+    W = k1+k2;
+    B = (n-k1) + (n-k2);
 
-        map<ull, ull> d;
-
-        while(num>1){
-            d[D[num]]++;
-            num /= D[num];
-        }
-
-        ull toBan = 1;
-        for(auto element : d){
-            if(element.second%2)
-                toBan*=element.first;
-        }
-
-        if(selected[toBan]){
-
-            if(!k){
-                ans++;
-                selected.clear();
-            }
-            else
-                k--;
-        }
-
-
-        selected[toBan] = true;
-
-    }
-
-    cout<<ans<<"\n";
+    if(2*w>W || 2*b>B)
+        cout<<"NO\n";
+    else
+        cout<<"YES\n";
 
 }
 
@@ -93,15 +61,6 @@ void solve(){
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0);
     //srand (time(NULL));
-
-    for(ull i=2; i<MAX; i++){
-        if(D[i])
-            continue;
-        for(ull j=i; j<MAX; j+=i){
-            D[j]=i;
-        }
-    }
-
 
     int t=1; cin>>t;
     while(t--){
