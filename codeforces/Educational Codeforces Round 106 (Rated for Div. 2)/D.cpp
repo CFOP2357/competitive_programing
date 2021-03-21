@@ -38,12 +38,15 @@ typedef vector<ull> vi;
 
 vector<ull> a;
 vector<ull> b;
-ull n, m, c, d, x;
+int n, m, c, d, x;
 string s;
 
-ull D[MAX];
+int D[MAX];
 
-vector<ull> dd;
+map<int, bool> selected;
+map<int, int> ANS;
+
+vector<int> dd;
 ull ans;
 
 void test_(int i=0, ull G = 1){
@@ -62,23 +65,29 @@ void test_(int i=0, ull G = 1){
 
         L/=G;
 
-        map<ull, ull> DD;
+        if(selected[G])
+            return;
+        selected[G] = true;
 
-        ull sz = 0;
+        if(ANS[L]){
+            ans += ANS[L];
+            return;
+        }
+
+        unordered_map<int, int> DD;
+
+        int p = L;
+
         while(L>1){
-            sz++;
             DD[D[L]]++;
             L /= D[L];
         }
 
-        cout<<G<<" "<<sz<<"\n";
+        //cout<<G<<" "<<sz<<"\n";
 
-        ull aa = 1;
-        for(auto v : DD){
-            aa *= v.second+1;
-        }
 
-        ans += pow(DD.size(), 2);
+        ANS[p] = pow(2, DD.size());
+        ans += ANS[p];
 
         return;
     }
@@ -91,6 +100,7 @@ void test_(int i=0, ull G = 1){
 void solve(){
 
     dd.clear();
+    selected.clear();
 
     cin>>c>>d>>x;
 
@@ -134,4 +144,7 @@ int main(){
 
 1
 1 1 3
+
+1
+2 7 25
 */
