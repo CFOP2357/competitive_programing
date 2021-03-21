@@ -13,6 +13,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include <list>
+
 #include <time.h>
 
 using namespace std;
@@ -36,77 +38,78 @@ typedef vector<ull> vi;
 #define MAX 1000100
 #define MOD 1000000007
 
-vector<ull> a;
-vector<ull> b;
+list<pii> a; //val, pos
+
 ull n, m;
 string s;
 
 void solve(){
-    a.clear(); b.clear();
+    a.clear();
     cin>>n;
     for(int i=0; i<n; i++){
         ull z; cin>>z;
-        a.push_back(z);
-        b.push_back(i+1);
+        a.push_back({z, i+1});
     }
 
-    b.back()=0;
-
-    queue<int> next;
+    queue<list<pii>::iterator> next;
+    queue<int> nextPos;
     vector<int> ans;
 
-    vector<bool> ban(n, false);
+    map<int, bool> erased;
 
-    for(int i=0; i<n; i++){
+    for(auto current = a.begin(); current!=a.end() && n>1; current++){
 
-        if(ban[i]) continue;
+        auto sig = current; sig++;
 
-        if(__gcd(a[b[i]], a[i]) == 1 ){
-            ans.push_back(b[i]);
-            b[i] = b[b[i]];
-            ban[b[i]] = true;
+        if(sig==a.end())
+            sig=a.begin();
+
+        if(__gcd(sig->first, current->first) == 1){
+
+            erased[sig->second] = true;
+
+            ans.push_back(sig->second);
+            a.erase(sig);
+            next.push(current);
+            nextPos.push(current->second);
+            n--;
+            //erased[sig] = true;
         }
 
     }
 
-    for(int i=0; i<n; i++){
+    while(next.size() && n>1){
+        int ss = nextPos.front();
+        nextPos.pop();
 
-        if(ban[i]) continue;
-
-        if(__gcd(a[b[i]], a[i]) == 1 ){
-            ans.push_back(b[i]);
-            b[i] = b[b[i]];
-            next.push(i);
-            ban[b[i]] = true;
-        }
-
-    }
-
-    cout<<"#\n";
-
-    if(next.size()){
-
-        int i = next.front();
-        while(next.size() && b[i] != i){
+        if(erased[ss]){
             next.pop();
-
-            if(ban[i]){
-                    if(next.size())
-                i=next.front();
-                continue;
-            }
-            if(__gcd(a[b[i]], a[i]) == 1 ){
-                ans.push_back(b[i]);
-                b[i] = b[b[i]];
-                next.push(i);
-                ban[b[i]] = true;
-            }
-
-            if(next.size())
-            i=next.front();
+            continue;
         }
-    }
 
+        auto current = next.front();
+        next.pop();
+
+
+        if(current == a.end())
+            current = a.begin();
+
+        auto sig = current; sig++;
+        if(sig==a.end())
+            sig=a.begin();
+
+        if(__gcd(current->first, sig->first) == 1){
+            erased[sig->second] = true;
+            ans.push_back(sig->second);
+            a.erase(sig);
+            next.push(current);
+            nextPos.push(current->second);
+        }
+
+    }
+    if(n==1 && a.begin()->first == 1){
+        ans.push_back(a.begin()->second);
+    }
 
     cout<<ans.size()<<" ";
     for(int k : ans)
@@ -116,7 +119,7 @@ void solve(){
 
 
 int main(){
-    //ios_base::sync_with_stdio(0); cin.tie(0);
+    ios_base::sync_with_stdio(0); cin.tie(0);
     //srand (time(NULL));
 
     int t=1; cin>>t;
@@ -126,4 +129,10 @@ int main(){
 
     return 0;
 }
+
+/*
+1
+6
+1 2 4 2 4 2
+*/
 
