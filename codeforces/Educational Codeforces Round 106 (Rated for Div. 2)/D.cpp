@@ -29,7 +29,7 @@ typedef tree<ull,null_type,less_equal<ull>,rb_tree_tag, tree_order_statistics_no
 
 #define all(a) a.begin(), a.end()
 
-typedef long long ull;
+typedef int ull;
 typedef pair<ull, ull> pii;
 typedef vector<ull> vi;
 
@@ -38,80 +38,44 @@ typedef vector<ull> vi;
 
 vector<ull> a;
 vector<ull> b;
-int n, m, c, d, x;
+ull n, m, c, d, x;
 string s;
 
-int D[MAX];
+ull D[MAX];
+ull numberPrimes[MAX];
 
-map<int, bool> selected;
-map<int, int> ANS;
-
-vector<int> dd;
 ull ans;
 
-void test_(int i=0, ull G = 1){
+void test_(ull G){
 
-    if(i==dd.size()){
+    ull L = x/G + d;
 
-        ull L = x + d*G;
-
-        if(L%c)
-            return;
-
-        L/=c;
-
-        if(L%G)
-            return;
-
-        L/=G;
-
-        if(selected[G])
-            return;
-        selected[G] = true;
-
-        if(ANS[L]){
-            ans += ANS[L];
-            return;
-        }
-
-        unordered_map<int, int> DD;
-
-        int p = L;
-
-        while(L>1){
-            DD[D[L]]++;
-            L /= D[L];
-        }
-
-        //cout<<G<<" "<<sz<<"\n";
-
-
-        ANS[p] = pow(2, DD.size());
-        ans += ANS[p];
-
+    if(L%c)
         return;
-    }
 
-    test_(i+1, G*dd[i]);
-    test_(i+1, G);
+    L/=c;
 
+    ull sz = numberPrimes[L];
+
+    ans += pow(2, sz);
 }
 
 void solve(){
 
-    dd.clear();
-    selected.clear();
-
     cin>>c>>d>>x;
 
-    ull k = x;
-    while(k>1){
-        dd.push_back(D[k]);
-        k/=D[k];
+    ans = 0;
+
+    ull i;
+    for(i=1; i*i<x; i++){
+        if(!(x%i)){
+            test_(i);
+            test_(x/i);
+        }
     }
 
-    ans = 0;
-    test_();
+    if(i*i==x)
+        test_(i);
 
     cout<<ans<<"\n";
 }
@@ -126,6 +90,7 @@ int main(){
             continue;
         for(ull j=i; j<MAX; j+=i){
             D[j]=i;
+            numberPrimes[j]++;
         }
     }
 
