@@ -41,54 +41,64 @@ vector<ull> b;
 ull n, m, k;
 string s;
 
-map<char, int> times_;
-
-void countTimes(){
-    times_.clear();
-    for(char c : s)
-        times_[c]++;
-}
-
-bool isCorrect(){
-    countTimes();
-
-    for(char c='a'; c<='z'; c++)
-        if(times_[c]%k)
-            return false;
-    return true;
-
+ull getPenalty(ull repetitions){
+    return (k - repetitions%k)%k;
 }
 
 void solve(){
-
     cin>>n>>k;
     cin>>s;
+
+    map<char, ull> timesChar;
+    for(char c : s)
+        timesChar[c]++;
 
     if(n%k){
         cout<<"-1\n";
         return;
     }
 
-    for(&& !isCorrect(); c--){
-
-        string last = s;
-        if(times_[c]%k){
-
-            for(int i=n-1; i>=0; i--){
-                if(times_[s[i]]%k && s[i]<c)
-                    s[i]=c;
-            }
-
-        }
-
-        s = max(s, last);
-
+    ull penalty = 0;
+    for(auto c : timesChar){
+        penalty += getPenalty(c.second);
     }
 
-    if(isCorrect())
+    if(!penalty){
         cout<<s<<"\n";
-    else
-        cout<<"-1\n";
+        return;
+    }
+
+    for(int i=n-1; i>=0; i--, s.pop_back()){
+
+        penalty -= getPenalty(timesChar[s[i]]);
+        timesChar[s[i]]--;
+        penalty += getPenalty(timesChar[s[i]]);
+
+        for(char c = s[i] + 1; c<='z'; c++){
+            penalty -= getPenalty(timesChar[c]);
+            timesChar[c]++;
+            penalty += getPenalty(timesChar[c]);
+
+            s[i] = c;
+            if( penalty <= (n-i-1) && !((n-i-1-penalty)%k) ){
+
+                s += string(n-i-1-penalty, 'a');
+
+                for(auto c : timesChar){
+                    s += string(getPenalty(c.second), c.first);
+                }
+
+                cout<<s<<"\n";
+                return;
+
+            }
+
+            penalty -= getPenalty(timesChar[c]);
+            timesChar[c]--;
+            penalty += getPenalty(timesChar[c]);
+        }
+    }
+
 }
 
 
