@@ -36,36 +36,77 @@ typedef vector<ull> vi;
 #define MAX 1000100
 #define MOD 1000000007
 
-vector<ull> a;
-vector<ull> b;
+vector<ull> sizeSequence;
+
 ull n, m;
 string s;
 
-void pre(){
+void minimum(){
+
+    int k = n;
+    for(int i=0; i<sizeSequence.size(); i++){
+
+        vector<int> ans;
+
+        for(int j=0; j<sizeSequence[i]; j++)
+            ans.push_back(k--);
+
+        reverse(all(ans));
+
+        for(int a : ans)
+            cout<<a<<" ";
+
+    }
+    cout<<"\n";
+
+}
+
+void maximum(){
+
+    vector<int> ans;
+
+    int k = n, p = 1;;
+    for(int i=sizeSequence.size()-1; i>=0; i--){
+
+        for(int j=1; j<sizeSequence[i]; j++)
+            ans.push_back(k--);
+
+        ans.push_back(p++);
+    }
+
+    reverse(all(ans));
+
+    for(int a : ans)
+        cout<<a<<" ";
+    cout<<"\n";
 
 }
 
 void solve(){
 
+    sizeSequence.clear();
+
     cin>>n>>s;
 
-    vector<int> minLIS(n, ' ');
-    int t = 1;
-    for(int i=n-2; i>=0; i++){
-        if(s[i]=='<')
-            minLis[i+1] = t++;
-        else
+    sizeSequence.push_back(1);
 
-    }
 
+    for(char c : s)
+        if(c != '>'){
+            sizeSequence.back()++;
+        }
+        else{
+            sizeSequence.push_back(1);
+        }
+
+    minimum();
+    maximum();
 }
 
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0);
     //srand (time(NULL));
-
-    pre();
 
     int t=1; cin>>t;
     while(t--){
