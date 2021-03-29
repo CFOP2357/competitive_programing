@@ -36,18 +36,17 @@ typedef vector<ull> vi;
 #define MAX 1000100
 #define MOD 1000000007
 
-vector<pii> a;
+vector<ull> a;
 vector<ull> b;
 ull n, m;
 string s;
 
 void query(int a, int b){
-    cout<<'?'<<" "<<a<<" "<<b<<"\n";
+    cout<<'?'<<" "<<a<<" "<<b<<endl;
     cout.flush();
     string ans; cin>>ans;
     if(ans == "Yes"){
-        cout<<"!"<<" "<<a<<" "<<b<<"\n";
-        cout.flush();
+        cout<<"!"<<" "<<a<<" "<<b<<endl;
         exit(0);
     }
 }
@@ -57,7 +56,7 @@ void solve(){
     cin>>n;
     for(int i=0; i<n; i++){
         ull z; cin>>z;
-        a.push_back({z, i+1});
+        a.push_back(z);
     }
     //sort(all(a), greater<pii>());
 
@@ -65,15 +64,15 @@ void solve(){
     map<pii, bool> selected;
     for(int i=0; i<n; i++){
 
-        if(a[i].first == n || a[i].first==0)
+        if(a[i] == n || a[i]==0)
             continue;
 
         for(int j=n-1; j>=0; j--){
-            if(a[j].first == n || a[j].first==0)
+            if(a[j] == n || a[j]==0)
                 continue;
             if(i==j)
                 continue;
-            nxt.push({a[i].first - a[j].first, {i+1, j+1}});
+            nxt.push({a[i] - a[j], {i+1, j+1}});
         }
 
     }
