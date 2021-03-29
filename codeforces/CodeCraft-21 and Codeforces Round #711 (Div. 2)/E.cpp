@@ -73,7 +73,7 @@ void solve(){
                 continue;
             if(i==j)
                 continue;
-            nxt.push({a[i].first - a[j].first, {j+1, i+1}});
+            nxt.push({a[i].first - a[j].first, {i+1, j+1}});
         }
 
     }

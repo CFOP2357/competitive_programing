@@ -43,10 +43,15 @@ string s;
 
 void solve(){
     a.clear(); b.clear();
-    cin>>n;
-    for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
+    cin>>n>>m;
+
+    vector<vector<bool>> dp(n+1, vector<bool>(m+1, false));
+
+    dp[0][0] = true;
+    for(int i=1; i<=n; i++){
+
+
+
     }
 
 }
@@ -56,7 +61,7 @@ int main(){
     ios_base::sync_with_stdio(0); cin.tie(0);
     //srand (time(NULL));
 
-    int t=1; cin>>t;
+    int t=1; //cin>>t;
     while(t--){
         solve();
     }
