@@ -59,38 +59,6 @@ int try_(int i){
 
 }
 
-int try2(int i){
-
-
-    int init = i;
-    int ii = a[init];
-    int j = i;
-
-    while( i>0 && a[i]>a[i-1] && a[i-1]!=-1){
-        i--;//a[--i]=-1;
-    }
-
-    a[init] = ii;
-
-    return max(init-i, j-init);
-
-}
-int try3(int i){
-
-
-    int init = i;
-    int ii = a[init];
-    int j = i;
-
-    while(j<n-1 && a[j]>a[j+1] && a[j+1]!=-1)
-        j++;//a[++j]=-1;
-
-    a[init] = ii;
-
-    return max(init-i, j-init);
-
-}
-
 void solve(){
     a.clear(); b.clear();
     cin>>n;
@@ -114,59 +82,54 @@ void solve(){
 
         int ans = *max_element(all(p));
 
-        for(int i = 0; i<n; i++){
-            if(try_(i) == ans){
+        vector<int> l, r;
+        l.push_back(0); r.push_back(0);
 
-                int k = i+ans;
+        for(int i=0; i<n-1; i++){
+            if(a[i]<a[i+1])
+                l.push_back(l.back()+1);
+            else
+                l.push_back(0);
+        }
 
-                while(k<n-1 && a[k]<a[k+1])
-                    k++;
+        reverse(all(a));
 
-                if(k-(i+ans)+1 >= ans){
+        for(int i=0; i<n-1; i++){
+            if(a[i]<a[i+1])
+                r.push_back(r.back()+1);
+            else
+                r.push_back(0);
+        }
+        reverse(all(r));
+
+        reverse(all(a));
+
+        /*for(int k : l)
+            cout<<k<<" ";
+        cout<<"\n";
+        for(int k : r)
+            cout<<k<<" ";
+        cout<<"\n";*/
+
+
+        for(int i=0; i<n; i++){
+            if(l[i]==r[i] && l[i]==ans){
+
+            }
+            else {
+                if(r[i]>=ans || l[i]>=ans){
                     cout<<"0\n";
                     return;
                 }
-
-                k = i-ans;
-                while(k>0 && a[k]<a[k-1])
-                    k--;
-
-                if((i-ans)-k+1 >= ans){
-                    cout<<"0\n";
-                    return;
-                }
-
-                for(int j=1; j<=ans; j++){
-                    a[i + j] = -1;
-                    a[i - j] = -1;
-                }
             }
         }
 
-        for(int i = 0; i<n; i++){
-            if(a[i]==-1)
-                continue;
-            int reply = try2(i);
-            if(reply >= ans){
-                cout<<"0\n";
-                return;
-            }
+        if(!(ans%2)){
+            cout<<1<<"\n";
+            return;
         }
-
-        for(int i = n-1; i>=0; i--){
-            if(a[i]==-1)
-                continue;
-            int reply = try3(i);
-            if(reply >= ans){
-                cout<<"0\n";
-                return;
-            }
-        }
-
-        cout<<1<<"\n";
     }
-    else
-        cout<<0<<"\n";
+    cout<<0<<"\n";
 
 }
 
@@ -182,4 +145,7 @@ int main(){
 
     return 0;
 }
-
+/*
+10
+1 2 3 4 3 2 1 2 3 4
+*/
