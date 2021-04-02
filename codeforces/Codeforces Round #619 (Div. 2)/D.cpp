@@ -55,12 +55,12 @@ void solve(){
     cout<<"YES\n";*/
 
     ull d = min(k, m-1); k-=d;
-    ans.push_back({d, "R"}); //1 - 1
+    if(d)ans.push_back({d, "R"}); //1 - 1
     if(!k)
         return;
 
     d = min(k, m-1); k-=d;
-    ans.push_back({d, "L"}); //1 - 2
+    if(d)ans.push_back({d, "L"}); //1 - 2
     if(!k)
         return;
 
@@ -72,14 +72,15 @@ void solve(){
 
         d = min(k/3, (m-1));
 
-        if(!d){
+        if(!d && m-1){
+            d = min(k, m-1);
             if(toRight)
-                ans.push_back({k, "R"});
+                ans.push_back({d, "R"});
             else
-                ans.push_back({k, "L"});
-            k=0;
+                ans.push_back({d, "L"});
+            k-=d;
         }
-        else { //499 - 1000
+        else if(d){ //499 - 1000
             k -= d*3;
             if(toRight)
                 ans.push_back({d, "RUD"});
@@ -95,10 +96,12 @@ void solve(){
         d = min(k, (m-1));
         k -= d;
 
-        if(toRight) //499 -1499
-            ans.push_back({d, "R"});
-        else
-            ans.push_back({d, "L"});
+        if(d){
+            if(toRight) //499 -1499
+                ans.push_back({d, "R"});
+            else
+                ans.push_back({d, "L"});
+        }
 
         if(!k)
             return;
