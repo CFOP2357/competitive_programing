@@ -39,47 +39,38 @@ typedef vector<ull> vi;
 ull a, m;
 string s;
 
+ull phi(ull n){
+
+    ull d = n;
+
+    ull ans = n;
+    for(ull i=2; i*i<=n; i++){
+
+        if(d%i == 0){
+
+            ans -= ans/i;
+            while(!(d%i))
+                d/=i;
+
+        }
+
+    }
+
+    if(d>1){
+        ans -= ans/d;
+    }
+
+
+    return ans;
+
+}
+
 void solve(){
     cin>>a>>m;
 
-    set<ull> primes;
-
     ull G = __gcd(a, m);
 
-    ull d = m;
-    for(ull i=2; i*i<=m; i++){
-        if(!(d%i)){
-            if(G%i)
-                primes.insert(i);
-
-            ull p = 1;
-            while(!(d%i)){
-                d/=i;
-                if(!(G%p))
-                    p*=i;
-            }
-
-            if(!(G%i) && G%p)
-                primes.insert(p);
-        }
-    }
-    if(d>1 && G%d)
-        primes.insert(d);
-
-
-    ull ans = m/G;
-
-    for(ull prime : primes){
-
-        ull lcm = (prime*G)/__gcd(prime, G);
-
-        if((a - a%prime) + lcm < a+m){
-            ans--;
-
-            ans -= (m - (((a - a%prime) + lcm) - a) - 1)/lcm;
-        }
-
-    }
+    ull ans = phi(m/G);
 
     cout<<ans<<"\n";
 
@@ -97,4 +88,8 @@ int main(){
 
     return 0;
 }
+/*
+1
+23 55
 
+*/
