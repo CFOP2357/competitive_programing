@@ -84,7 +84,7 @@ int bsLeft(Tree &st, const int val, int l, int r){ //(l, r]
 
     int m = (l+r)/2;
 
-    if(st.query(m, r+1) != val)
+    if(__gcd(st.query(m, r+1), (ull)val) != val)
         return bsLeft(st, val,m, r);
     return bsLeft(st, val, l, m);
 
@@ -92,12 +92,14 @@ int bsLeft(Tree &st, const int val, int l, int r){ //(l, r]
 
 int bsRight(Tree &st, const int val, int l, int r){ //[l, r)
 
+    //cout<<l<<" "<<r<<"$\n";
+
     if(l+1 >= r)
         return l;
 
     int m = (l+r)/2;
 
-    if(st.query(l, m+1) != val)
+    if(__gcd(st.query(l, m+1), (ull)val) != val)
         return bsRight(st, val,l, m);
     return bsRight(st, val, m, r);
 
@@ -126,7 +128,7 @@ void solve(){
         int i = nxt.top().second;
         nxt.pop();
 
-        cout<<i<<"%\n";
+        //cout<<i<<"%\n";
         int l = bsLeft(st, a[i], -1, i);
         for(int j = l; j<i && !uf.sameSet(j, i); j++){
             ans += a[i];
@@ -147,6 +149,7 @@ void solve(){
             uf.join(i, j);
         }
 
+        //cout<<r<<" "<<l<<"%\n";
     }
 
     //cout<<st.query(1, 3)<<"#\n";
