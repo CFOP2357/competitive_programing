@@ -58,27 +58,6 @@ void solve(){
                     if(idxi<2*n && idxj<2*n && s[i][idxi]==s[j][idxj]){
                         currentAns += s[i][idxi++]; idxj++;
                     }
-                    else if(idxi < 2*n){
-                        currentAns += s[i][idxi++];
-                    }
-                    else
-                        currentAns += s[j][idxj++];
-            }
-
-            if(currentAns.size() < ans.size())
-                ans = currentAns;
-        }
-
-    for(int i=0; i<3; i++)
-        for(int j=i+1; j<3; j++){
-            string currentAns = "";
-
-            int idxi(0), idxj(0);
-
-            while(idxi<2*n || idxj<2*n){
-                    if(idxi<2*n && idxj<2*n && s[i][idxi]==s[j][idxj]){
-                        currentAns += s[i][idxi++]; idxj++;
-                    }
                     else if(idxi>=2*n || (idxj<2*n && s[j][idxj]=='1')){
                         currentAns += s[j][idxj++];
                     }
