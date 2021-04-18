@@ -58,7 +58,7 @@ void solve(){
                     if(idxi<2*n && idxj<2*n && s[i][idxi]==s[j][idxj]){
                         currentAns += s[i][idxi++]; idxj++;
                     }
-                    else if(idxi <= idxj){
+                    else if(idxi < 2*n){
                         currentAns += s[i][idxi++];
                     }
                     else
@@ -79,19 +79,18 @@ void solve(){
                     if(idxi<2*n && idxj<2*n && s[i][idxi]==s[j][idxj]){
                         currentAns += s[i][idxi++]; idxj++;
                     }
-                    else if(idxi < 2*n){
-                        currentAns += s[i][idxi++];
+                    else if(idxi>=2*n || (idxj<2*n && s[j][idxj]=='1')){
+                        currentAns += s[j][idxj++];
                     }
                     else
-                        currentAns += s[j][idxj++];
+                        currentAns += s[i][idxi++];
             }
 
             if(currentAns.size() < ans.size())
                 ans = currentAns;
         }
 
-    for(int p=0; p<3; p++)
-    for(int i=0; i<3; i++)
+   for(int i=0; i<3; i++)
         for(int j=i+1; j<3; j++){
             string currentAns = "";
 
@@ -101,55 +100,12 @@ void solve(){
                     if(idxi<2*n && idxj<2*n && s[i][idxi]==s[j][idxj]){
                         currentAns += s[i][idxi++]; idxj++;
                     }
-                    else if(idxi <2*n && idxj<2*n){
-                        if(rand()%2)
-                            currentAns += s[i][idxi++];
-                        else
-                            currentAns += s[j][idxj++];
-                    }
-                    else if(idxi < 2*n){
-                        currentAns += s[i][idxi++];
+                    else if(idxi>=2*n || (idxj<2*n && s[j][idxj]=='0')){
+                        currentAns += s[j][idxj++];
                     }
                     else
-                        currentAns += s[j][idxj++];
+                        currentAns += s[i][idxi++];
             }
-
-            if(currentAns.size() < ans.size())
-                ans = currentAns;
-        }
-
-
-    for(int i=0; i<3; i++)
-        for(int j=i+1; j<3; j++){
-            string currentAns = "";
-
-            for(int k = 0; k<2*n; k++){
-                if(s[i][k]==s[j][k])
-                    currentAns += s[i][k];
-                else{
-                    currentAns += '0';
-                    currentAns += '1';
-                }
-            }
-
-            int p = currentAns.size();
-            int k = 0;
-            for(int r = 0; r<currentAns.size(); r++){
-                if(k>=s[i].size())
-                    p = r;
-                if(s[i][k] == currentAns[r])
-                    k++;
-            }
-            k = 0;
-            for(int r = 0; r<currentAns.size(); r++){
-                if(k>=s[j].size())
-                    p = max(r, p);
-                if(s[j][k] == currentAns[r])
-                    k++;
-            }
-
-            for(int i=currentAns.size()-1; i>p && i<currentAns.size(); i--)
-                currentAns.pop_back();
 
             if(currentAns.size() < ans.size())
                 ans = currentAns;
