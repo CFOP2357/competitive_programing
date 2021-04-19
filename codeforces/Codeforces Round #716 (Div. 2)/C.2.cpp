@@ -30,19 +30,25 @@ void solve(){
 
     ull p = 1;
 
+    //cout<<p<<"%\n";
+
     set<ull> ans;
     for(ull i=1; i<n; i++){
 
         if(__gcd(n, i) != 1)
             continue;
         p*=i;
+        p%=n;
         ans.insert(i);
     }
 
+    //cout<<p<<"&\n";
+
     ull k = p%n;
+    //cout<<k<<"\n";
 
     k = p%n;
-    if(__gcd(k, n)!=1 || (k>1 && p<n)){
+    if(__gcd(k, n)!=1){
         cout<<"1\n";
         cout<<"1\n";
         return;
