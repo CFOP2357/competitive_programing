@@ -4,77 +4,7 @@
 #include <algorithm>
 #include <cmath>
 
-#include <map>
-#include <set>
-
-#include <stack>
-#include <queue>
-
-#include <unordered_map>
-#include <unordered_set>
-
-#include <time.h>
-
-using namespace std;
-
-/*
-#include <ext/pb_ds/assoc_container.hpp>
-using namespace __gnu_pbds;
-typedef tree<ull,null_type,less<ull>,rb_tree_tag, tree_order_statistics_node_update> orderedSet;
-typedef tree<ull,null_type,less_equal<ull>,rb_tree_tag, tree_order_statistics_node_update> orderedMultiSet;
-
-#define findBO find_by_order
-#define findBK order_of_key
-*/
-
-#define all(a) a.begin(), a.end()
-
-typedef long long ull;
-typedef pair<ull, ull> pii;
-typedef vector<ull> vi;
-
-#define MAX 200100
-#define MOD 1000000007
-
-vector<ull> a;
-vector<ull> b;
-ull n, m, q;
-string s;
-
-vector<ull> adj[MAX];
-vector<ull> L[MAX];
-vector<ull> A[MAX];
-
-struct Route{
-    ull nxt;
-    ull L;
-    ull A;
-};
-
-vector<Route> route;
-
-void defRoute(int v=1, int p=-1){
-
-    for(int i=0; i<adj[v].size(); i++){
-        int u = adj[v][i];
-        if(u!=p){
-            route[u] = {v, L[v][i], A[v][i]};
-        }
-    }
-
-    for(int u : adj[v])
-        if(u!=p)
-            defRoute(u, v);
-
-}
-
-ull c, w, ans;
-
-void getAns(int v){
-    if(v==1)
-        return;
-    if(route[v].L <= w)
-        ans = __gcd(ans, route[v].A);
+#include <map>s(ans, route[v].A);
     getAns(route[v].nxt);
 }
 
