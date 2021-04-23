@@ -55,21 +55,20 @@ void solve(){
         totalXor.insert(currentXor);
     }
 
-    unordered_map<ull, vector<int>> xorPosition;
+    unordered_map<ull, int> xorPosition;
     vector<int> sz(n+1, 0);
     for(int x : totalXor){
-        xorPosition.clear(); xorPosition[0].push_back(0);
+        xorPosition.clear(); xorPosition[0]=0;
         sz.assign(n+1, 0); sz[0] = 1;
         ull currentXor = 0;
         for(int i=1; i<=n; i++){
             currentXor ^= a[i];
             ull complement = x^currentXor;
-            for(int j : xorPosition[complement]){
-                if(sz[j])
-                    sz[i] = max(sz[i], sz[j]+1);
-            }
+            if(xorPosition.find(complement)!=xorPosition.end())
+                if(sz[xorPosition[complement]])
+                    sz[i] = max(sz[i], sz[xorPosition[complement]]+1);
             if(sz[i])
-                xorPosition[currentXor].push_back(i);
+                xorPosition[currentXor] = i;
         }
         if(sz.back()>2){
             cout<<"YES\n";
