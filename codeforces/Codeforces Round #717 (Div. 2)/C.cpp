@@ -33,57 +33,47 @@ typedef int ull;
 typedef pair<ull, ull> pii;
 typedef vector<ull> vi;
 
-#define MAX 1000100
+#define MAX 200010
 #define MOD 1000000007
 
 vector<ull> a;
 vector<ull> b;
 ull n, m;
 string s;
+bool possible[150][MAX];
 
 void solve(){
     a.clear(); b.clear();
     cin>>n;
-
-    priority_queue<pii> nxt;
+    ull sum = 0;
     for(int i=0; i<n; i++){
         ull z; cin>>z;
         a.push_back(z);
-        nxt.push({z, i+1});
+        sum += z;
     }
 
-
-    vector<int> ans;
-    unordered_map<int, bool> selected; selected[0]=true;
-    while(nxt.size()){
-        int k = nxt.top().first; int i = nxt.top().second;
-        nxt.pop();
-
-        bool possible = true;
-        unordered_map<int, bool> currentSelected;
-        for(auto p : selected){
-            int x = p.first + k;
-            if(selected[x] || currentSelected[x]){
-                cout<<k<<" "<<x<<"\n";
-                possible=false;
-                break;
-            }
-            currentSelected[x] = true;
+    possible[0][a[0]]=true;
+    for(int i=1; i<n; i++){
+        possible[i][a[i]] = true;
+        for(int j=0; j<MAX; j++){
+            possible[i][j] = possible[i][j] || possible[i-1][j];
+            if(possible[i-1][j])
+                possible[i][j+a[i]]=true;
         }
-
-        if(possible){
-            for(auto p : currentSelected)
-                if(p.second)
-                    selected[p.first] = true;
-        }
-        else ans.push_back(i);
     }
 
-    sort(all(ans));
-    cout<<ans.size()<<"\n";
-    for(int k : ans)
-        cout<<k<<" ";
-    cout<<"\n";
+    if( !(sum%2) && possible[n-1][sum/2]){
+        cout<<"1\n";
+        for(ull i = 1; i<=2000; i*=2)
+            for(int j=0; j<n; j++)
+                if(a[j]&i){
+                    cout<<j+1<<"\n";
+                    return;
+                }
+    }
+    else {
+        cout<<"0\n";
+    }
 
 }
 

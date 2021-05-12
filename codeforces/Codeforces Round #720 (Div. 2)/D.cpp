@@ -75,38 +75,28 @@ void find_fartest(int &fartest, int &max_d, int current, int parent = -1, int d 
 }
 
 int leaf;
+int paths = 0;
 vector<bool> isOk;
-int make_bamboo(int current, int parent=-1){
+void make_bamboo(int current, int parent=-1){
     //cout<<current<<"\n";
+
+    if(adj[current].size()>2)
+        paths += (adj[current].size()-2);
 
     for(auto child : adj[current]){
         if(child == parent)
             continue;
 
         make_bamboo(child, current);
-        if(adj[current].size()>2 && parent!=-1 && uf.find(child)!=uf.find(current)){
+        if(uf.find(child)!=uf.find(current)){
             ans.push_back({current, child, L[uf.find(current)], child});
-            L[uf.find(current)] = L[uf.find(child)];
+            int d = L[uf.find(child)];
             uf.join(child, current);
+            L[uf.find(child)] = d;
         }
     }
 }
 
-bool dfs(int current, int parent=-1){
-    if(current == leaf)
-        return true;
-
-    bool resp = false;
-    for(auto child : adj[current]){
-        if(child == parent)
-            continue;
-        if(dfs(child, current))
-            resp = true;
-    }
-
-    isOk[current] = resp;
-    return resp;
-}
 
 int dfs2(int current, int parent=-1){
     if(adj[current].size()==1 && parent!=-1){
@@ -148,11 +138,13 @@ void solve(){
 
     uf = UF(n+1);
 
-    dfs(a);
+    leaf = b;
     dfs2(a);
 
     leaf=b;
-    make_bamboo(a);
+    make_bamboo(b);
+
+    cout<<paths<<"$\n";
 
     cout<<ans.size()<<"\n";
     for(auto a : ans){
@@ -184,5 +176,65 @@ int main(){
 2 5
 3 6
 3 7
+
+1
+38
+7 36
+13 5
+16 27
+4 22
+6 38
+37 5
+20 1
+30 1
+24 19
+11 5
+33 1
+27 31
+10 30
+23 34
+1 6
+19 1
+1 21
+1 3
+20 25
+30 22
+16 14
+32 30
+33 28
+19 2
+9 14
+36 23
+1 14
+12 8
+23 35
+16 8
+1 5
+20 17
+26 30
+29 19
+30 23
+15 6
+18 30
+
+1
+4
+1 2
+2 3
+2 4
+
+1
+12
+1 2
+2 3
+2 4
+4 5
+4 6
+6 7
+7 5
+7 8
+6 9
+9 10
+9 11
 */
 
