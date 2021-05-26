@@ -33,35 +33,38 @@ typedef long long ull;
 typedef pair<ull, ull> pii;
 typedef vector<ull> vi;
 
-#define MAX 1000100
+#define MAX 5010
 #define MOD 1000000007
 
-vector<ull> a;
-vector<ull> b;
+vector<ull> occupied;
+vector<ull> not_occupied;
 ull n, m;
 string s;
 
+ull dp[MAX][MAX];
+
 void solve(){
-    a.clear(); b.clear();
     cin>>n;
     for(int i=0; i<n; i++){
         ull z; cin>>z;
-        a.push_back(z);
-    }
-    ull ans = 0;
-
-    int l = 0, r = n-1;
-    while(l<=r){
-        if(a[l]<=0)
-            l++;
-        else if(a[r]<=0)
-            r--;
-
-        int l_closest = 0;
-        for(int i=0;i < l; i++)
-            if(a[i]<0)
+        if(z)
+            occupied.push_back(i);
+        else
+            not_occupied.push_back(i);
     }
 
+    for(ull i=1; i<=n; i++)
+        for(int j=0; j<=n; j++)
+            dp[i][j] = INT_MAX;
+
+    for(int i=0; i<occupied.size(); i++)
+        for(int j=0; j<not_occupied.size(); j++){
+            if(j>0)
+                dp[i][j] = min(dp[i][j], dp[i][j-1]);
+            dp[i+1][j+1] = min(dp[i+1][j+1], dp[i][j] + abs(occupied[i]-not_occupied[j]));
+        }
+
+    cout<<*min_element(dp[occupied.size()], dp[occupied.size()]+not_occupied.size()+1)<<"\n";
 }
 
 
@@ -69,7 +72,7 @@ int main(){
     ios_base::sync_with_stdio(0); cin.tie(0);
     //srand (time(NULL));
 
-    int t=1; cin>>t;
+    int t=1;
     while(t--){
         solve();
     }
