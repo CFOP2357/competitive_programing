@@ -43,17 +43,29 @@ string s;
 
 void solve(){
     a.clear(); b.clear();
-    cin>>n;
+    cin>>n>>m;
+    cin>>s;
 
-    for(ull i=0; i<=11; i++){
-        ull d = n - i*111;
-        if(!(d%11) && d>=0){
-            cout<<"YES\n";
-            return;
+    string ans = s;
+    m = min(m, n+10);
+
+    while(m--){
+
+        ans = s;
+        if(s[1]=='1')
+            ans[0]='1';
+        for(int i=1; i<n-1; i++){
+            if((s[i-1]=='1' && s[i+1]=='0') or (s[i-1]=='0' && s[i+1]=='1')){
+                ans[i] = '1';
+            }
         }
+        if(s[n-2] == '1')
+            ans[n-1]='1';
+
+        s = ans;
     }
 
-    cout<<"NO\n";
+    cout<<ans<<"\n";
 
 }
 
@@ -62,8 +74,6 @@ int main(){
     ios_base::sync_with_stdio(0); cin.tie(0);
     //srand (time(NULL));
 
-
-    //cout<<__gcd(0,__gcd(0,__gcd(11, 111)));
     int t=1; cin>>t;
     while(t--){
         solve();

@@ -44,16 +44,10 @@ string s;
 void solve(){
     a.clear(); b.clear();
     cin>>n;
-
-    for(ull i=0; i<=11; i++){
-        ull d = n - i*111;
-        if(!(d%11) && d>=0){
-            cout<<"YES\n";
-            return;
-        }
+    for(int i=0; i<n; i++){
+        ull z; cin>>z;
+        a.push_back(z);
     }
-
-    cout<<"NO\n";
 
 }
 
@@ -62,8 +56,6 @@ int main(){
     ios_base::sync_with_stdio(0); cin.tie(0);
     //srand (time(NULL));
 
-
-    //cout<<__gcd(0,__gcd(0,__gcd(11, 111)));
     int t=1; cin>>t;
     while(t--){
         solve();

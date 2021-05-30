@@ -44,16 +44,24 @@ string s;
 void solve(){
     a.clear(); b.clear();
     cin>>n;
+    vector<int> ans{0};
+    for(int i=0; i<n; i++){
+        ull z; cin>>z;
+        while(z!=ans.back()+1 and z!=1)
+            ans.pop_back();
 
-    for(ull i=0; i<=11; i++){
-        ull d = n - i*111;
-        if(!(d%11) && d>=0){
-            cout<<"YES\n";
-            return;
+        if(z==ans.back()+1){
+            ans.back()++;
         }
-    }
+        else if(z==1){
+            ans.push_back(1);
+        }
 
-    cout<<"NO\n";
+        for(int j=0; j<ans.size()-1; j++)
+            cout<<ans[j]<<".";
+        cout<<ans.back()<<"\n";
+
+    }
 
 }
 
@@ -62,8 +70,6 @@ int main(){
     ios_base::sync_with_stdio(0); cin.tie(0);
     //srand (time(NULL));
 
-
-    //cout<<__gcd(0,__gcd(0,__gcd(11, 111)));
     int t=1; cin>>t;
     while(t--){
         solve();

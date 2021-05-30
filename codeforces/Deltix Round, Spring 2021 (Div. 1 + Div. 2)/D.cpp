@@ -38,23 +38,56 @@ typedef vector<ull> vi;
 
 vector<ull> a;
 vector<ull> b;
-ull n, m;
-string s;
+ull n, m, p;
+vector<string> s;
+string ans;
+vector<int> toCheck;
 
-void solve(){
-    a.clear(); b.clear();
-    cin>>n;
+void BB(int i, string current){
 
-    for(ull i=0; i<=11; i++){
-        ull d = n - i*111;
-        if(!(d%11) && d>=0){
-            cout<<"YES\n";
-            return;
+    ull p = 0;
+    for(int j = 0; j<m; j++){
+        if(current[j] == '1'){
+            if(z[k] == '1')
         }
     }
 
-    cout<<"NO\n";
+    if(i==toCheck.size()){
+        if(count(all(current), '1')>count(all(ans), '1'))
+            ans = current;
+        return;
+    }
 
+    current[toCheck[i]] = '1';
+    BB(i+1, current);
+    current[toCheck[i]] = '0';
+    BB(i+1, current);
+
+}
+
+void solve(){
+    a.clear(); b.clear();
+    cin>>n>>m>>p;
+    vector<ull> f(m, 0);
+    for(int i=0; i<n; i++){
+        string z; cin>>z;
+        s.push_back(z);
+        for(int j=0; j<m; j++)
+            if(z[j]=='1')
+                f[j]++;
+    }
+
+
+    for(int j=0; j<m; j++)
+        if(f[j]>=(n+1)/2){
+            toCheck.push_back(j);
+        }
+
+    ans = string(m, '0');
+    string current = string(m, '0');
+    BB(0, current);
+
+    cout<<ans<<"\n";
 }
 
 
@@ -62,9 +95,7 @@ int main(){
     ios_base::sync_with_stdio(0); cin.tie(0);
     //srand (time(NULL));
 
-
-    //cout<<__gcd(0,__gcd(0,__gcd(11, 111)));
-    int t=1; cin>>t;
+    int t=1;
     while(t--){
         solve();
     }
