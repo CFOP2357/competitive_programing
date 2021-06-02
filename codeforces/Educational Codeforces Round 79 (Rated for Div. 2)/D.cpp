@@ -47,6 +47,7 @@ const ll mod = MOD; // change to something else
 struct Mod {
 	ll x;
 	Mod(ll xx) : x(xx) {}
+	Mod() : x(0) {}
 	Mod operator+(Mod b) { return Mod((x + b.x) % mod); }
 	Mod operator-(Mod b) { return Mod((x - b.x + mod) % mod); }
 	Mod operator*(Mod b) { return Mod((x * b.x) % mod); }
@@ -73,9 +74,24 @@ void solve(){
     map<ull, ull> frecuency;
     map<ull, Mod> dropProbability;
     for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
+        ull k; cin>>k;
+        Mod prob(k);
+        prob = prob*Mod(n);
+        prob = Mod(1)/prob;
+
+        for(int j=0; j<k; j++){
+            ull a; cin>>a;
+            dropProbability[a] = dropProbability[a] + prob;
+            frecuency[a]++;
+        }
     }
+
+    Mod ans(0);
+    for(auto [value, frec] : frecuency){
+        ans = ans + (dropProbability[value] * (Mod(frec)/Mod(n)));
+    }
+
+    cout<<ans.x<<"\n";
 
 }
 
