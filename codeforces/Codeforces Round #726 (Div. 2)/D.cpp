@@ -40,26 +40,26 @@ vector<ull> a;
 vector<ull> b;
 ull n, m;
 string s;
-               //0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20
-vector<bool> ans{0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
+
 
 void solve(){
     a.clear(); b.clear();
     cin>>n;
 
-    set<ull> d;
-    for(ull i=2; i*i<=n; i++)
-        if(n%i==0){
-            d.insert(i);
-            d.insert(n/i);
+    ull p = 2;
+    for(int i=1; p<=n; i++, p*=2){
+        if(p==n){
+            if(i%2)
+                cout<<"Bob\n";
+            else
+                cout<<"Alice\n";
+            return;
         }
-
-    //cout<<d.size()<<"\n";
-
-    if(d.size()>2 or n==4){
-        cout<<"Alice\n";
     }
-    else cout<<"Bob\n";
+
+    if(n%2)
+        cout<<"Bob\n";
+    else cout<<"Alice\n";
 }
 
 
