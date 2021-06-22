@@ -41,28 +41,32 @@ stack<ull> nxt;
 map<ull, bool> selected;
 ull n;
 
-void query(ull r){
+map<ull, vector<ull>> D;
+
+void query1(ull r){
     cout<<"? "<<r<<endl;
-    map<ull, vector<ull>> D;
     for(int v = 1; v<=n; v++){
         ull d; cin>>d;
-        D[d].push_back(v);
-    }
-
-    bool to_find = true;
-    for(int d = 1; d<=n; d++){ //O(n) <- amortized
-        if(D[d-1].size()>1 and D[d+1].size()){
-            for(auto v : D[d])
-                nxt.push(v);
+        if(v>1)
+            D[d%2].push_back(v);
+        if(d==1){
+            ull a = v, b = r;
+            if(a>b)
+                swap(a, b);
+            ans.insert({a, b});
         }
-        if(D[d-1].size()==1){
-            int u = D[d-1][0];
-            for(auto v : D[d]){
-                ull a = u, b = v;
-                if(a>b)
-                    swap(a, b);
-                ans.insert({a, b});
-            }
+    }
+}
+
+void query(ull r){
+    cout<<"? "<<r<<endl;
+    for(int v = 1; v<=n; v++){
+        ull d; cin>>d;
+        if(d==1){
+            ull a = v, b = r;
+            if(a>b)
+                swap(a, b);
+            ans.insert({a, b});
         }
     }
 }
@@ -71,15 +75,14 @@ void solve(){
 
     cin>>n;
 
-    ull v = rand()%n+1;
-    nxt.push(v);
-    while(ans.size()<n-1 && nxt.size()){ //O(n^2)
-        ull r = nxt.top();
-        nxt.pop();
-        if(selected[r])
-            continue;
-        selected[r] = true;
-        query(r);
+    query1(1);
+    if(D[0].size()<D[1].size()){
+        for(int v : D[0])
+            query(v);
+    }
+    else{
+        for(int v : D[1])
+            query(v);
     }
 
     cout<<"!"<<endl;
