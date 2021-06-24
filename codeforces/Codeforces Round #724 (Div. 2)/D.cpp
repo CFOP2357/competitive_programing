@@ -44,10 +44,37 @@ string s;
 void solve(){
     a.clear(); b.clear();
     cin>>n;
-    for(int i=0; i<n; i++){
-        ull z; cin>>z;
-        a.push_back(z);
+    set<int> r;
+    set<int, greater<int>> l;
+    ull m;
+    cin>>m;
+    r.insert(m); l.insert(m);
+    bool ans = true;
+    for(int i=1; i<n; i++){
+        ull b; cin>>b;
+        if(b!=m){
+
+            if(b>m){
+                if(r.upper_bound(m) != r.end() and b > *r.upper_bound(m)){
+                    ans = false;
+                }
+            }
+            else{
+                if(l.upper_bound(m) != l.end() and b < *l.upper_bound(m)){
+                    ans = false;
+                }
+            }
+
+        }
+        m=b;
+        r.insert(b);
+        l.insert(b);
     }
+
+    if(ans)
+        cout<<"YES\n";
+    else
+        cout<<"NO\n";
 
 }
 
