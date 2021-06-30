@@ -43,13 +43,14 @@ string s;
 
 void solve(){
     cin>>m>>n>>k>>t;
+    ull max_d = 0;
     for(int i=0; i<m; i++){
         ull z; cin>>z;
         a.push_back(z);
+        max_d = max(max_d, z);
     } sort(all(a), greater<ull>());
 
     map<ull, vector<pii>> trap;
-    ull max_d = 0;
     while(k--){
         ull l, r, d; cin>>l>>r>>d;
         trap[d].push_back({r, l});
