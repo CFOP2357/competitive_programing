@@ -69,8 +69,7 @@ void solve(){
                 current_cost -= (it->first - it->second +1)*2;
                 r = max(r, it->first);
                 l = min(l, it->second);
-                segments.erase(it);
-                it = segments.lower_bound({l, 0});
+                segments.erase(it++);
             }
             //cout<<l<<" "<<r<<"\n";
             current_cost += (r-l+1)*2;
