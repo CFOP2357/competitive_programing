@@ -33,7 +33,7 @@ typedef long long ull;
 typedef pair<ull, ull> pii;
 typedef vector<ull> vi;
 
-#define MAX 1000100
+#define MAX 200010
 #define MOD 1000000007
 
 vector<ull> a;
@@ -57,7 +57,7 @@ void solve(){
         max_d = max(max_d, d);
     }
 
-    vector<ull> cost(max_d+2, n+1);
+    vector<ull> cost(MAX, n+1);
     set<pii> segments;
     ull current_cost = n+1;
     for(int d = max_d+1; d>=1; d--){
