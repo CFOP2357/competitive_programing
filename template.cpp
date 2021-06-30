@@ -33,8 +33,8 @@ typedef tree<ull,null_type,less_equal<ull>,rb_tree_tag, tree_order_statistics_no
 #define sz(x) (int)(x).size()
 typedef long long ll;
 typedef unsigned long long ull;
-typedef pair<int, int> pii;
-typedef vector<int> vi;
+typedef pair<ll, ll> pii;
+typedef vector<ll> vi;
 
 
 #define MAX 1000100
