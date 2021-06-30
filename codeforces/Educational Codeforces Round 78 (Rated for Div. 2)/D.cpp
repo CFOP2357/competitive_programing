@@ -52,43 +52,48 @@ struct UF {
 };
 
 
-int pos[MAX];
-vector<int> who; //order
-map<int, int> P //who, pos
 int n;
 
 void solve(){
+    vector<pii> segments;
 
     cin>>n;
     for(int i=1; i<=n; i++){
         int l, r; cin>>l>>r;
-        pos[l] = i;
-        pos[r] = -i;
+        segments.push_back({l, r});
     }
+    sort(all(segments));
 
-    UF uf(2*n+5);
-
-    int current = 0;
     int sz = 0;
-    for(int i =1; i<=2*n and sz < n; i++){
-        if(pos[i] > 0){
-            who.push_back(pos[i]);
-            P[pos[i]] = i;
+    UF uf(n+5);
+    set<pii> R; //r, idx
+    for(int i=0; i<n and sz<n; i++){
+        auto segment = segments[i];
+        while(R.size() and R.begin()->first < segment.first)
+            R.erase(R.begin());
+        auto it = R.begin();
+        while(it!=R.end() and it->first < segment.second){
+            uf.join(i, it->second);
+            sz++;
+            it++;
         }
-        if(pos[i]<0){
-            int d = abs(pos[i]);
+        R.insert({segment.second, i});
+    }
 
-            for(int j = who.size()-1; j>=0 and (P[who[j]]>P[d] or )){
+    if(sz!=n-1){
+        cout<<"NO\n";
+        return;
+    }
 
-            }
+    int S = uf.find(0);
+    for(int i = 0; i<n; i++){
+        if(uf.find(i)!=S){
+            cout<<"NO\n";
+            return;
         }
     }
 
-    if(sz==n-1)
-        cout<<"YES\n";
-    else
-        cout<<"NO\n";
-
+    cout<<"YES\n";
 }
 
 
