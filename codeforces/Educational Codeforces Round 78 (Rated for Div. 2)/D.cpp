@@ -58,7 +58,7 @@ void solve(){
     vector<pii> segments;
 
     cin>>n;
-    for(int i=1; i<=n; i++){
+    for(int i=0; i<n; i++){
         int l, r; cin>>l>>r;
         segments.push_back({l, r});
     }
