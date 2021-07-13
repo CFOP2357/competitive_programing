@@ -86,7 +86,7 @@ void solve(){
         ll s = 1;
         ll max_power = a[j];
         ll current_heroe = lower_bound(all(p), make_pair(max_power, s)) - p.begin();
-        while(j<n and current_heroe < m and s<=p[current_heroe].second and max_power<=p[current_heroe].first){
+        while(j<n and current_heroe < p.size() and s<=p[current_heroe].second){
             j++;
             s++;
             if(j<n){
