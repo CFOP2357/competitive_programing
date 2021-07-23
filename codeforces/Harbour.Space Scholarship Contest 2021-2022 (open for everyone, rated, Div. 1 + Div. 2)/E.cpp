@@ -40,18 +40,55 @@ typedef vector<ll> vi;
 #define MAX 1000100
 #define MOD 1000000007
 
-vector<ll> a;
-vector<ll> b;
+vector<ll> p;
 ll n, m;
 string s;
 
+struct UF {
+	vi e;
+	UF(int n) : e(n, -1) {}
+	bool sameSet(int a, int b) { return find(a) == find(b); }
+	int size(int x) { return -e[find(x)]; }
+	int find(int x) { return e[x] < 0 ? x : e[x] = find(e[x]); }
+	bool join(int a, int b) {
+		a = find(a), b = find(b);
+		if (a == b) return false;
+		if (e[a] > e[b]) swap(a, b);
+		e[a] += e[b]; e[b] = a;
+		return true;
+	}
+};
+
 void solve(){
-    a.clear(); b.clear();
-    cin>>n;
+    p.clear();
+    cin>>n>>m;
     for(int i=0; i<n; i++){
         ll z; cin>>z;
-        a.push_back(z);
+        p.push_back(z-1);
     }
+
+    vector<int> ok(n, 0);
+    for(int i=0; i<n; i++)
+        ok[(i-p[i]+n)%n]++;
+
+    vector<int> ans;
+    for(int i=0; i<n; i++){
+        if(ok[i]+2*m>=n){
+            UF uf(n);
+            for(int j=0; j<n; j++)
+                uf.join(j, p[(j+i)%n]);
+            unordered_set<int> segment;
+            for(int j=0; j<n; j++)
+                segment.insert(uf.find(j));
+            if(n-segment.size()<=m)
+                ans.push_back(i);
+        }
+    }
+
+    cout<<ans.size()<<" ";
+    for(int k : ans)
+        cout<<k<<" ";
+    cout<<"\n";
 
 }
 

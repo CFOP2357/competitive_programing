@@ -49,47 +49,19 @@ void solve(){
     string s, t;
     cin>>s;
     cin>>t;
-    vector<ll> dp(s.size(), 0);
 
-    for(int i=0; i<s.size(); i++){
-        if(t[0]==s[i])
-            dp[i] = 1;
-    }
-
-    int j = 1;
-    bool p = true;
-    for(;j<t.size() and p; j++){
-        p=false;
-        vector<ll> last_dp = dp;
-        for(int i=1; i<s.size(); i++){
-            if(last_dp[i-1]==j and t[j]==s[i]){
-                dp[i] = j+1;
-                p=true;
+    for(int i=0; i<s.size(); i++)
+        for(int j=1; i+j<=s.size(); j++){
+            string current = s.substr(0, i+j-1);
+            reverse(all(current));
+            current = s.substr(i, j) + current;
+            if(current.substr(0,t.size())==t){
+                cout<<"YES\n";
+                return;
             }
         }
-    }
 
-
-
-    if(!p){
-        j--;
-        p=true;
-        for(;j<t.size() and p; j++){
-            p=false;
-            vector<ll> last_dp = dp;
-            for(int i=0; i<s.size()-1; i++){
-                if(last_dp[i+1]==j and t[j]==s[i]){
-                    dp[i] = j+1;
-                    p=true;
-                }
-            }
-        }
-    }
-
-    if(*max_element(all(dp)) == t.size())
-        cout<<"YES\n";
-    else
-        cout<<"NO\n";
+    cout<<"NO\n";
 }
 
 
@@ -109,5 +81,9 @@ int main(){
 1
 abcdef
 cdedcb
+
+1
+cabad
+cabac
 
 */
