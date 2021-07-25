@@ -63,7 +63,7 @@ void solve(){
         if(selected[x])
             continue;
         int y;
-        for(int p = 0, j = x; p<ab/2; j = (j+1)%(2*n)){
+        for(int p = 0, j = x+1; p<(ab/2); j = (j+1)%(2*n)){
             if(!selected[j]){
                 p++;
                 y = j;
