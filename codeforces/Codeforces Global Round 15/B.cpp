@@ -41,56 +41,45 @@ typedef vector<ll> vi;
 #define MOD 1000000007
 
 vector<vector<int>> r;
-vector<pii> sum; //sum, id
-vector<vector<pii>>R;
 ll n, m;
 
 void solve(){
-    r.clear(); sum.clear();
+    r.clear();
     cin>>n;
-    sum.assign(n, {0, 0});
-    R.assign(5, vector<pii>());
     for(int j=0; j<n; j++){
         r.push_back(vector<int>());
-        sum[j].second = j;
         for(int i=0; i<5; i++){
             ll z; cin>>z;
             r.back().push_back(z);
-            R[i].push_back({z, j});
         }
     }
 
-    for(int k=0; k<5; k++){
-        sort(all(R[k]));
-        for(int i=0; i<n; i++)
-            sum[R[k][i].second].first += i;
-    }
-    sort(all(sum));
-
-    vector<bool> selected(n, false);
-    int i = sum[0].second;
-    while(!selected[i]){
-            selected[i] = true;
-            bool is_ans = true;
-            for(auto [ss, j] : sum){
-                int h = 0;
-                for(int k=0; k<5; k++)
-                    if(r[i][k]<=r[j][k])
-                        h++;
-                if(h<3){
-                    is_ans = false;
-                    i = j;
-                    break;
-                }
-            }
-            if(is_ans){
-                cout<<i+1<<"\n";
-                return;
-            }
-        //}
+    int candidate = 0;
+    for(int i=1; i<n; i++){
+        int score = 0;
+        for(int j=0; j<5; j++){
+            if(r[i][j]<r[candidate][j])
+                score++;
+        }
+        if(score >= 3)
+            candidate = i;
     }
 
-    cout<<"-1\n";
+    for(int i=0; i<n; i++){
+        if(candidate == i)
+            continue;
+        int score = 0;
+        for(int j=0; j<5; j++){
+            if(r[i][j]<r[candidate][j])
+                score++;
+        }
+        if(score >= 3){
+            cout<<"-1\n";
+            return;
+        }
+    }
+
+    cout<<candidate+1<<"\n";
 
 }
 
