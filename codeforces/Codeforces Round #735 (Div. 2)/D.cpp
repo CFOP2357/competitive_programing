@@ -49,18 +49,18 @@ void solve(){
     a.clear(); b.clear();
     cin>>n;
 
-    string s, ans;
-    for(char i='a'; i<='z'; i++){
-        s+=i;
+    if(n<27){
+        for(int i=0; i<n; i++)
+            cout<<char(i+'a');
+        cout<<"\n";
+        return;
     }
 
-    do{
-        ans+=s;
-    }
-    while(ans.size()<n and next_permutation(all(s)));
-
-    cout<<ans.substr(0, n)<<"\n";
-
+    if(!(n%2))
+        cout<<string(n/2, 'a')<<'b'<<string(n/2-1,'a');
+    else
+        cout<<string(n/2, 'a')<<"bc"<<string(n/2-1,'a');
+    cout<<"\n";
 }
 
 
