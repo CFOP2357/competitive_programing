@@ -74,71 +74,31 @@ string s;
 void solve(){
     a.clear(); b.clear();
     cin>>n;
-    set<pii> current; //val, pos
-    Tree st(2*n+10); const int N = 2*n+10;
+    Tree st(n+1);
     for(int i=0; i<n; i++){
         ll z; cin>>z;
         a.push_back(z);
+        if(i>0)
+            st.update(i, abs(a[i]-a[i-1]));
     }
 
-    ll i = 0, j = 0;
+    ll i = 1, j = 1;
     ll ans = 1;
-    current.insert({a[0], 0});
+    ll current = 2;
     while(j<n){
-        ll G = st.query(0, N);
-        if(i==j or G>=2 or !G){ //possible
-            ans = max(ans, j-i+1);
+        ll G = st.query(i, j+1);
+        if(G!=1){ //possible
+            ans = max(ans, current);
             j++;
-            if(j<n){
-                auto r = current.upper_bound({a[j], 0});
-                auto l = r;
-                if(l!=current.begin())
-                    l--;
-                else l = current.end();
-
-                if(r!=current.end()){
-                    st.update(2*j + 1, abs(r->first - a[j]));
-                    st.update(2*r->second, abs(r->first - a[j]));
-                }
-                else st.update(2*j + 1, 0);
-
-                if(l!=current.end()){
-                    st.update(2*j, abs(l->first - a[j]));
-                    st.update(2*l->second + 1, abs(l->first - a[j]));
-                }
-                else st.update(2*j, 0);
-
-                current.insert({a[j], j});
-            }
+            current++;
         }
         else { //not possible
-            current.erase({a[i], i});
-
-            auto r = current.upper_bound({a[i], 0});
-            auto l = r;
-            if(l!=current.begin())
-                l--;
-            else l = current.end();
-
-             st.update(2*i, 0);
-             st.update(2*i + 1, 0);
-
-             if(r==current.end()){
-                if(l!=current.end()){
-                    st.update(2*l->second + 1, 0);
-                }
+             if(j==i){
+                j++;
+                current++;
              }
-             else if(l==current.end()){
-                if(r!=current.end()){
-                    st.update(2*r->second, 0);
-                }
-             }
-             else {
-                st.update(2*l->second + 1, abs(l->first - r->first));
-                st.update(2*r->second, abs(l->first - r->first));
-             }
-
              i++;
+             current--;
         }
     }
 
