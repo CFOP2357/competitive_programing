@@ -48,7 +48,7 @@ string s;
 void solve(){
     a.clear(); b.clear();
     cin>>n;
-    for(int i=0; i<n; i++){
+    for(int i = 0; i < n; i++){
         ll z; cin>>z;
         a.push_back(z);
     }

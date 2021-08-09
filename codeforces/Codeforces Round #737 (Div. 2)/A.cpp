@@ -49,7 +49,7 @@ void solve(){
     a.clear(); b.clear();
     cin>>n;
     long double sum = 0;
-    for(int i=0; i<n; i++){
+    for(int i = 0; i < n; i++){
         long double z; cin>>z;
         a.push_back(z);
         sum += z;

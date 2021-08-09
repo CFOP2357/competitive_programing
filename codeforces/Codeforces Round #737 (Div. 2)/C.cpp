@@ -78,7 +78,7 @@ void solve(){
     vector<Mod> choose(n+1);
     choose[0] = Mod(1);
     choose[1] = Mod(1);
-    for(ll i=2; i<=n; i++){
+    for(ll i = 2; i <= n; i++){
         if(i%2)
             choose[i] = choose[i-1];
         else{
@@ -89,13 +89,13 @@ void solve(){
 
     Mod ans(1);
     if(n%2){
-        for(ll i=k; i>=0; i--)
+        for(ll i = k; i >= 0; i--)
             ans = ans * (choose[n]+Mod(1));
     }
     else{
         ans = Mod(0);
         Mod zero(1);
-        for(ll i=k; i>=0; i--){
+        for(ll i = k; i>= 0; i--){
             ans = ans + (zero * (Mod(2)^(i*n)));
             zero = zero * choose[n-1];
         }

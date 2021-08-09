@@ -50,7 +50,7 @@ void solve(){
     cin>>n>>k;
 
     priority_queue<pii, vector<pii>, greater<pii>> nxt; //val, pos
-    for(int i=0; i<n; i++){
+    for(int i = 0; i < n; i++){
         ll z; cin>>z;
         nxt.push({z, i});
     }
