@@ -88,16 +88,19 @@ void solve(){
     vector<int> order;
     for(int u = 1; u <= n; u++)
         order.push_back(u);
-    random_shuffle(all(order));
-
     vector<pii> ans;
-    for(int i = 1; i < order.size(); i++){
-        int u = order[i];
-        int v = order[i-1];
-        if(not uf1.sameSet(u, v) and not uf2.sameSet(u, v)){
-            ans.push_back({u, v});
-            uf1.join(u, v);
-            uf2.join(u, v);
+
+    for(int i=0; i<100; i++){
+        random_shuffle(all(order));
+
+        for(int i = 1; i < order.size(); i++){
+            int u = order[i];
+            int v = order[i-1];
+            if(not uf1.sameSet(u, v) and not uf2.sameSet(u, v)){
+                ans.push_back({u, v});
+                uf1.join(u, v);
+                uf2.join(u, v);
+            }
         }
     }
 
