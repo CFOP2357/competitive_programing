@@ -63,19 +63,25 @@ template<typename T> struct ST{
         Segment s;
         if(a.divided and b.divided){
             s.ans += gauss(a.right + b.left);
+            s.left = a.left;
+            s.right = b.right;
         }
         else if(a.divided and !b.divided){
             s.right = a.right + b.right + b.left;
+            s.ans += a.ans + b.ans;
+            s.left = a.left;
         }
         else if(!a.divided and b.divided){
             s.left = a.left + a.right + b.left;
+            s.ans += a.ans + b.ans;
+            s.right = b.right;
         }
         else {
             s.left = a.left + a.right + b.right + b.left;
+            s.ans += a.ans + b.ans;
         }
 
         s.divided = (a.divided or b.divided);
-
 
         return s;
     }
@@ -123,7 +129,7 @@ string s;
 void solve(){
     ll n, q; cin>>n>>q;
 
-    vector<Segment> init(n+1);
+    vector<Segment> init(n+5);
     ST<Segment> st(0, init.size()-1, init);
 
     a.push_back(LLONG_MAX);
@@ -135,7 +141,13 @@ void solve(){
             st.update(i, {1, 0, 0, 0});
         else
             st.update(i, {0, 0, 0, 1});
+
     }
+    a.push_back(LLONG_MIN);
+
+   /* for(int i=1; i<=n; i++)
+        cout<<st.get(i, i+1).left<<" ";
+    cout<<"\n";*/
 
     while(q--){
         int t; cin>>t;
@@ -144,9 +156,14 @@ void solve(){
             a[i] = y;
 
             if(a[i] >= a[i-1])
-            st.update(i, {1, 0, 0, 0});
+                st.update(i, {1, 0, 0, 0});
             else
                 st.update(i, {0, 0, 0, 1});
+
+            if(a[i+1] >= a[i])
+                st.update(i+1, {1, 0, 0, 0});
+            else
+                st.update(i+1, {0, 0, 0, 1});
         }
         else {
             int l, r; cin>>l>>r;
@@ -161,7 +178,16 @@ void solve(){
                 ans = gauss(ans);
             }
 
+            /*for(int i=1; i<=n; i++)
+                cout<<st.get(i, i+1).left<<" ";
+            cout<<"\n";*/
+
             ans += s.ans;
+            ans += r-l+1;
+
+            if(l==r)
+                ans = 1;
+
             cout<<ans<<"\n";
         }
     }
@@ -180,3 +206,8 @@ int main(){
     return 0;
 }
 
+/*
+5 1
+3 1 4 1 5
+2 1 5
+*/
