@@ -40,19 +40,31 @@ typedef vector<ll> vi;
 #define MAX 1000100
 #define MOD 1000000007
 
-vector<ll> a;
-vector<ll> b;
-ll n, m;
-string s;
+ll a, b, c, m;
 
 void solve(){
-    a.clear(); b.clear();
-    cin>>n;
-    for(int i = 0; i < n; i++){
-        ll z; cin>>z;
-        a.push_back(z);
+    cin>>a>>b>>c>>m;
+    ll n = a + b + c;
+
+    ll max_m = a-1 + b-1 + c-1;
+    ll min_m = 0;
+
+    ll max_letter = max({a, b, c});
+    if(max_letter > (n+1)/2){
+        max_letter -= (n+1)/2;
+
+        if(n%2 == 0){
+            min_m++;
+            max_letter--;
+        }
+
+        min_m += max_letter*2;
     }
 
+    if(min_m <= m and m <= max_m)
+        cout<<"YES\n";
+    else
+        cout<<"NO\n";
 }
 
 

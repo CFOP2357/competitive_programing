@@ -45,14 +45,40 @@ vector<ll> b;
 ll n, m;
 string s;
 
-void solve(){
-    a.clear(); b.clear();
-    cin>>n;
-    for(int i = 0; i < n; i++){
-        ll z; cin>>z;
-        a.push_back(z);
+int to_print = 0;
+
+void print_brackets(int to_open, int to_close, string &current){
+    if(not to_print)
+        return;
+
+    if(not to_open and not to_close){
+        to_print--;
+        cout<<current<<"\n";
+        return;
     }
 
+    if(to_open){
+        current.push_back('(');
+        print_brackets(to_open-1, to_close+1, current);
+        current.pop_back();
+    }
+    if(not to_print)
+        return;
+
+    if(to_close){
+        current.push_back(')');
+        print_brackets(to_open, to_close-1, current);
+        current.pop_back();
+    }
+    if(not to_print)
+        return;
+}
+
+void solve(){
+    a.clear(); b.clear();
+    cin>>to_print;
+    string current = "";
+    print_brackets(to_print, 0, current);
 }
 
 

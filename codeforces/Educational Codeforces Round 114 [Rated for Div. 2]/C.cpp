@@ -47,10 +47,47 @@ string s;
 
 void solve(){
     a.clear(); b.clear();
+    ll sum = 0;
+
     cin>>n;
     for(int i = 0; i < n; i++){
         ll z; cin>>z;
+
         a.push_back(z);
+        b.push_back(z);
+
+        sum += z;
+    }
+
+    sort(all(a));
+    sort(all(b), greater<ll>());
+
+    cin>>m;
+    while(m--){
+        ll x, y; cin>>x>>y;
+        ll ans = LLONG_MAX;
+
+        auto killer = lower_bound(all(a), x);
+        if(killer != a.end()){
+            ll strength = sum - *killer;
+            ll current_ans = 0;
+            if(strength < y)
+                current_ans += y - strength;
+
+            ans = min(ans, current_ans);
+        }
+
+        killer = lower_bound(all(b), x, greater<ll>());
+        if(killer != b.end()){
+            ll strength = sum - *killer;
+            ll current_ans = x - *killer;
+            if(strength < y)
+                current_ans += y - strength;
+
+            ans = min(ans, current_ans);
+        }
+
+        cout<<ans<<"\n";
     }
 
 }
@@ -60,7 +97,7 @@ int main(){
     cin.tie(0)->sync_with_stdio(0); cin.exceptions(cin.failbit);
     //srand (time(NULL));
 
-    int t=1; cin>>t;
+    int t=1;
     while(t--){
         solve();
     }
