@@ -14,6 +14,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include <assert.h>
+
 //#include <time.h>
 
 using namespace std;
@@ -31,8 +33,8 @@ typedef tree<ull,null_type,less_equal<ull>,rb_tree_tag, tree_order_statistics_no
 #define rep(i, a, b) for(int i = a; i < (b); ++i)
 #define all(x) begin(x), end(x)
 #define sz(x) (int)(x).size()
-typedef long long ll;
-typedef unsigned long long ull;
+typedef int64_t ll;
+typedef uint64_t ull;
 typedef pair<ll, ll> pii;
 typedef vector<ll> vi;
 

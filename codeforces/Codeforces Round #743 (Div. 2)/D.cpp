@@ -67,51 +67,42 @@ void solve(){
 
     vector<ll> ans;
 
-    for(int i = 0; i < n-2; i++){
-        int ones = a[i] + a[i+1] + a[i+2];
-        if(ones == 2){
-            ans.push_back(i+1);
-            a[i] = a[i+1] = a[i+2] = 0;
-        }
+    if(n%2){
+        for(int i = 1; i < n; i += 2)
+            ans.push_back(i);
+        for(int i = n-4; i > 0; i -= 2)
+            ans.push_back(i);
     }
+    else {
+        int current = a[0];
+        int m = 0;
 
-    for(int i = n-3; i >= 0; i--){
-        int ones = a[i] + a[i+1] + a[i+2];
-        if(ones == 2){
-            ans.push_back(i+1);
-            a[i] = a[i+1] = a[i+2] = 0;
+        if(not a[0])
+            m = 1;
+
+        for(int i = 2; i < n; i+=2){
+            current ^= a[i-1];
+            current ^= a[i];
+            if(current == 0){
+                m = i+1;
+                break;
+            }
         }
-    }
 
-    for(int i = 0; i < n-2; i++){
-        int ones = a[i] + a[i+1] + a[i+2];
-        if(ones == 1){
-            ans.push_back(i+1);
-            a[i] = a[i+1] = a[i+2] = 1;
-        }
-    }
-
-    for(int i = 0;   i < n-2; i++){
-        int ones = a[i] + a[i+1] + a[i+2];
-        if(ones == 2){
-            ans.push_back(i+1);
-            a[i] = a[i+1] = a[i+2] = 0;
-        }
-    }
-
-    for(int i = n-3; i >= 0; i--){
-        int ones = a[i] + a[i+1] + a[i+2];
-        if(ones == 2){
-            ans.push_back(i+1);
-            a[i] = a[i+1] = a[i+2] = 0;
-        }
-    }
-
-    for(int i = 0; i < n; i++){
-        if(a[i] == 1){
+        if(not m){
             cout<<"NO\n";
             return;
         }
+
+        for(int i = 1; i < m; i += 2)
+            ans.push_back(i);
+        for(int i = m-4; i > 0; i -= 2)
+            ans.push_back(i);
+
+        for(int i = m+1; i < n; i += 2)
+            ans.push_back(i);
+        for(int i = n-4; i > m; i -= 2)
+            ans.push_back(i);
     }
 
     assert(ans.size() <= n);

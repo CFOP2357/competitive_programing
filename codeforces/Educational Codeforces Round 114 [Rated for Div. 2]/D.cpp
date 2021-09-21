@@ -39,7 +39,7 @@ typedef pair<ll, ll> pii;
 typedef vector<ll> vi;
 
 
-#define MAX 1000010
+#define MAX 200010
 #define MOD 1000000007
 
 ///////////////////////////////////////////////
