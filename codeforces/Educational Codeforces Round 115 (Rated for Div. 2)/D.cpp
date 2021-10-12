@@ -74,9 +74,7 @@ void solve(){
 
     for(const auto &[ai, elements] : from_a){
         for(auto bi : elements){
-            b_frecuency[bi]--;
-
-            ans -= b_frecuency[bi]*(a_frecuency[ai]-1);
+            ans -= (b_frecuency[bi]-1)*(a_frecuency[ai]-1);
         }
     }
 
