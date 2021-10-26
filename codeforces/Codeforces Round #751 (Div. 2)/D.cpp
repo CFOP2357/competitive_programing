@@ -61,41 +61,22 @@ void solve(){
     vector<ll> min_steps(n+1, INT_MAX);
     min_steps[n] = 0;
 
-    map<ll, ll, greater<ll>> avaiable_jump;
-    avaiable_jump[n] = 0;
+    multiset<pii> avaiable_jump;
+    avaiable_jump.insert({0, n});
 
     for(int d = n; d >= 0; d--){
-        while(avaiable_jump.size() and avaiable_jump.begin()->first > d)
+        while(avaiable_jump.size() and avaiable_jump.begin()->second > d)
             avaiable_jump.erase(avaiable_jump.begin());
 
         if(avaiable_jump.empty())
             continue;
 
-        min_steps[d] = avaiable_jump.begin()->second;
+        min_steps[d] = avaiable_jump.begin()->first;
 
         int next_min_pos = (d + b[d]) - a[d + b[d]];
         int steps = min_steps[d]+1;
 
-        if(next_min_pos < avaiable_jump.begin()->first){
-            auto last_iterator = avaiable_jump.lower_bound(next_min_pos);
-            if(last_iterator != avaiable_jump.end() and last_iterator->second <= steps)
-                continue;
-
-            avaiable_jump[next_min_pos] = steps;
-            last_iterator = avaiable_jump.lower_bound(next_min_pos);
-
-            last_iterator--;
-            vector<int> to_erase;
-            while(last_iterator != avaiable_jump.begin() and last_iterator->second >= steps){
-                to_erase.push_back(last_iterator->first);
-                last_iterator--;
-            }
-            if(avaiable_jump.begin()->second >= steps)
-                to_erase.push_back(avaiable_jump.begin()->first);
-            for(auto key : to_erase)
-                avaiable_jump.erase(key);
-
-        }
+        avaiable_jump.insert({steps, next_min_pos});
     }
 
     if(min_steps[0] == INT_MAX)
@@ -118,8 +99,9 @@ void solve(){
 
         ans.pop_back();
         reverse(all(ans));
-        for(int k : ans)
-            cout<<k<<" ";
+
+        for(int d : ans)
+            cout<<d<<" ";
         cout<<"\n";
     }
 }
