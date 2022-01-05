@@ -38,69 +38,38 @@ typedef uint64_t ull;
 typedef pair<ll, ll> pii;
 typedef vector<ll> vi;
 
+typedef long double ld;
 
 #define MAX 1000100
 #define MOD 1000000007
 
-vector<double> a;
-vector<double> b;
+vector<ld> a;
 ll n, m;
 string s;
 
 void solve(){
-    a.clear(); b.clear();
+    a.clear();
+
     cin>>n;
     for(int i = 0; i < n; i++){
-        double z; cin>>z;
+        ld z; cin>>z;
         a.push_back(z);
     }
 
-    ll ans = (n+1)/2;
+    ll ans = n-1;
 
-    int j = n;
-    for(int i = 2; i < n; i++){
-        if((a[i] + a[i-2])/2 != a[i-1]){
-            j = i;
-            break;
+    for(int i = 0; i < n; i++)
+        for(int j = i+1; j < n; j++){
+            ll current_ans = 0;
+            for(int k = 0; k < n; k++){
+                if((a[j]-a[i]) * (k-i) != (a[k]-a[i]) * (j-i))
+                    current_ans++;
+            }
+
+            ans = min(ans, current_ans);
         }
-    }
 
-    ll ans2 = 0;
-    b = a;
-    if(j < n){
-        b[j-1] = (b[j] + b[j-2])/2;
-        ans2++;
-    }
-    for(int i = j+1; i < n; i++){
-        if((b[i] + b[i-2])/2 != b[i-1]){
-            b[j] = b[j-1]*2 - b[j-2];
-            ans2++;
-        }
-    }
-
-    ll ans3 = 0;
-    b = a;
-    for(int i = j; i < n; i++){
-        if((b[i] + b[i-2])/2 != b[i-1]){
-            b[j] = b[j-1]*2 - b[j-2];
-            ans3++;
-        }
-    }
-
-    ll ans4 = 0;
-    b = a;
-    if(j < n){
-        b[j-2] = b[j-1]*2 - b[j];
-        ans4++;
-    }
-    for(int i = j+1; i < n; i++){
-        if((b[i] + b[i-2])/2 != b[i-1]){
-            b[j] = b[j-1]*2 - b[j-2];
-            ans4++;
-        }
-    }
-
-    cout<<min({ans, ans2, ans3, ans4})<<"\n";
+    cout<<ans<<"\n";
 }
 
 
